@@ -1,6 +1,25 @@
+import 'init_dependencies.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_orbit/core/config/routes/app_router.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initDependencies();
+
+  // runApp(
+  //   MultiProvider(
+  //     // Providers
+  //     providers: [],
+  //     child: MultiBlocProvider(
+  //       // Blocs
+  //       providers: [],
+  //       child: const MyApp(),
+  //     ),
+  //   ),
+  // );
+  
   runApp(const MyApp());
 }
 
@@ -9,10 +28,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "TaskOrbit",
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const Scaffold(body: Center(child: Text('Hello World'))),
+    return MaterialApp.router(
+      title: 'Task Orbit',
+      routerConfig: appRouter,
+      themeMode: ThemeMode.system,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
