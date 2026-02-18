@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:task_orbit/core/common/enums/child_routes.dart';
+import 'package:task_orbit/core/common/widgets/custom_app_bar.dart';
 
 class AppShellLayout extends StatefulWidget {
   final Widget child;
@@ -51,14 +53,34 @@ class _AppShellLayoutState extends State<AppShellLayout> {
     }
   }
 
+  bool _shouldShowBackButton(BuildContext context) {
+    final String location = GoRouterState.of(context).uri.toString();
+
+    final canPop = GoRouter.of(context).canPop();
+    final isChildRoute = ChildRoutes.isChildRoute(location);
+
+    return canPop || isChildRoute;
+  }
+
+  void _onBackPressed(BuildContext context) {
+    if (GoRouter.of(context).canPop()) {
+      context.pop();
+    } else {
+      context.go('/agenda');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final int selectedIndex = _calculateSelectedIndex(context);
+    final bool showBackButton = _shouldShowBackButton(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_getTitle(selectedIndex)),
+      appBar: CustomAppBar(
+        title: _getTitle(selectedIndex),
+        onBack: showBackButton ? () => _onBackPressed(context) : null,
       ),
+      backgroundColor: Colors.white,
       body: widget.child,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
