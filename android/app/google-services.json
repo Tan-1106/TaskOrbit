@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "897897607852",
+    "project_id": "taskorbit-979dc",
+    "storage_bucket": "taskorbit-979dc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:897897607852:android:7f988afb0a07466d70e509",
+        "android_client_info": {
+          "package_name": "com.example.task_orbit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-N8hqLgYFDfFRY82YY_gPB2gtCisAjpk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
