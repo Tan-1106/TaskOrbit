@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:task_orbit/features/authentication/presentation/pages/sign_in_page.dart';
+import 'package:task_orbit/features/authentication/presentation/pages/sign_up_page.dart';
 import 'package:task_orbit/init_dependencies.dart';
 import 'package:task_orbit/core/common/layout/app_shell_layout.dart';
 
@@ -13,12 +15,12 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       name: 'sign-in',
       path: '/sign-in',
-      builder: (context, state) => const Center(child: Text('Sign In Page')),
+      builder: (context, state) => const SignInPage(),
     ),
     GoRoute(
       name: 'sign-up',
       path: '/sign-up',
-      builder: (context, state) => const Center(child: Text('Sign Up Page')),
+      builder: (context, state) => const SignUpPage(),
     ),
     GoRoute(
       name: 'forgot-password',

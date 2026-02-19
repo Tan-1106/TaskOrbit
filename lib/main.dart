@@ -1,11 +1,12 @@
-import 'package:task_orbit/core/config/theme/theme.dart';
-import 'package:task_orbit/core/utils/create_theme.dart';
-
 import 'init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_orbit/l10n/app_localizations.dart';
+import 'package:task_orbit/core/config/theme/theme.dart';
+import 'package:task_orbit/core/utils/create_theme.dart';
 import 'package:task_orbit/core/config/routes/app_router.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +23,7 @@ Future<void> main() async {
   //     ),
   //   ),
   // );
-  
+
   runApp(const MyApp());
 }
 
@@ -35,11 +36,35 @@ class MyApp extends StatelessWidget {
     MaterialTheme theme = MaterialTheme(textTheme);
 
     return MaterialApp.router(
+      // Title and Routing
       title: 'Task Orbit',
       routerConfig: appRouter,
+
+      // Theming
       theme: theme.light(),
       darkTheme: theme.dark(),
       themeMode: ThemeMode.system,
+
+      // Localization
+      supportedLocales: const [
+        Locale('en', 'US'),
+      ],
+      localeResolutionCallback: (deviceLocale, supportedLocales) {
+        for (var locale in supportedLocales) {
+          if (locale.languageCode == deviceLocale!.languageCode && locale.countryCode == deviceLocale.countryCode) {
+            return deviceLocale;
+          }
+        }
+        return supportedLocales.first;
+      },
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+
+      // Other configurations
       debugShowCheckedModeBanner: false,
     );
   }

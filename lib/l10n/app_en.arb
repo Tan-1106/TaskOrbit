@@ -1,0 +1,15 @@
+{
+  "appTitle": "Task Orbit",
+  "signInQuote": "Organize your tasks\nOrbit your productivity",
+  "signInEmailLabel": "Your email",
+  "signInEmailRequired": "Email is required",
+  "signInEmailInvalid": "Please enter a valid email address",
+  "signInPasswordLabel": "Your password",
+  "signInPasswordRequired": "Password is required",
+  "signInPasswordMinLength": "Password must be at least 6 characters",
+  "signInForgotPassword": "Forgot password?",
+  "signInRememberMe": "Remember me",
+  "signInButton": "Sign In",
+  "signInNoAccount": "Don't have an account? ",
+  "signInSignUp": "Sign Up"
+}
