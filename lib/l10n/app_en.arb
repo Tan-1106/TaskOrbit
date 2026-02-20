@@ -1,5 +1,6 @@
 {
   "appTitle": "Task Orbit",
+  
   "signInQuote": "Organize your tasks\nOrbit your productivity",
   "signInEmailLabel": "Your email",
   "signInEmailRequired": "Email is required",
@@ -11,5 +12,25 @@
   "signInRememberMe": "Remember me",
   "signInButton": "Sign In",
   "signInNoAccount": "Don't have an account? ",
-  "signInSignUp": "Sign Up"
+  "signInSignUp": "Sign Up",
+
+  "signUpTitle": "Create Account",
+  "signUpNameLabel": "Full Name",
+  "signUpNameRequired": "Please enter your name",
+  "signUpEmailLabel": "Email",
+  "signUpEmailRequired": "Please enter your email",
+  "signUpEmailInvalid": "Please enter a valid email",
+  "signUpPasswordLabel": "Password",
+  "signUpPasswordRequired": "Please enter your password",
+  "signUpPasswordMinLength": "Password must be at least 6 characters",
+  "signUpButton": "Sign Up",
+  "signUpAlreadyHaveAccount": "Already have an account? Log In",
+
+  "forgotPasswordAppBarTitle": "Reset Password",
+  "forgotPasswordTitle": "Forgot Password?",
+  "forgotPasswordSubtitle": "Enter your email address to receive a password reset link.",
+  "forgotPasswordEmailLabel": "Email",
+  "forgotPasswordEmailRequired": "Please enter your email",
+  "forgotPasswordEmailInvalid": "Please enter a valid email",
+  "forgotPasswordButton": "Send Reset Link"
 }

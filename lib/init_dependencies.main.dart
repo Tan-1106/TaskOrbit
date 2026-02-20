@@ -4,6 +4,7 @@ final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
   await _initCore();
+  _initAuth();
 }
 
 // Initialize Core Modules
@@ -18,4 +19,63 @@ Future<void> _initCore() async {
   );
   serviceLocator.registerLazySingleton(() => FirebaseAuth.instance);
   serviceLocator.registerLazySingleton(() => FirebaseFirestore.instance);
+
+  // SharedPreferences — for persisting Remember Me flag
+  final sharedPreferences = await SharedPreferences.getInstance();
+  serviceLocator.registerLazySingleton(() => sharedPreferences);
+
+  // Remember Me startup check:
+  // If user did not check "Remember Me" on last login → sign out immediately
+  // Default is false: if flag was never set, don't preserve the session
+  final rememberMe = sharedPreferences.getBool('remember_me') ?? false;
+  if (!rememberMe) {
+    await FirebaseAuth.instance.signOut();
+  }
+
+  // Auth State Notifier — drives GoRouter redirect
+  serviceLocator.registerLazySingleton(
+    () => AppAuthNotifier(serviceLocator()),
+  );
+}
+
+
+void _initAuth() {
+  // DataSource
+  serviceLocator
+    ..registerFactory<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(
+        serviceLocator(),
+        serviceLocator(),
+      ),
+    )
+    // Repository
+    ..registerFactory<IAuthRepository>(
+      () => AuthRepositoryImpl(
+        serviceLocator(),
+      ),
+    )
+    // Use cases
+    ..registerFactory(
+      () => UserSignUp(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => UserLogin(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => ForgotPassword(
+        serviceLocator(),
+      ),
+    )
+    // Bloc
+    ..registerLazySingleton(
+      () => AuthBloc(
+        userSignUp: serviceLocator(),
+        userLogin: serviceLocator(),
+        forgotPassword: serviceLocator(),
+      ),
+    );
 }

@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 
-class SignInBackground extends CustomPainter {
+class SignInBackground extends StatelessWidget {
+  const SignInBackground({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: Size.infinite,
+      painter: Background(context),
+    );
+  }
+}
+
+
+class Background extends CustomPainter {
   final BuildContext context;
 
-  SignInBackground(this.context);
+  Background(this.context);
 
   void _drawCircleWithShadow(
     Canvas canvas,

@@ -4,34 +4,28 @@ import 'package:go_router/go_router.dart';
 import 'package:task_orbit/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:task_orbit/l10n/app_localizations.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _nameController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
-    _passwordController.dispose();
-    _nameController.dispose();
     super.dispose();
   }
 
-  void _onSignUp() {
+  void _onResetPassword() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
-            AuthSignUpRequested(
-              name: _nameController.text.trim(),
+            AuthForgotPasswordRequested(
               email: _emailController.text.trim(),
-              password: _passwordController.text.trim(),
             ),
           );
     }
@@ -42,6 +36,16 @@ class _SignUpPageState extends State<SignUpPage> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(l10n.forgotPasswordAppBarTitle),
+        backgroundColor: Colors.transparent,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+        elevation: 0,
+      ),
+      extendBodyBehindAppBar: true,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         decoration: BoxDecoration(
@@ -60,9 +64,12 @@ class _SignUpPageState extends State<SignUpPage> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),
               );
+            } else if (state is AuthForgotPasswordSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message)),
+              );
+              context.pop();
             }
-            // AuthSuccess: router automatically redirects to /agenda
-            // via authStateChanges → no manual navigation needed
           },
           builder: (context, state) {
             if (state is AuthLoading) {
@@ -78,64 +85,49 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      const Icon(
+                        Icons.lock_reset,
+                        size: 100,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(height: 32),
                       Text(
-                        l10n.signUpTitle,
+                        l10n.forgotPasswordTitle,
                         style: const TextStyle(
-                          fontSize: 32,
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 48),
-                      // Name Field
-                      TextFormField(
-                        controller: _nameController,
-                        decoration: _inputDecoration(l10n.signUpNameLabel, Icons.person),
-                        style: const TextStyle(color: Colors.white),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return l10n.signUpNameRequired;
-                          }
-                          return null;
-                        },
-                      ),
                       const SizedBox(height: 16),
+                      Text(
+                        l10n.forgotPasswordSubtitle,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.white70,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 48),
                       // Email Field
                       TextFormField(
                         controller: _emailController,
-                        decoration: _inputDecoration(l10n.signUpEmailLabel, Icons.email),
+                        decoration: _inputDecoration(l10n.forgotPasswordEmailLabel, Icons.email),
                         style: const TextStyle(color: Colors.white),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return l10n.signUpEmailRequired;
+                            return l10n.forgotPasswordEmailRequired;
                           }
                           if (!value.contains('@')) {
-                            return l10n.signUpEmailInvalid;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      // Password Field
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: _inputDecoration(l10n.signUpPasswordLabel, Icons.lock),
-                        style: const TextStyle(color: Colors.white),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return l10n.signUpPasswordRequired;
-                          }
-                          if (value.length < 6) {
-                            return l10n.signUpPasswordMinLength;
+                            return l10n.forgotPasswordEmailInvalid;
                           }
                           return null;
                         },
                       ),
                       const SizedBox(height: 32),
-                      // Sign Up Button
+                      // Reset Password Button
                       ElevatedButton(
-                        onPressed: _onSignUp,
+                        onPressed: _onResetPassword,
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(double.infinity, 50),
                           backgroundColor: Colors.white,
@@ -145,20 +137,11 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         child: Text(
-                          l10n.signUpButton,
+                          l10n.forgotPasswordButton,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      // Back to Login
-                      TextButton(
-                        onPressed: () => context.pop(),
-                        child: Text(
-                          l10n.signUpAlreadyHaveAccount,
-                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
                     ],
