@@ -5,6 +5,7 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   await _initCore();
   _initAuth();
+  _initAgenda();
 }
 
 // Initialize Core Modules
@@ -36,6 +37,12 @@ Future<void> _initCore() async {
   serviceLocator.registerLazySingleton(
     () => AppAuthNotifier(serviceLocator()),
   );
+
+  // Drift Database (SQLite)
+  serviceLocator.registerLazySingleton(() => AppDatabase());
+
+  // Connectivity Service
+  serviceLocator.registerLazySingleton(() => ConnectivityService());
 }
 
 
@@ -76,6 +83,69 @@ void _initAuth() {
         userSignUp: serviceLocator(),
         userLogin: serviceLocator(),
         forgotPassword: serviceLocator(),
+      ),
+    );
+}
+
+void _initAgenda() {
+  serviceLocator
+    // Task DataSources
+    ..registerFactory<TaskLocalDataSource>(
+      () => TaskLocalDataSourceImpl(serviceLocator()),
+    )
+    ..registerFactory<TaskRemoteDataSource>(
+      () => TaskRemoteDataSourceImpl(serviceLocator()),
+    )
+    // Task Repository
+    ..registerFactory<ITaskRepository>(
+      () => TaskRepositoryImpl(
+        localDataSource: serviceLocator(),
+        remoteDataSource: serviceLocator(),
+        connectivityService: serviceLocator(),
+      ),
+    )
+    // Task Use Cases
+    ..registerFactory(() => GetTasksByDate(serviceLocator()))
+    ..registerFactory(() => CreateTask(serviceLocator()))
+    ..registerFactory(() => UpdateTask(serviceLocator()))
+    ..registerFactory(() => DeleteTask(serviceLocator()))
+    ..registerFactory(() => ToggleTaskComplete(serviceLocator()))
+    ..registerFactory(() => SearchTasks(serviceLocator()))
+    ..registerFactory(() => SyncTasks(serviceLocator()))
+    // Category DataSources
+    ..registerFactory<CategoryLocalDataSource>(
+      () => CategoryLocalDataSourceImpl(serviceLocator()),
+    )
+    ..registerFactory<CategoryRemoteDataSource>(
+      () => CategoryRemoteDataSourceImpl(serviceLocator()),
+    )
+    // Category Repository
+    ..registerFactory<ICategoryRepository>(
+      () => CategoryRepositoryImpl(
+        localDataSource: serviceLocator(),
+        remoteDataSource: serviceLocator(),
+        connectivityService: serviceLocator(),
+      ),
+    )
+    // Category Use Cases
+    ..registerFactory(() => GetCategories(serviceLocator()))
+    ..registerFactory(() => CreateCategory(serviceLocator()))
+    ..registerFactory(() => DeleteCategory(serviceLocator()))
+    // Bloc
+    ..registerLazySingleton(
+      () => AgendaBloc(
+        getTasksByDate: serviceLocator(),
+        createTask: serviceLocator(),
+        updateTask: serviceLocator(),
+        deleteTask: serviceLocator(),
+        toggleTaskComplete: serviceLocator(),
+        searchTasks: serviceLocator(),
+        syncTasks: serviceLocator(),
+        getCategories: serviceLocator(),
+        createCategory: serviceLocator(),
+        deleteCategory: serviceLocator(),
+        firebaseAuth: serviceLocator(),
+        connectivityService: serviceLocator(),
       ),
     );
 }

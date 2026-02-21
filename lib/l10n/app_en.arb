@@ -32,5 +32,87 @@
   "forgotPasswordEmailLabel": "Email",
   "forgotPasswordEmailRequired": "Please enter your email",
   "forgotPasswordEmailInvalid": "Please enter a valid email",
-  "forgotPasswordButton": "Send Reset Link"
+  "forgotPasswordButton": "Send Reset Link",
+
+  "agendaNoTasks": "No tasks for this day",
+  "agendaManageCategories": "Manage Categories",
+  "agendaFilter": "Filter",
+  "agendaAddTask": "Add task",
+
+  "taskDetailTitle": "Task Details",
+  "taskDetailEditTooltip": "Edit task",
+  "taskDetailDeleteTooltip": "Delete task",
+  "taskDetailStatusCompleted": "Completed",
+  "taskDetailStatusPending": "Pending",
+  "taskDetailLabelDate": "Date",
+  "taskDetailLabelTime": "Time",
+  "taskDetailLabelAllDay": "All day",
+  "taskDetailLabelDescription": "Description",
+  "taskDetailConfirmEdit": "Confirm Edit",
+  "taskDetailConfirmEditContent": "Are you sure you want to save these changes?",
+  "taskDetailDeleteTitle": "Delete Task",
+  "taskDetailDeleteContent": "Are you sure you want to delete \"{taskTitle}\"?",
+  "@taskDetailDeleteContent": {
+    "placeholders": {
+      "taskTitle": { "type": "String" }
+    }
+  },
+  "taskDetailToggleConfirmTitle": "Confirm",
+  "taskDetailToggleMarkCompleted": "mark as completed",
+  "taskDetailToggleMarkPending": "mark as pending",
+  "taskDetailToggleContent": "Do you want to {action} \"{taskTitle}\"?",
+  "@taskDetailToggleContent": {
+    "placeholders": {
+      "action": { "type": "String" },
+      "taskTitle": { "type": "String" }
+    }
+  },
+
+  "taskFormNewTask": "New Task",
+  "taskFormEditTask": "Edit Task",
+  "taskFormTitleLabel": "Title",
+  "taskFormTitleRequired": "Title is required",
+  "taskFormDescriptionLabel": "Description (optional)",
+  "taskFormCategoryLabel": "Category",
+  "taskFormNoCategoryOption": "No Category",
+  "taskFormDateLabel": "Date",
+  "taskFormAllDayLabel": "All Day",
+  "taskFormStartTimeLabel": "Start",
+  "taskFormEndTimeLabel": "End",
+  "taskFormEndBeforeStartError": "End time must be after start time",
+  "taskFormCreateButton": "Create Task",
+  "taskFormSaveButton": "Save Changes",
+
+  "filterTitle": "Filter Tasks",
+  "filterKeywordLabel": "Search keyword",
+  "filterStatusLabel": "Status",
+  "filterStatusAll": "All",
+  "filterStatusPending": "Pending",
+  "filterStatusDone": "Done",
+  "filterCategoryLabel": "Category",
+  "filterAllCategories": "All Categories",
+  "filterDateRangeLabel": "Date Range",
+  "filterFromDate": "From",
+  "filterToDate": "To",
+  "filterCancelButton": "Cancel",
+  "filterClearButton": "Clear",
+  "filterApplyButton": "Apply",
+
+  "categoryManageTitle": "Manage Categories",
+  "categoryNoCategories": "No categories yet",
+  "categoryNewTitle": "New Category",
+  "categoryNameLabel": "Category name",
+  "categoryAddButton": "Add Category",
+  "categoryNameRequired": "Please enter a name",
+  "categoryDeleteTitle": "Delete Category",
+  "categoryDeleteContent": "Are you sure you want to delete \"{categoryName}\"?",
+  "@categoryDeleteContent": {
+    "placeholders": {
+      "categoryName": { "type": "String" }
+    }
+  },
+
+  "dialogCancelButton": "Cancel",
+  "dialogConfirmButton": "Confirm",
+  "dialogDeleteButton": "Delete"
 }

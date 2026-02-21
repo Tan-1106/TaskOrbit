@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_orbit/core/common/enums/child_routes.dart';
+import 'package:task_orbit/core/common/layout/shell_actions_notifier.dart';
 import 'package:task_orbit/core/common/widgets/custom_app_bar.dart';
 
 class AppShellLayout extends StatefulWidget {
@@ -16,6 +17,8 @@ class AppShellLayout extends StatefulWidget {
 }
 
 class _AppShellLayoutState extends State<AppShellLayout> {
+  final _shellActions = ShellActionsNotifier();
+
   int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).uri.toString();
 
@@ -71,35 +74,75 @@ class _AppShellLayoutState extends State<AppShellLayout> {
   }
 
   @override
+  void dispose() {
+    _shellActions.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final int selectedIndex = _calculateSelectedIndex(context);
     final bool showBackButton = _shouldShowBackButton(context);
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: _getTitle(selectedIndex),
-        onBack: showBackButton ? () => _onBackPressed(context) : null,
-      ),
-      backgroundColor: Colors.white,
-      body: widget.child,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
-        onTap: (index) => _onItemTapped(index, context),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'Agenda',
+    return ListenableBuilder(
+      listenable: _shellActions,
+      builder: (context, _) {
+        return Scaffold(
+          appBar: CustomAppBar(
+            title: _getTitle(selectedIndex),
+            onBack: showBackButton ? () => _onBackPressed(context) : null,
+            actions: _shellActions.actions.isNotEmpty
+                ? _shellActions.actions
+                : null,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.timer),
-            label: 'Pomodoro',
+          backgroundColor: Colors.white,
+          body: ShellActionsScope(
+            notifier: _shellActions,
+            child: widget.child,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+          floatingActionButton: _shellActions.fab,
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: selectedIndex,
+            onTap: (index) => _onItemTapped(index, context),
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.calendar_today),
+                label: 'Agenda',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.timer),
+                label: 'Pomodoro',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
+}
+
+/// InheritedWidget that gives child pages access to [ShellActionsNotifier].
+class ShellActionsScope extends InheritedWidget {
+  final ShellActionsNotifier notifier;
+
+  const ShellActionsScope({
+    super.key,
+    required this.notifier,
+    required super.child,
+  });
+
+  static ShellActionsNotifier of(BuildContext context) {
+    final scope =
+        context.dependOnInheritedWidgetOfExactType<ShellActionsScope>();
+    assert(scope != null, 'No ShellActionsScope found in widget tree');
+    return scope!.notifier;
+  }
+
+  @override
+  bool updateShouldNotify(ShellActionsScope oldWidget) =>
+      notifier != oldWidget.notifier;
 }

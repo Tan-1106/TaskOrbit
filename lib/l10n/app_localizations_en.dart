@@ -100,4 +100,190 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get forgotPasswordButton => 'Send Reset Link';
+
+  @override
+  String get agendaNoTasks => 'No tasks for this day';
+
+  @override
+  String get agendaManageCategories => 'Manage Categories';
+
+  @override
+  String get agendaFilter => 'Filter';
+
+  @override
+  String get agendaAddTask => 'Add task';
+
+  @override
+  String get taskDetailTitle => 'Task Details';
+
+  @override
+  String get taskDetailEditTooltip => 'Edit task';
+
+  @override
+  String get taskDetailDeleteTooltip => 'Delete task';
+
+  @override
+  String get taskDetailStatusCompleted => 'Completed';
+
+  @override
+  String get taskDetailStatusPending => 'Pending';
+
+  @override
+  String get taskDetailLabelDate => 'Date';
+
+  @override
+  String get taskDetailLabelTime => 'Time';
+
+  @override
+  String get taskDetailLabelAllDay => 'All day';
+
+  @override
+  String get taskDetailLabelDescription => 'Description';
+
+  @override
+  String get taskDetailConfirmEdit => 'Confirm Edit';
+
+  @override
+  String get taskDetailConfirmEditContent => 'Are you sure you want to save these changes?';
+
+  @override
+  String get taskDetailDeleteTitle => 'Delete Task';
+
+  @override
+  String taskDetailDeleteContent(String taskTitle) {
+    return 'Are you sure you want to delete \"$taskTitle\"?';
+  }
+
+  @override
+  String get taskDetailToggleConfirmTitle => 'Confirm';
+
+  @override
+  String get taskDetailToggleMarkCompleted => 'mark as completed';
+
+  @override
+  String get taskDetailToggleMarkPending => 'mark as pending';
+
+  @override
+  String taskDetailToggleContent(String action, String taskTitle) {
+    return 'Do you want to $action \"$taskTitle\"?';
+  }
+
+  @override
+  String get taskFormNewTask => 'New Task';
+
+  @override
+  String get taskFormEditTask => 'Edit Task';
+
+  @override
+  String get taskFormTitleLabel => 'Title';
+
+  @override
+  String get taskFormTitleRequired => 'Title is required';
+
+  @override
+  String get taskFormDescriptionLabel => 'Description (optional)';
+
+  @override
+  String get taskFormCategoryLabel => 'Category';
+
+  @override
+  String get taskFormNoCategoryOption => 'No Category';
+
+  @override
+  String get taskFormDateLabel => 'Date';
+
+  @override
+  String get taskFormAllDayLabel => 'All Day';
+
+  @override
+  String get taskFormStartTimeLabel => 'Start';
+
+  @override
+  String get taskFormEndTimeLabel => 'End';
+
+  @override
+  String get taskFormEndBeforeStartError => 'End time must be after start time';
+
+  @override
+  String get taskFormCreateButton => 'Create Task';
+
+  @override
+  String get taskFormSaveButton => 'Save Changes';
+
+  @override
+  String get filterTitle => 'Filter Tasks';
+
+  @override
+  String get filterKeywordLabel => 'Search keyword';
+
+  @override
+  String get filterStatusLabel => 'Status';
+
+  @override
+  String get filterStatusAll => 'All';
+
+  @override
+  String get filterStatusPending => 'Pending';
+
+  @override
+  String get filterStatusDone => 'Done';
+
+  @override
+  String get filterCategoryLabel => 'Category';
+
+  @override
+  String get filterAllCategories => 'All Categories';
+
+  @override
+  String get filterDateRangeLabel => 'Date Range';
+
+  @override
+  String get filterFromDate => 'From';
+
+  @override
+  String get filterToDate => 'To';
+
+  @override
+  String get filterCancelButton => 'Cancel';
+
+  @override
+  String get filterClearButton => 'Clear';
+
+  @override
+  String get filterApplyButton => 'Apply';
+
+  @override
+  String get categoryManageTitle => 'Manage Categories';
+
+  @override
+  String get categoryNoCategories => 'No categories yet';
+
+  @override
+  String get categoryNewTitle => 'New Category';
+
+  @override
+  String get categoryNameLabel => 'Category name';
+
+  @override
+  String get categoryAddButton => 'Add Category';
+
+  @override
+  String get categoryNameRequired => 'Please enter a name';
+
+  @override
+  String get categoryDeleteTitle => 'Delete Category';
+
+  @override
+  String categoryDeleteContent(String categoryName) {
+    return 'Are you sure you want to delete \"$categoryName\"?';
+  }
+
+  @override
+  String get dialogCancelButton => 'Cancel';
+
+  @override
+  String get dialogConfirmButton => 'Confirm';
+
+  @override
+  String get dialogDeleteButton => 'Delete';
 }

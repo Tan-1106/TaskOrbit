@@ -8,6 +8,7 @@ import 'package:task_orbit/core/config/routes/app_router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:task_orbit/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:task_orbit/features/agenda/presentation/bloc/agenda_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +35,9 @@ Future<void> main() async {
       providers: [
         BlocProvider(
           create: (context) => serviceLocator<AuthBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => serviceLocator<AgendaBloc>(),
         ),
       ],
       child: const MyApp(),

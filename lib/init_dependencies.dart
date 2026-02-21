@@ -19,4 +19,27 @@ import 'package:task_orbit/features/authentication/domain/usecases/user_login.da
 import 'package:task_orbit/features/authentication/domain/usecases/user_sign_up.dart';
 import 'package:task_orbit/features/authentication/presentation/bloc/auth_bloc.dart';
 
+// Agenda Feature
+import 'package:task_orbit/core/database/app_database.dart';
+import 'package:task_orbit/core/network/connectivity_service.dart';
+import 'package:task_orbit/features/agenda/data/datasources/task_local_data_source.dart';
+import 'package:task_orbit/features/agenda/data/datasources/task_remote_data_source.dart';
+import 'package:task_orbit/features/agenda/data/repositories/task_repository_impl.dart';
+import 'package:task_orbit/features/agenda/domain/repository/task_repository.dart';
+import 'package:task_orbit/features/agenda/domain/usecases/get_tasks_by_date.dart';
+import 'package:task_orbit/features/agenda/domain/usecases/create_task.dart';
+import 'package:task_orbit/features/agenda/domain/usecases/update_task.dart';
+import 'package:task_orbit/features/agenda/domain/usecases/delete_task.dart';
+import 'package:task_orbit/features/agenda/domain/usecases/toggle_task_complete.dart';
+import 'package:task_orbit/features/agenda/domain/usecases/search_tasks.dart';
+import 'package:task_orbit/features/agenda/domain/usecases/sync_tasks.dart';
+import 'package:task_orbit/features/agenda/data/datasources/category_local_data_source.dart';
+import 'package:task_orbit/features/agenda/data/datasources/category_remote_data_source.dart';
+import 'package:task_orbit/features/agenda/data/repositories/category_repository_impl.dart';
+import 'package:task_orbit/features/agenda/domain/repository/category_repository.dart';
+import 'package:task_orbit/features/agenda/domain/usecases/get_categories.dart';
+import 'package:task_orbit/features/agenda/domain/usecases/create_category.dart';
+import 'package:task_orbit/features/agenda/domain/usecases/delete_category.dart';
+import 'package:task_orbit/features/agenda/presentation/bloc/agenda_bloc.dart';
+
 part 'init_dependencies.main.dart';

@@ -4,6 +4,9 @@ import 'package:task_orbit/core/auth/app_auth_notifier.dart';
 import 'package:task_orbit/features/authentication/presentation/pages/forgot_password_page.dart';
 import 'package:task_orbit/features/authentication/presentation/pages/sign_in_page.dart';
 import 'package:task_orbit/features/authentication/presentation/pages/sign_up_page.dart';
+import 'package:task_orbit/features/agenda/presentation/pages/agenda_page.dart';
+import 'package:task_orbit/features/agenda/presentation/pages/task_detail_page.dart';
+import 'package:task_orbit/features/agenda/domain/entities/task.dart' as task_domain;
 import 'package:task_orbit/init_dependencies.dart';
 import 'package:task_orbit/core/common/layout/app_shell_layout.dart';
 
@@ -67,8 +70,15 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           name: 'agenda',
           path: '/agenda',
-          builder: (context, state) =>
-              const Center(child: Text('Agenda Page')),
+          builder: (context, state) => const AgendaPage(),
+        ),
+        GoRoute(
+          name: 'task-detail',
+          path: '/agenda/task-detail',
+          builder: (context, state) {
+            final task = state.extra as task_domain.Task;
+            return TaskDetailPage(task: task);
+          },
         ),
         GoRoute(
           name: 'pomodoro',

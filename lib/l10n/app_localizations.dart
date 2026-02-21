@@ -278,6 +278,366 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send Reset Link'**
   String get forgotPasswordButton;
+
+  /// No description provided for @agendaNoTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks for this day'**
+  String get agendaNoTasks;
+
+  /// No description provided for @agendaManageCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Categories'**
+  String get agendaManageCategories;
+
+  /// No description provided for @agendaFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get agendaFilter;
+
+  /// No description provided for @agendaAddTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Add task'**
+  String get agendaAddTask;
+
+  /// No description provided for @taskDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Details'**
+  String get taskDetailTitle;
+
+  /// No description provided for @taskDetailEditTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit task'**
+  String get taskDetailEditTooltip;
+
+  /// No description provided for @taskDetailDeleteTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete task'**
+  String get taskDetailDeleteTooltip;
+
+  /// No description provided for @taskDetailStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get taskDetailStatusCompleted;
+
+  /// No description provided for @taskDetailStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get taskDetailStatusPending;
+
+  /// No description provided for @taskDetailLabelDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get taskDetailLabelDate;
+
+  /// No description provided for @taskDetailLabelTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get taskDetailLabelTime;
+
+  /// No description provided for @taskDetailLabelAllDay.
+  ///
+  /// In en, this message translates to:
+  /// **'All day'**
+  String get taskDetailLabelAllDay;
+
+  /// No description provided for @taskDetailLabelDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get taskDetailLabelDescription;
+
+  /// No description provided for @taskDetailConfirmEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Edit'**
+  String get taskDetailConfirmEdit;
+
+  /// No description provided for @taskDetailConfirmEditContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to save these changes?'**
+  String get taskDetailConfirmEditContent;
+
+  /// No description provided for @taskDetailDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Task'**
+  String get taskDetailDeleteTitle;
+
+  /// No description provided for @taskDetailDeleteContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{taskTitle}\"?'**
+  String taskDetailDeleteContent(String taskTitle);
+
+  /// No description provided for @taskDetailToggleConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get taskDetailToggleConfirmTitle;
+
+  /// No description provided for @taskDetailToggleMarkCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'mark as completed'**
+  String get taskDetailToggleMarkCompleted;
+
+  /// No description provided for @taskDetailToggleMarkPending.
+  ///
+  /// In en, this message translates to:
+  /// **'mark as pending'**
+  String get taskDetailToggleMarkPending;
+
+  /// No description provided for @taskDetailToggleContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to {action} \"{taskTitle}\"?'**
+  String taskDetailToggleContent(String action, String taskTitle);
+
+  /// No description provided for @taskFormNewTask.
+  ///
+  /// In en, this message translates to:
+  /// **'New Task'**
+  String get taskFormNewTask;
+
+  /// No description provided for @taskFormEditTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Task'**
+  String get taskFormEditTask;
+
+  /// No description provided for @taskFormTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get taskFormTitleLabel;
+
+  /// No description provided for @taskFormTitleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Title is required'**
+  String get taskFormTitleRequired;
+
+  /// No description provided for @taskFormDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description (optional)'**
+  String get taskFormDescriptionLabel;
+
+  /// No description provided for @taskFormCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get taskFormCategoryLabel;
+
+  /// No description provided for @taskFormNoCategoryOption.
+  ///
+  /// In en, this message translates to:
+  /// **'No Category'**
+  String get taskFormNoCategoryOption;
+
+  /// No description provided for @taskFormDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get taskFormDateLabel;
+
+  /// No description provided for @taskFormAllDayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All Day'**
+  String get taskFormAllDayLabel;
+
+  /// No description provided for @taskFormStartTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get taskFormStartTimeLabel;
+
+  /// No description provided for @taskFormEndTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get taskFormEndTimeLabel;
+
+  /// No description provided for @taskFormEndBeforeStartError.
+  ///
+  /// In en, this message translates to:
+  /// **'End time must be after start time'**
+  String get taskFormEndBeforeStartError;
+
+  /// No description provided for @taskFormCreateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Task'**
+  String get taskFormCreateButton;
+
+  /// No description provided for @taskFormSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get taskFormSaveButton;
+
+  /// No description provided for @filterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter Tasks'**
+  String get filterTitle;
+
+  /// No description provided for @filterKeywordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Search keyword'**
+  String get filterKeywordLabel;
+
+  /// No description provided for @filterStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get filterStatusLabel;
+
+  /// No description provided for @filterStatusAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterStatusAll;
+
+  /// No description provided for @filterStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get filterStatusPending;
+
+  /// No description provided for @filterStatusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get filterStatusDone;
+
+  /// No description provided for @filterCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get filterCategoryLabel;
+
+  /// No description provided for @filterAllCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'All Categories'**
+  String get filterAllCategories;
+
+  /// No description provided for @filterDateRangeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date Range'**
+  String get filterDateRangeLabel;
+
+  /// No description provided for @filterFromDate.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get filterFromDate;
+
+  /// No description provided for @filterToDate.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get filterToDate;
+
+  /// No description provided for @filterCancelButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get filterCancelButton;
+
+  /// No description provided for @filterClearButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get filterClearButton;
+
+  /// No description provided for @filterApplyButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get filterApplyButton;
+
+  /// No description provided for @categoryManageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Categories'**
+  String get categoryManageTitle;
+
+  /// No description provided for @categoryNoCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'No categories yet'**
+  String get categoryNoCategories;
+
+  /// No description provided for @categoryNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Category'**
+  String get categoryNewTitle;
+
+  /// No description provided for @categoryNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category name'**
+  String get categoryNameLabel;
+
+  /// No description provided for @categoryAddButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Category'**
+  String get categoryAddButton;
+
+  /// No description provided for @categoryNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a name'**
+  String get categoryNameRequired;
+
+  /// No description provided for @categoryDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Category'**
+  String get categoryDeleteTitle;
+
+  /// No description provided for @categoryDeleteContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{categoryName}\"?'**
+  String categoryDeleteContent(String categoryName);
+
+  /// No description provided for @dialogCancelButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get dialogCancelButton;
+
+  /// No description provided for @dialogConfirmButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get dialogConfirmButton;
+
+  /// No description provided for @dialogDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get dialogDeleteButton;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

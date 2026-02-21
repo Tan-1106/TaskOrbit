@@ -1,5 +1,5 @@
 enum ChildRoutes {
-  test('/test');
+  taskDetail('/agenda/task-detail');
 
   final String path;
   const ChildRoutes(this.path);
