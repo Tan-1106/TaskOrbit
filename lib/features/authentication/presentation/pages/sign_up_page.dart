@@ -28,12 +28,12 @@ class _SignUpPageState extends State<SignUpPage> {
   void _onSignUp() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
-            AuthSignUpRequested(
-              name: _nameController.text.trim(),
-              email: _emailController.text.trim(),
-              password: _passwordController.text.trim(),
-            ),
-          );
+        AuthSignUpRequested(
+          name: _nameController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        ),
+      );
     }
   }
 

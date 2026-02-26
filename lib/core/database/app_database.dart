@@ -9,18 +9,31 @@ part 'app_database.g.dart';
 
 class Tasks extends Table {
   TextColumn get id => text()();
+
   TextColumn get userId => text()();
+
   TextColumn get title => text().withLength(min: 1, max: 200)();
+
   TextColumn get description => text().nullable()();
+
   DateTimeColumn get date => dateTime()();
+
   DateTimeColumn get startTime => dateTime().nullable()();
+
   DateTimeColumn get endTime => dateTime().nullable()();
+
   BoolColumn get isAllDay => boolean().withDefault(const Constant(false))();
+
   TextColumn get categoryId => text().nullable()();
+
   BoolColumn get isCompleted => boolean().withDefault(const Constant(false))();
+
   DateTimeColumn get createdAt => dateTime()();
+
   DateTimeColumn get updatedAt => dateTime()();
+
   BoolColumn get isSynced => boolean().withDefault(const Constant(false))();
+
   BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
 
   @override
@@ -29,10 +42,15 @@ class Tasks extends Table {
 
 class Categories extends Table {
   TextColumn get id => text()();
+
   TextColumn get userId => text()();
+
   TextColumn get name => text().withLength(min: 1, max: 100)();
+
   IntColumn get colorValue => integer()();
+
   BoolColumn get isSynced => boolean().withDefault(const Constant(false))();
+
   BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
 
   @override

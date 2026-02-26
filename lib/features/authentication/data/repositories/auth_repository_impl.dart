@@ -15,10 +15,12 @@ class AuthRepositoryImpl implements IAuthRepository {
     required String email,
     required String password,
   }) async {
-    return _getUser(() async => await remoteDataSource.loginWithEmailPassword(
-          email: email,
-          password: password,
-        ));
+    return _getUser(
+      () async => await remoteDataSource.loginWithEmailPassword(
+        email: email,
+        password: password,
+      ),
+    );
   }
 
   @override
@@ -27,11 +29,13 @@ class AuthRepositoryImpl implements IAuthRepository {
     required String email,
     required String password,
   }) async {
-    return _getUser(() async => await remoteDataSource.signUpWithEmailPassword(
-          name: name,
-          email: email,
-          password: password,
-        ));
+    return _getUser(
+      () async => await remoteDataSource.signUpWithEmailPassword(
+        name: name,
+        email: email,
+        password: password,
+      ),
+    );
   }
 
   @override

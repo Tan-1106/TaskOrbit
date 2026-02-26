@@ -6,6 +6,7 @@ import 'package:task_orbit/features/agenda/domain/repository/task_repository.dar
 
 class SearchTasks implements UseCase<List<Task>, SearchTasksParams> {
   final ITaskRepository repository;
+
   const SearchTasks(this.repository);
 
   @override
@@ -20,5 +21,6 @@ class SearchTasks implements UseCase<List<Task>, SearchTasksParams> {
 class SearchTasksParams {
   final String userId;
   final TaskFilter filter;
+
   const SearchTasksParams({required this.userId, required this.filter});
 }

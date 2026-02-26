@@ -3,8 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
 import 'package:task_orbit/core/network/connectivity_service.dart';
 import 'package:task_orbit/features/agenda/domain/entities/task.dart' as domain;
-import 'package:task_orbit/features/agenda/domain/entities/category.dart'
-    as domain_cat;
+import 'package:task_orbit/features/agenda/domain/entities/category.dart' as domain_cat;
 import 'package:task_orbit/features/agenda/domain/usecases/get_tasks_by_date.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/create_task.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/update_task.dart';
@@ -47,19 +46,19 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     required DeleteCategory deleteCategory,
     required FirebaseAuth firebaseAuth,
     required ConnectivityService connectivityService,
-  })  : _getTasksByDate = getTasksByDate,
-        _createTask = createTask,
-        _updateTask = updateTask,
-        _deleteTask = deleteTask,
-        _toggleTaskComplete = toggleTaskComplete,
-        _searchTasks = searchTasks,
-        _syncTasks = syncTasks,
-        _getCategories = getCategories,
-        _createCategory = createCategory,
-        _deleteCategory = deleteCategory,
-        _firebaseAuth = firebaseAuth,
-        _connectivityService = connectivityService,
-        super(AgendaInitial()) {
+  }) : _getTasksByDate = getTasksByDate,
+       _createTask = createTask,
+       _updateTask = updateTask,
+       _deleteTask = deleteTask,
+       _toggleTaskComplete = toggleTaskComplete,
+       _searchTasks = searchTasks,
+       _syncTasks = syncTasks,
+       _getCategories = getCategories,
+       _createCategory = createCategory,
+       _deleteCategory = deleteCategory,
+       _firebaseAuth = firebaseAuth,
+       _connectivityService = connectivityService,
+       super(AgendaInitial()) {
     on<AgendaLoadTasks>(_onLoadTasks);
     on<AgendaDateChanged>(_onDateChanged);
     on<AgendaMonthChanged>(_onMonthChanged);
@@ -87,54 +86,58 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
   // Task handlers
   // ─────────────────────────────────────────
 
-  Future<void> _onLoadTasks(
-      AgendaLoadTasks event, Emitter<AgendaState> emit) async {
-    emit(AgendaLoading(
-      selectedDate: event.date,
-      currentMonth: state.currentMonth,
-      tasks: state.tasks,
-      categories: state.categories,
-    ));
+  Future<void> _onLoadTasks(AgendaLoadTasks event, Emitter<AgendaState> emit) async {
+    emit(
+      AgendaLoading(
+        selectedDate: event.date,
+        currentMonth: state.currentMonth,
+        tasks: state.tasks,
+        categories: state.categories,
+      ),
+    );
 
     final result = await _getTasksByDate(
       GetTasksByDateParams(userId: _userId, date: event.date),
     );
 
     result.fold(
-      (failure) => emit(AgendaFailure(
-        message: failure.message,
-        selectedDate: event.date,
-        currentMonth: state.currentMonth,
-        tasks: state.tasks,
-        categories: state.categories,
-      )),
-      (tasks) => emit(AgendaLoaded(
-        selectedDate: event.date,
-        currentMonth: state.currentMonth,
-        tasks: tasks,
-        categories: state.categories,
-      )),
+      (failure) => emit(
+        AgendaFailure(
+          message: failure.message,
+          selectedDate: event.date,
+          currentMonth: state.currentMonth,
+          tasks: state.tasks,
+          categories: state.categories,
+        ),
+      ),
+      (tasks) => emit(
+        AgendaLoaded(
+          selectedDate: event.date,
+          currentMonth: state.currentMonth,
+          tasks: tasks,
+          categories: state.categories,
+        ),
+      ),
     );
   }
 
-  Future<void> _onDateChanged(
-      AgendaDateChanged event, Emitter<AgendaState> emit) async {
+  Future<void> _onDateChanged(AgendaDateChanged event, Emitter<AgendaState> emit) async {
     add(AgendaLoadTasks(date: event.date));
   }
 
-  void _onMonthChanged(
-      AgendaMonthChanged event, Emitter<AgendaState> emit) {
-    emit(AgendaLoaded(
-      selectedDate: event.month,
-      currentMonth: event.month,
-      tasks: const [],
-      categories: state.categories,
-    ));
+  void _onMonthChanged(AgendaMonthChanged event, Emitter<AgendaState> emit) {
+    emit(
+      AgendaLoaded(
+        selectedDate: event.month,
+        currentMonth: event.month,
+        tasks: const [],
+        categories: state.categories,
+      ),
+    );
     add(AgendaLoadTasks(date: event.month));
   }
 
-  Future<void> _onCreateTask(
-      AgendaCreateTask event, Emitter<AgendaState> emit) async {
+  Future<void> _onCreateTask(AgendaCreateTask event, Emitter<AgendaState> emit) async {
     final now = DateTime.now();
     final task = domain.Task(
       id: _uuid.v4(),
@@ -153,28 +156,31 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     final result = await _createTask(task);
 
     result.fold(
-      (failure) => emit(AgendaFailure(
-        message: failure.message,
-        selectedDate: state.selectedDate,
-        currentMonth: state.currentMonth,
-        tasks: state.tasks,
-        categories: state.categories,
-      )),
-      (_) {
-        emit(AgendaTaskActionSuccess(
-          message: 'Task created successfully',
+      (failure) => emit(
+        AgendaFailure(
+          message: failure.message,
           selectedDate: state.selectedDate,
           currentMonth: state.currentMonth,
           tasks: state.tasks,
           categories: state.categories,
-        ));
+        ),
+      ),
+      (_) {
+        emit(
+          AgendaTaskActionSuccess(
+            message: 'Task created successfully',
+            selectedDate: state.selectedDate,
+            currentMonth: state.currentMonth,
+            tasks: state.tasks,
+            categories: state.categories,
+          ),
+        );
         add(AgendaLoadTasks(date: state.selectedDate));
       },
     );
   }
 
-  Future<void> _onUpdateTask(
-      AgendaUpdateTask event, Emitter<AgendaState> emit) async {
+  Future<void> _onUpdateTask(AgendaUpdateTask event, Emitter<AgendaState> emit) async {
     final now = DateTime.now();
     final existing = state.tasks.firstWhere((t) => t.id == event.taskId);
     final updatedTask = existing.copyWith(
@@ -192,103 +198,115 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     final result = await _updateTask(updatedTask);
 
     result.fold(
-      (failure) => emit(AgendaFailure(
-        message: failure.message,
-        selectedDate: state.selectedDate,
-        currentMonth: state.currentMonth,
-        tasks: state.tasks,
-        categories: state.categories,
-      )),
-      (_) {
-        emit(AgendaTaskActionSuccess(
-          message: 'Task updated successfully',
+      (failure) => emit(
+        AgendaFailure(
+          message: failure.message,
           selectedDate: state.selectedDate,
           currentMonth: state.currentMonth,
           tasks: state.tasks,
           categories: state.categories,
-        ));
+        ),
+      ),
+      (_) {
+        emit(
+          AgendaTaskActionSuccess(
+            message: 'Task updated successfully',
+            selectedDate: state.selectedDate,
+            currentMonth: state.currentMonth,
+            tasks: state.tasks,
+            categories: state.categories,
+          ),
+        );
         add(AgendaLoadTasks(date: state.selectedDate));
       },
     );
   }
 
-  Future<void> _onDeleteTask(
-      AgendaDeleteTask event, Emitter<AgendaState> emit) async {
+  Future<void> _onDeleteTask(AgendaDeleteTask event, Emitter<AgendaState> emit) async {
     final result = await _deleteTask(
       DeleteTaskParams(taskId: event.taskId, userId: _userId),
     );
 
     result.fold(
-      (failure) => emit(AgendaFailure(
-        message: failure.message,
-        selectedDate: state.selectedDate,
-        currentMonth: state.currentMonth,
-        tasks: state.tasks,
-        categories: state.categories,
-      )),
-      (_) {
-        emit(AgendaTaskActionSuccess(
-          message: 'Task deleted successfully',
+      (failure) => emit(
+        AgendaFailure(
+          message: failure.message,
           selectedDate: state.selectedDate,
           currentMonth: state.currentMonth,
           tasks: state.tasks,
           categories: state.categories,
-        ));
+        ),
+      ),
+      (_) {
+        emit(
+          AgendaTaskActionSuccess(
+            message: 'Task deleted successfully',
+            selectedDate: state.selectedDate,
+            currentMonth: state.currentMonth,
+            tasks: state.tasks,
+            categories: state.categories,
+          ),
+        );
         add(AgendaLoadTasks(date: state.selectedDate));
       },
     );
   }
 
-  Future<void> _onToggleTaskComplete(
-      AgendaToggleTaskComplete event, Emitter<AgendaState> emit) async {
+  Future<void> _onToggleTaskComplete(AgendaToggleTaskComplete event, Emitter<AgendaState> emit) async {
     final result = await _toggleTaskComplete(
       ToggleTaskCompleteParams(taskId: event.taskId, userId: _userId),
     );
 
     result.fold(
-      (failure) => emit(AgendaFailure(
-        message: failure.message,
-        selectedDate: state.selectedDate,
-        currentMonth: state.currentMonth,
-        tasks: state.tasks,
-        categories: state.categories,
-      )),
+      (failure) => emit(
+        AgendaFailure(
+          message: failure.message,
+          selectedDate: state.selectedDate,
+          currentMonth: state.currentMonth,
+          tasks: state.tasks,
+          categories: state.categories,
+        ),
+      ),
       (_) => add(AgendaLoadTasks(date: state.selectedDate)),
     );
   }
 
-  Future<void> _onSearchTasks(
-      AgendaSearchTasks event, Emitter<AgendaState> emit) async {
-    emit(AgendaLoading(
-      selectedDate: state.selectedDate,
-      currentMonth: state.currentMonth,
-      tasks: state.tasks,
-      categories: state.categories,
-    ));
+  Future<void> _onSearchTasks(AgendaSearchTasks event, Emitter<AgendaState> emit) async {
+    emit(
+      AgendaLoading(
+        selectedDate: state.selectedDate,
+        currentMonth: state.currentMonth,
+        tasks: state.tasks,
+        categories: state.categories,
+      ),
+    );
 
     final result = await _searchTasks(
       SearchTasksParams(userId: _userId, filter: event.filter),
     );
 
     result.fold(
-      (failure) => emit(AgendaFailure(
-        message: failure.message,
-        selectedDate: state.selectedDate,
-        currentMonth: state.currentMonth,
-        tasks: state.tasks,
-        categories: state.categories,
-      )),
-      (tasks) => emit(AgendaLoaded(
-        selectedDate: state.selectedDate,
-        currentMonth: state.currentMonth,
-        tasks: tasks,
-        categories: state.categories,
-      )),
+      (failure) => emit(
+        AgendaFailure(
+          message: failure.message,
+          selectedDate: state.selectedDate,
+          currentMonth: state.currentMonth,
+          tasks: state.tasks,
+          categories: state.categories,
+        ),
+      ),
+      (tasks) => emit(
+        AgendaLoaded(
+          selectedDate: state.selectedDate,
+          currentMonth: state.currentMonth,
+          tasks: tasks,
+          categories: state.categories,
+        ),
+      ),
     );
   }
 
-  Future<void> _onSyncTasks(
-      AgendaSyncTasks event, Emitter<AgendaState> emit) async {
+  Future<void> _onSyncTasks(AgendaSyncTasks event, Emitter<AgendaState> emit) async {
     final result = await _syncTasks(SyncTasksParams(userId: _userId));
 
     result.fold(
@@ -301,25 +319,25 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
   // Category handlers
   // ─────────────────────────────────────────
 
-  Future<void> _onLoadCategories(
-      AgendaLoadCategories event, Emitter<AgendaState> emit) async {
+  Future<void> _onLoadCategories(AgendaLoadCategories event, Emitter<AgendaState> emit) async {
     final result = await _getCategories(
       GetCategoriesParams(userId: _userId),
     );
 
     result.fold(
       (failure) => {/* Silently fail — categories are non-critical */},
-      (categories) => emit(AgendaLoaded(
-        selectedDate: state.selectedDate,
-        currentMonth: state.currentMonth,
-        tasks: state.tasks,
-        categories: categories,
-      )),
+      (categories) => emit(
+        AgendaLoaded(
+          selectedDate: state.selectedDate,
+          currentMonth: state.currentMonth,
+          tasks: state.tasks,
+          categories: categories,
+        ),
+      ),
     );
   }
 
-  Future<void> _onCreateCategory(
-      AgendaCreateCategory event, Emitter<AgendaState> emit) async {
+  Future<void> _onCreateCategory(AgendaCreateCategory event, Emitter<AgendaState> emit) async {
     final category = domain_cat.Category(
       id: _uuid.v4(),
       userId: _userId,
@@ -330,48 +348,55 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     final result = await _createCategory(category);
 
     result.fold(
-      (failure) => emit(AgendaFailure(
-        message: failure.message,
-        selectedDate: state.selectedDate,
-        currentMonth: state.currentMonth,
-        tasks: state.tasks,
-        categories: state.categories,
-      )),
-      (_) {
-        emit(AgendaTaskActionSuccess(
-          message: 'Category created',
+      (failure) => emit(
+        AgendaFailure(
+          message: failure.message,
           selectedDate: state.selectedDate,
           currentMonth: state.currentMonth,
           tasks: state.tasks,
           categories: state.categories,
-        ));
+        ),
+      ),
+      (_) {
+        emit(
+          AgendaTaskActionSuccess(
+            message: 'Category created',
+            selectedDate: state.selectedDate,
+            currentMonth: state.currentMonth,
+            tasks: state.tasks,
+            categories: state.categories,
+          ),
+        );
         add(AgendaLoadCategories());
       },
     );
   }
 
-  Future<void> _onDeleteCategory(
-      AgendaDeleteCategory event, Emitter<AgendaState> emit) async {
+  Future<void> _onDeleteCategory(AgendaDeleteCategory event, Emitter<AgendaState> emit) async {
     final result = await _deleteCategory(
       DeleteCategoryParams(categoryId: event.categoryId, userId: _userId),
     );
 
     result.fold(
-      (failure) => emit(AgendaFailure(
-        message: failure.message,
-        selectedDate: state.selectedDate,
-        currentMonth: state.currentMonth,
-        tasks: state.tasks,
-        categories: state.categories,
-      )),
-      (_) {
-        emit(AgendaTaskActionSuccess(
-          message: 'Category deleted',
+      (failure) => emit(
+        AgendaFailure(
+          message: failure.message,
           selectedDate: state.selectedDate,
           currentMonth: state.currentMonth,
           tasks: state.tasks,
           categories: state.categories,
-        ));
+        ),
+      ),
+      (_) {
+        emit(
+          AgendaTaskActionSuccess(
+            message: 'Category deleted',
+            selectedDate: state.selectedDate,
+            currentMonth: state.currentMonth,
+            tasks: state.tasks,
+            categories: state.categories,
+          ),
+        );
         add(AgendaLoadCategories());
       },
     );

@@ -6,17 +6,17 @@ import 'package:task_orbit/features/agenda/domain/repository/category_repository
 
 class GetCategoriesParams {
   final String userId;
+
   const GetCategoriesParams({required this.userId});
 }
 
-class GetCategories
-    implements UseCase<List<Category>, GetCategoriesParams> {
+class GetCategories implements UseCase<List<Category>, GetCategoriesParams> {
   final ICategoryRepository repository;
+
   const GetCategories(this.repository);
 
   @override
-  Future<Either<Failure, List<Category>>> call(
-      GetCategoriesParams params) async {
+  Future<Either<Failure, List<Category>>> call(GetCategoriesParams params) async {
     return await repository.getCategories(userId: params.userId);
   }
 }

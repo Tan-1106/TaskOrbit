@@ -7,11 +7,13 @@ import 'package:task_orbit/features/agenda/domain/repository/task_repository.dar
 class ToggleTaskCompleteParams {
   final String taskId;
   final String userId;
+
   const ToggleTaskCompleteParams({required this.taskId, required this.userId});
 }
 
 class ToggleTaskComplete implements UseCase<Task, ToggleTaskCompleteParams> {
   final ITaskRepository repository;
+
   const ToggleTaskComplete(this.repository);
 
   @override

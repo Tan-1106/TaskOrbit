@@ -24,10 +24,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   void _onResetPassword() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
-            AuthForgotPasswordRequested(
-              email: _emailController.text.trim(),
-            ),
-          );
+        AuthForgotPasswordRequested(
+          email: _emailController.text.trim(),
+        ),
+      );
     }
   }
 

@@ -6,6 +6,7 @@ import 'package:task_orbit/features/agenda/domain/repository/task_repository.dar
 
 class UpdateTask implements UseCase<Task, Task> {
   final ITaskRepository repository;
+
   const UpdateTask(this.repository);
 
   @override

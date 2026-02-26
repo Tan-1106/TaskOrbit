@@ -103,4 +103,13 @@ class MockAuthRemoteDataSource extends _i1.Mock
             returnValue: _i4.Future<_i2.UserModel?>.value(),
           )
           as _i4.Future<_i2.UserModel?>);
+
+  @override
+  _i4.Future<void> signOut() =>
+      (super.noSuchMethod(
+            Invocation.method(#signOut, []),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 }

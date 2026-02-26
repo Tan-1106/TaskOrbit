@@ -6,11 +6,13 @@ import 'package:task_orbit/features/agenda/domain/repository/category_repository
 class DeleteCategoryParams {
   final String categoryId;
   final String userId;
+
   const DeleteCategoryParams({required this.categoryId, required this.userId});
 }
 
 class DeleteCategory implements UseCase<void, DeleteCategoryParams> {
   final ICategoryRepository repository;
+
   const DeleteCategory(this.repository);
 
   @override

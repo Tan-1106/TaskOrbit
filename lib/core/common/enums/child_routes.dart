@@ -1,7 +1,9 @@
 enum ChildRoutes {
-  taskDetail('/agenda/task-detail');
+  taskDetail('/agenda/task-detail')
+  ;
 
   final String path;
+
   const ChildRoutes(this.path);
 
   static bool isChildRoute(String location) {

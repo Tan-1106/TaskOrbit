@@ -8,8 +8,7 @@ class ConnectivityService {
   late final StreamController<bool> _controller;
   late StreamSubscription<List<ConnectivityResult>> _subscription;
 
-  ConnectivityService({Connectivity? connectivity})
-      : _connectivity = connectivity ?? Connectivity() {
+  ConnectivityService({Connectivity? connectivity}) : _connectivity = connectivity ?? Connectivity() {
     _controller = StreamController<bool>.broadcast();
     _subscription = _connectivity.onConnectivityChanged.listen((results) {
       _controller.add(_isConnected(results));
@@ -26,10 +25,7 @@ class ConnectivityService {
   }
 
   bool _isConnected(List<ConnectivityResult> results) {
-    return results.any((r) =>
-        r == ConnectivityResult.wifi ||
-        r == ConnectivityResult.mobile ||
-        r == ConnectivityResult.ethernet);
+    return results.any((r) => r == ConnectivityResult.wifi || r == ConnectivityResult.mobile || r == ConnectivityResult.ethernet);
   }
 
   void dispose() {

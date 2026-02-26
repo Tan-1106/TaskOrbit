@@ -17,12 +17,12 @@ sealed class AgendaState {
 
 class AgendaInitial extends AgendaState {
   AgendaInitial()
-      : super(
-          selectedDate: DateTime.now(),
-          currentMonth: DateTime(DateTime.now().year, DateTime.now().month),
-          tasks: const [],
-          categories: const [],
-        );
+    : super(
+        selectedDate: DateTime.now(),
+        currentMonth: DateTime(DateTime.now().year, DateTime.now().month),
+        tasks: const [],
+        categories: const [],
+      );
 }
 
 class AgendaLoading extends AgendaState {

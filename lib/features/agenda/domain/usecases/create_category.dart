@@ -6,6 +6,7 @@ import 'package:task_orbit/features/agenda/domain/repository/category_repository
 
 class CreateCategory implements UseCase<Category, Category> {
   final ICategoryRepository repository;
+
   const CreateCategory(this.repository);
 
   @override

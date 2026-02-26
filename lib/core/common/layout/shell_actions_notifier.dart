@@ -7,6 +7,7 @@ class ShellActionsNotifier extends ChangeNotifier {
   Widget? _fab;
 
   List<Widget> get actions => _actions;
+
   Widget? get fab => _fab;
 
   void setActions(List<Widget> actions) {

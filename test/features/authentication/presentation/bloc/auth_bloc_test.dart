@@ -62,8 +62,7 @@ void main() {
     blocTest<AuthBloc, AuthState>(
       'emits [AuthLoading, AuthSuccess] when login succeeds',
       build: () {
-        when(mockUserLogin(any))
-            .thenAnswer((_) async => Right(tUser));
+        when(mockUserLogin(any)).thenAnswer((_) async => Right(tUser));
         return authBloc;
       },
       act: (bloc) => bloc.add(
@@ -78,8 +77,9 @@ void main() {
     blocTest<AuthBloc, AuthState>(
       'emits [AuthLoading, AuthFailure] when login fails',
       build: () {
-        when(mockUserLogin(any))
-            .thenAnswer((_) async => Left(Failure('Invalid credentials')));
+        when(
+          mockUserLogin(any),
+        ).thenAnswer((_) async => Left(Failure('Invalid credentials')));
         return authBloc;
       },
       act: (bloc) => bloc.add(
@@ -99,8 +99,7 @@ void main() {
     blocTest<AuthBloc, AuthState>(
       'emits [AuthLoading, AuthSuccess] when sign up succeeds',
       build: () {
-        when(mockUserSignUp(any))
-            .thenAnswer((_) async => Right(tUser));
+        when(mockUserSignUp(any)).thenAnswer((_) async => Right(tUser));
         return authBloc;
       },
       act: (bloc) => bloc.add(
@@ -115,8 +114,9 @@ void main() {
     blocTest<AuthBloc, AuthState>(
       'emits [AuthLoading, AuthFailure] when sign up fails',
       build: () {
-        when(mockUserSignUp(any))
-            .thenAnswer((_) async => Left(Failure('Email already in use')));
+        when(
+          mockUserSignUp(any),
+        ).thenAnswer((_) async => Left(Failure('Email already in use')));
         return authBloc;
       },
       act: (bloc) => bloc.add(
@@ -136,8 +136,9 @@ void main() {
     blocTest<AuthBloc, AuthState>(
       'emits [AuthLoading, AuthForgotPasswordSuccess] when reset email is sent',
       build: () {
-        when(mockForgotPassword(any))
-            .thenAnswer((_) async => const Right(null));
+        when(
+          mockForgotPassword(any),
+        ).thenAnswer((_) async => const Right(null));
         return authBloc;
       },
       act: (bloc) => bloc.add(
@@ -152,8 +153,9 @@ void main() {
     blocTest<AuthBloc, AuthState>(
       'emits [AuthLoading, AuthFailure] when reset email fails',
       build: () {
-        when(mockForgotPassword(any))
-            .thenAnswer((_) async => Left(Failure('User not found')));
+        when(
+          mockForgotPassword(any),
+        ).thenAnswer((_) async => Left(Failure('User not found')));
         return authBloc;
       },
       act: (bloc) => bloc.add(

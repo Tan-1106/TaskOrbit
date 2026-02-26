@@ -95,4 +95,17 @@ class MockIAuthRepository extends _i1.Mock implements _i2.IAuthRepository {
             ),
           )
           as _i3.Future<_i4.Either<_i5.Failure, void>>);
+
+  @override
+  _i3.Future<_i4.Either<_i5.Failure, void>> logout() =>
+      (super.noSuchMethod(
+            Invocation.method(#logout, []),
+            returnValue: _i3.Future<_i4.Either<_i5.Failure, void>>.value(
+              _i7.dummyValue<_i4.Either<_i5.Failure, void>>(
+                this,
+                Invocation.method(#logout, []),
+              ),
+            ),
+          )
+          as _i3.Future<_i4.Either<_i5.Failure, void>>);
 }

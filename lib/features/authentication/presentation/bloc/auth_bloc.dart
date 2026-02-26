@@ -6,6 +6,7 @@ import 'package:task_orbit/features/authentication/domain/usecases/user_login.da
 import 'package:task_orbit/features/authentication/domain/usecases/user_sign_up.dart';
 
 part 'auth_event.dart';
+
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -17,17 +18,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required UserSignUp userSignUp,
     required UserLogin userLogin,
     required ForgotPassword forgotPassword,
-  })  : _userSignUp = userSignUp,
-        _userLogin = userLogin,
-        _forgotPassword = forgotPassword,
-        super(AuthInitial()) {
+  }) : _userSignUp = userSignUp,
+       _userLogin = userLogin,
+       _forgotPassword = forgotPassword,
+       super(AuthInitial()) {
     on<AuthSignUpRequested>(_onAuthSignUpRequested);
     on<AuthLoginRequested>(_onAuthLoginRequested);
     on<AuthForgotPasswordRequested>(_onAuthForgotPasswordRequested);
   }
 
   void _onAuthSignUpRequested(
-      AuthSignUpRequested event, Emitter<AuthState> emit) async {
+    AuthSignUpRequested event,
+    Emitter<AuthState> emit,
+  ) async {
     emit(AuthLoading());
 
     final res = await _userSignUp(
@@ -45,7 +48,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onAuthLoginRequested(
-      AuthLoginRequested event, Emitter<AuthState> emit) async {
+    AuthLoginRequested event,
+    Emitter<AuthState> emit,
+  ) async {
     emit(AuthLoading());
 
     final res = await _userLogin(
@@ -62,7 +67,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onAuthForgotPasswordRequested(
-      AuthForgotPasswordRequested event, Emitter<AuthState> emit) async {
+    AuthForgotPasswordRequested event,
+    Emitter<AuthState> emit,
+  ) async {
     emit(AuthLoading());
 
     final res = await _forgotPassword(

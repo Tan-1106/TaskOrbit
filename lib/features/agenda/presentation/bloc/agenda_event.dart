@@ -5,16 +5,19 @@ sealed class AgendaEvent {}
 
 class AgendaLoadTasks extends AgendaEvent {
   final DateTime date;
+
   AgendaLoadTasks({required this.date});
 }
 
 class AgendaDateChanged extends AgendaEvent {
   final DateTime date;
+
   AgendaDateChanged({required this.date});
 }
 
 class AgendaMonthChanged extends AgendaEvent {
   final DateTime month;
+
   AgendaMonthChanged({required this.month});
 }
 
@@ -64,16 +67,19 @@ class AgendaUpdateTask extends AgendaEvent {
 
 class AgendaDeleteTask extends AgendaEvent {
   final String taskId;
+
   AgendaDeleteTask({required this.taskId});
 }
 
 class AgendaToggleTaskComplete extends AgendaEvent {
   final String taskId;
+
   AgendaToggleTaskComplete({required this.taskId});
 }
 
 class AgendaSearchTasks extends AgendaEvent {
   final TaskFilter filter;
+
   AgendaSearchTasks({required this.filter});
 }
 
@@ -86,10 +92,12 @@ class AgendaLoadCategories extends AgendaEvent {}
 class AgendaCreateCategory extends AgendaEvent {
   final String name;
   final Color color;
+
   AgendaCreateCategory({required this.name, required this.color});
 }
 
 class AgendaDeleteCategory extends AgendaEvent {
   final String categoryId;
+
   AgendaDeleteCategory({required this.categoryId});
 }

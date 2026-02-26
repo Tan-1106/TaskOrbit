@@ -5,11 +5,13 @@ import 'package:task_orbit/features/agenda/domain/repository/task_repository.dar
 
 class SyncTasksParams {
   final String userId;
+
   const SyncTasksParams({required this.userId});
 }
 
 class SyncTasks implements UseCase<void, SyncTasksParams> {
   final ITaskRepository repository;
+
   const SyncTasks(this.repository);
 
   @override

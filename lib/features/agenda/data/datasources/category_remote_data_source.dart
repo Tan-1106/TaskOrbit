@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:task_orbit/features/agenda/domain/entities/category.dart'
-    as domain;
+import 'package:task_orbit/features/agenda/domain/entities/category.dart' as domain;
 
 abstract interface class CategoryRemoteDataSource {
   Future<List<domain.Category>> getCategories(String userId);
+
   Future<void> createCategory(domain.Category category);
+
   Future<void> deleteCategory(String userId, String categoryId);
 }
 
 class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
   final FirebaseFirestore firestore;
+
   const CategoryRemoteDataSourceImpl(this.firestore);
 
   CollectionReference<Map<String, dynamic>> _categoriesRef(String userId) {
@@ -25,9 +27,7 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
 
   @override
   Future<void> createCategory(domain.Category category) async {
-    await _categoriesRef(category.userId)
-        .doc(category.id)
-        .set(_categoryToMap(category));
+    await _categoriesRef(category.userId).doc(category.id).set(_categoryToMap(category));
   }
 
   @override
@@ -39,8 +39,7 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
   // Mappers
   // ─────────────────────────────────────
 
-  domain.Category _categoryFromDoc(
-      DocumentSnapshot<Map<String, dynamic>> doc) {
+  domain.Category _categoryFromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
     final d = doc.data()!;
     return domain.Category(
       id: doc.id,

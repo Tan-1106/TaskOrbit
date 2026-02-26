@@ -7,11 +7,13 @@ import 'package:task_orbit/features/agenda/domain/repository/task_repository.dar
 class GetTasksByDateParams {
   final String userId;
   final DateTime date;
+
   const GetTasksByDateParams({required this.userId, required this.date});
 }
 
 class GetTasksByDate implements UseCase<List<Task>, GetTasksByDateParams> {
   final ITaskRepository repository;
+
   const GetTasksByDate(this.repository);
 
   @override

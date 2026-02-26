@@ -45,7 +45,6 @@ Future<void> _initCore() async {
   serviceLocator.registerLazySingleton(() => ConnectivityService());
 }
 
-
 void _initAuth() {
   // DataSource
   serviceLocator

@@ -13,22 +13,6 @@ import 'package:task_orbit/features/agenda/presentation/bloc/agenda_bloc.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
-
-  // runApp(
-  //   MultiProvider(
-  //     // Providers
-  //     providers: [],
-  //     child: MultiBlocProvider(
-  //       // Blocs
-  //       providers: [
-  //         BlocProvider(
-  //           create: (context) => serviceLocator<AuthBloc>(),
-  //         ),
-  //       ],
-  //       child: const MyApp(),
-  //     ),
-  //   ),
-  // );
   runApp(
     MultiBlocProvider(
       // Blocs

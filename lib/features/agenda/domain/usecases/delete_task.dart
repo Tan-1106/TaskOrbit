@@ -6,11 +6,13 @@ import 'package:task_orbit/features/agenda/domain/repository/task_repository.dar
 class DeleteTaskParams {
   final String taskId;
   final String userId;
+
   const DeleteTaskParams({required this.taskId, required this.userId});
 }
 
 class DeleteTask implements UseCase<void, DeleteTaskParams> {
   final ITaskRepository repository;
+
   const DeleteTask(this.repository);
 
   @override

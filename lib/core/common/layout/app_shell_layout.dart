@@ -91,9 +91,7 @@ class _AppShellLayoutState extends State<AppShellLayout> {
           appBar: CustomAppBar(
             title: _getTitle(selectedIndex),
             onBack: showBackButton ? () => _onBackPressed(context) : null,
-            actions: _shellActions.actions.isNotEmpty
-                ? _shellActions.actions
-                : null,
+            actions: _shellActions.actions.isNotEmpty ? _shellActions.actions : null,
           ),
           backgroundColor: Colors.white,
           body: ShellActionsScope(
@@ -136,13 +134,11 @@ class ShellActionsScope extends InheritedWidget {
   });
 
   static ShellActionsNotifier of(BuildContext context) {
-    final scope =
-        context.dependOnInheritedWidgetOfExactType<ShellActionsScope>();
+    final scope = context.dependOnInheritedWidgetOfExactType<ShellActionsScope>();
     assert(scope != null, 'No ShellActionsScope found in widget tree');
     return scope!.notifier;
   }
 
   @override
-  bool updateShouldNotify(ShellActionsScope oldWidget) =>
-      notifier != oldWidget.notifier;
+  bool updateShouldNotify(ShellActionsScope oldWidget) => notifier != oldWidget.notifier;
 }
