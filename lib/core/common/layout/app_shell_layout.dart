@@ -3,14 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:task_orbit/core/common/enums/child_routes.dart';
 import 'package:task_orbit/core/common/layout/shell_actions_notifier.dart';
 import 'package:task_orbit/core/common/widgets/custom_app_bar.dart';
+import 'package:task_orbit/l10n/app_localizations.dart';
 
 class AppShellLayout extends StatefulWidget {
   final Widget child;
 
-  const AppShellLayout({
-    super.key,
-    required this.child,
-  });
+  const AppShellLayout({super.key, required this.child});
 
   @override
   State<AppShellLayout> createState() => _AppShellLayoutState();
@@ -20,12 +18,10 @@ class _AppShellLayoutState extends State<AppShellLayout> {
   final _shellActions = ShellActionsNotifier();
 
   int _calculateSelectedIndex(BuildContext context) {
-    final String location = GoRouterState.of(context).uri.toString();
-
+    final location = GoRouterState.of(context).uri.toString();
     if (location.startsWith('/agenda')) return 0;
     if (location.startsWith('/pomodoro')) return 1;
     if (location.startsWith('/profile')) return 2;
-
     return 0;
   }
 
@@ -33,31 +29,29 @@ class _AppShellLayoutState extends State<AppShellLayout> {
     switch (index) {
       case 0:
         context.go('/agenda');
-        break;
       case 1:
         context.go('/pomodoro');
-        break;
       case 2:
         context.go('/profile');
-        break;
     }
   }
 
-  String _getTitle(int selectedIndex) {
+  String _getTitle(BuildContext context, int selectedIndex) {
+    final l10n = AppLocalizations.of(context)!;
     switch (selectedIndex) {
       case 0:
-        return 'Agenda';
+        return l10n.navAgenda;
       case 1:
-        return 'Pomodoro';
+        return l10n.navPomodoro;
       case 2:
-        return 'Profile';
+        return l10n.navProfile;
       default:
-        return 'Task Orbit';
+        return l10n.shellTitleDefault;
     }
   }
 
   bool _shouldShowBackButton(BuildContext context) {
-    final String location = GoRouterState.of(context).uri.toString();
+    final location = GoRouterState.of(context).uri.toString();
     return ChildRoutes.isChildRoute(location);
   }
 
@@ -77,15 +71,16 @@ class _AppShellLayoutState extends State<AppShellLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final int selectedIndex = _calculateSelectedIndex(context);
-    final bool showBackButton = _shouldShowBackButton(context);
+    final l10n = AppLocalizations.of(context)!;
+    final selectedIndex = _calculateSelectedIndex(context);
+    final showBackButton = _shouldShowBackButton(context);
 
     return ListenableBuilder(
       listenable: _shellActions,
       builder: (context, _) {
         return Scaffold(
           appBar: CustomAppBar(
-            title: _getTitle(selectedIndex),
+            title: _getTitle(context, selectedIndex),
             onBack: showBackButton ? () => _onBackPressed(context) : null,
             actions: _shellActions.actions.isNotEmpty
                 ? _shellActions.actions
@@ -100,18 +95,18 @@ class _AppShellLayoutState extends State<AppShellLayout> {
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: selectedIndex,
             onTap: (index) => _onItemTapped(index, context),
-            items: const [
+            items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_today),
-                label: 'Agenda',
+                icon: const Icon(Icons.calendar_today),
+                label: l10n.navAgenda,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.timer),
-                label: 'Pomodoro',
+                icon: const Icon(Icons.timer),
+                label: l10n.navPomodoro,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
+                icon: const Icon(Icons.person),
+                label: l10n.navProfile,
               ),
             ],
           ),
@@ -121,7 +116,7 @@ class _AppShellLayoutState extends State<AppShellLayout> {
   }
 }
 
-/// InheritedWidget that gives child pages access to [ShellActionsNotifier].
+/// Gives child pages access to [ShellActionsNotifier].
 class ShellActionsScope extends InheritedWidget {
   final ShellActionsNotifier notifier;
 

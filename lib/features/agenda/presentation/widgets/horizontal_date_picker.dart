@@ -32,7 +32,8 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
   @override
   void didUpdateWidget(HorizontalDatePicker oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.currentMonth != widget.currentMonth || oldWidget.selectedDate != widget.selectedDate) {
+    if (oldWidget.currentMonth != widget.currentMonth ||
+        oldWidget.selectedDate != widget.selectedDate) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToSelected());
     }
   }
@@ -62,8 +63,12 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final locale = Localizations.localeOf(context).toString();
     final daysCount = _daysInMonth(widget.currentMonth);
-    final monthLabel = DateFormat('MMMM yyyy').format(widget.currentMonth);
+    final monthLabel = DateFormat(
+      'MMMM yyyy',
+      locale,
+    ).format(widget.currentMonth);
 
     return Column(
       children: [
@@ -75,7 +80,10 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
               IconButton(
                 icon: const Icon(Icons.chevron_left),
                 onPressed: () {
-                  final prev = DateTime(widget.currentMonth.year, widget.currentMonth.month - 1);
+                  final prev = DateTime(
+                    widget.currentMonth.year,
+                    widget.currentMonth.month - 1,
+                  );
                   widget.onMonthChanged(prev);
                 },
               ),
@@ -97,9 +105,11 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
                     );
                     if (picked != null) {
                       widget.onDateSelected(picked);
-                      // Also update month if different
-                      if (picked.month != widget.currentMonth.month || picked.year != widget.currentMonth.year) {
-                        widget.onMonthChanged(DateTime(picked.year, picked.month));
+                      if (picked.month != widget.currentMonth.month ||
+                          picked.year != widget.currentMonth.year) {
+                        widget.onMonthChanged(
+                          DateTime(picked.year, picked.month),
+                        );
                       }
                     }
                   },
@@ -108,7 +118,10 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
               IconButton(
                 icon: const Icon(Icons.chevron_right),
                 onPressed: () {
-                  final next = DateTime(widget.currentMonth.year, widget.currentMonth.month + 1);
+                  final next = DateTime(
+                    widget.currentMonth.year,
+                    widget.currentMonth.month + 1,
+                  );
                   widget.onMonthChanged(next);
                 },
               ),
@@ -130,8 +143,14 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
                 widget.currentMonth.month,
                 index + 1,
               );
-              final isSelected = day.year == widget.selectedDate.year && day.month == widget.selectedDate.month && day.day == widget.selectedDate.day;
-              final isToday = day.year == DateTime.now().year && day.month == DateTime.now().month && day.day == DateTime.now().day;
+              final isSelected =
+                  day.year == widget.selectedDate.year &&
+                  day.month == widget.selectedDate.month &&
+                  day.day == widget.selectedDate.day;
+              final isToday =
+                  day.year == DateTime.now().year &&
+                  day.month == DateTime.now().month &&
+                  day.day == DateTime.now().day;
 
               return GestureDetector(
                 onTap: () => widget.onDateSelected(day),
@@ -150,7 +169,7 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        DateFormat('E').format(day).substring(0, 2),
+                        DateFormat('E', locale).format(day).substring(0, 2),
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: isSelected
                               ? theme.colorScheme.onPrimary

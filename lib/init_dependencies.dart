@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_orbit/firebase_options.dart';
 import 'package:task_orbit/core/auth/app_auth_notifier.dart';
+import 'package:task_orbit/core/common/locale/locale_notifier.dart';
 
 // Authentication Feature
 import 'package:task_orbit/features/authentication/data/datasources/auth_remote_data_source.dart';

@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
 import 'package:task_orbit/core/network/connectivity_service.dart';
 import 'package:task_orbit/features/agenda/domain/entities/task.dart' as domain;
-import 'package:task_orbit/features/agenda/domain/entities/category.dart' as domain_cat;
+import 'package:task_orbit/features/agenda/domain/entities/category.dart'
+    as domain_cat;
 import 'package:task_orbit/features/agenda/domain/usecases/get_tasks_by_date.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/create_task.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/update_task.dart';
@@ -82,11 +83,10 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
 
   String get _userId => _firebaseAuth.currentUser?.uid ?? '';
 
-  // ─────────────────────────────────────────
-  // Task handlers
-  // ─────────────────────────────────────────
-
-  Future<void> _onLoadTasks(AgendaLoadTasks event, Emitter<AgendaState> emit) async {
+  Future<void> _onLoadTasks(
+    AgendaLoadTasks event,
+    Emitter<AgendaState> emit,
+  ) async {
     emit(
       AgendaLoading(
         selectedDate: event.date,
@@ -121,7 +121,10 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     );
   }
 
-  Future<void> _onDateChanged(AgendaDateChanged event, Emitter<AgendaState> emit) async {
+  Future<void> _onDateChanged(
+    AgendaDateChanged event,
+    Emitter<AgendaState> emit,
+  ) async {
     add(AgendaLoadTasks(date: event.date));
   }
 
@@ -137,7 +140,10 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     add(AgendaLoadTasks(date: event.month));
   }
 
-  Future<void> _onCreateTask(AgendaCreateTask event, Emitter<AgendaState> emit) async {
+  Future<void> _onCreateTask(
+    AgendaCreateTask event,
+    Emitter<AgendaState> emit,
+  ) async {
     final now = DateTime.now();
     final task = domain.Task(
       id: _uuid.v4(),
@@ -180,7 +186,10 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     );
   }
 
-  Future<void> _onUpdateTask(AgendaUpdateTask event, Emitter<AgendaState> emit) async {
+  Future<void> _onUpdateTask(
+    AgendaUpdateTask event,
+    Emitter<AgendaState> emit,
+  ) async {
     final now = DateTime.now();
     final existing = state.tasks.firstWhere((t) => t.id == event.taskId);
     final updatedTask = existing.copyWith(
@@ -222,7 +231,10 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     );
   }
 
-  Future<void> _onDeleteTask(AgendaDeleteTask event, Emitter<AgendaState> emit) async {
+  Future<void> _onDeleteTask(
+    AgendaDeleteTask event,
+    Emitter<AgendaState> emit,
+  ) async {
     final result = await _deleteTask(
       DeleteTaskParams(taskId: event.taskId, userId: _userId),
     );
@@ -252,7 +264,10 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     );
   }
 
-  Future<void> _onToggleTaskComplete(AgendaToggleTaskComplete event, Emitter<AgendaState> emit) async {
+  Future<void> _onToggleTaskComplete(
+    AgendaToggleTaskComplete event,
+    Emitter<AgendaState> emit,
+  ) async {
     final result = await _toggleTaskComplete(
       ToggleTaskCompleteParams(taskId: event.taskId, userId: _userId),
     );
@@ -271,7 +286,10 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     );
   }
 
-  Future<void> _onSearchTasks(AgendaSearchTasks event, Emitter<AgendaState> emit) async {
+  Future<void> _onSearchTasks(
+    AgendaSearchTasks event,
+    Emitter<AgendaState> emit,
+  ) async {
     emit(
       AgendaLoading(
         selectedDate: state.selectedDate,
@@ -306,7 +324,10 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     );
   }
 
-  Future<void> _onSyncTasks(AgendaSyncTasks event, Emitter<AgendaState> emit) async {
+  Future<void> _onSyncTasks(
+    AgendaSyncTasks event,
+    Emitter<AgendaState> emit,
+  ) async {
     final result = await _syncTasks(SyncTasksParams(userId: _userId));
 
     result.fold(
@@ -319,7 +340,10 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
   // Category handlers
   // ─────────────────────────────────────────
 
-  Future<void> _onLoadCategories(AgendaLoadCategories event, Emitter<AgendaState> emit) async {
+  Future<void> _onLoadCategories(
+    AgendaLoadCategories event,
+    Emitter<AgendaState> emit,
+  ) async {
     final result = await _getCategories(
       GetCategoriesParams(userId: _userId),
     );
@@ -337,7 +361,10 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     );
   }
 
-  Future<void> _onCreateCategory(AgendaCreateCategory event, Emitter<AgendaState> emit) async {
+  Future<void> _onCreateCategory(
+    AgendaCreateCategory event,
+    Emitter<AgendaState> emit,
+  ) async {
     final category = domain_cat.Category(
       id: _uuid.v4(),
       userId: _userId,
@@ -372,7 +399,10 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     );
   }
 
-  Future<void> _onDeleteCategory(AgendaDeleteCategory event, Emitter<AgendaState> emit) async {
+  Future<void> _onDeleteCategory(
+    AgendaDeleteCategory event,
+    Emitter<AgendaState> emit,
+  ) async {
     final result = await _deleteCategory(
       DeleteCategoryParams(categoryId: event.categoryId, userId: _userId),
     );

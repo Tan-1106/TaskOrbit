@@ -12,6 +12,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Task Orbit';
 
   @override
+  String get navAgenda => 'Agenda';
+
+  @override
+  String get navPomodoro => 'Pomodoro';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get shellTitleDefault => 'Task Orbit';
+
+  @override
   String get signInQuote => 'Organize your tasks\nOrbit your productivity';
 
   @override
@@ -291,7 +303,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileNamePlaceholder => 'No name';
 
   @override
-  String get profileSecurityTitle => 'Security';
+  String get profileSettingsTitle => 'Settings';
 
   @override
   String get profileChangePassword => 'Change Password';
@@ -322,6 +334,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileChangePasswordError => 'Failed to update password';
+
+  @override
+  String get profileLanguageLabel => 'Language';
+
+  @override
+  String get profileLanguageEnglish => 'English';
+
+  @override
+  String get profileLanguageVietnamese => 'Tiếng Việt';
 
   @override
   String get profileStatsTitle => 'Task Statistics';

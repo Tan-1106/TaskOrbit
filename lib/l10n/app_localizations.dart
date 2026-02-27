@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_vi.dart';
 
 // ignore_for_file: type=lint
 
@@ -90,7 +91,8 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
-    Locale('en')
+    Locale('en'),
+    Locale('vi')
   ];
 
   /// No description provided for @appTitle.
@@ -98,6 +100,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Task Orbit'**
   String get appTitle;
+
+  /// No description provided for @navAgenda.
+  ///
+  /// In en, this message translates to:
+  /// **'Agenda'**
+  String get navAgenda;
+
+  /// No description provided for @navPomodoro.
+  ///
+  /// In en, this message translates to:
+  /// **'Pomodoro'**
+  String get navPomodoro;
+
+  /// No description provided for @navProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get navProfile;
+
+  /// No description provided for @shellTitleDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Orbit'**
+  String get shellTitleDefault;
 
   /// No description provided for @signInQuote.
   ///
@@ -645,11 +671,11 @@ abstract class AppLocalizations {
   /// **'No name'**
   String get profileNamePlaceholder;
 
-  /// No description provided for @profileSecurityTitle.
+  /// No description provided for @profileSettingsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Security'**
-  String get profileSecurityTitle;
+  /// **'Settings'**
+  String get profileSettingsTitle;
 
   /// No description provided for @profileChangePassword.
   ///
@@ -710,6 +736,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to update password'**
   String get profileChangePasswordError;
+
+  /// No description provided for @profileLanguageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get profileLanguageLabel;
+
+  /// No description provided for @profileLanguageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get profileLanguageEnglish;
+
+  /// No description provided for @profileLanguageVietnamese.
+  ///
+  /// In en, this message translates to:
+  /// **'Tiếng Việt'**
+  String get profileLanguageVietnamese;
 
   /// No description provided for @profileStatsTitle.
   ///
@@ -775,7 +819,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'vi'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -787,6 +831,7 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en': return AppLocalizationsEn();
+    case 'vi': return AppLocalizationsVi();
   }
 
   throw FlutterError(

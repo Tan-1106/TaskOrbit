@@ -1,6 +1,11 @@
 {
   "appTitle": "Task Orbit",
-  
+
+  "navAgenda": "Agenda",
+  "navPomodoro": "Pomodoro",
+  "navProfile": "Profile",
+  "shellTitleDefault": "Task Orbit",
+
   "signInQuote": "Organize your tasks\nOrbit your productivity",
   "signInEmailLabel": "Your email",
   "signInEmailRequired": "Email is required",
@@ -117,7 +122,7 @@
   "dialogDeleteButton": "Delete",
 
   "profileNamePlaceholder": "No name",
-  "profileSecurityTitle": "Security",
+  "profileSettingsTitle": "Settings",
   "profileChangePassword": "Change Password",
   "profileOldPasswordLabel": "Current Password",
   "profileNewPasswordLabel": "New Password",
@@ -128,6 +133,9 @@
   "profileChangePasswordButton": "Update Password",
   "profileChangePasswordSuccess": "Password updated successfully",
   "profileChangePasswordError": "Failed to update password",
+  "profileLanguageLabel": "Language",
+  "profileLanguageEnglish": "English",
+  "profileLanguageVietnamese": "Tiếng Việt",
   "profileStatsTitle": "Task Statistics",
   "profilePeriodMonth": "Month",
   "profilePeriodYear": "Year",

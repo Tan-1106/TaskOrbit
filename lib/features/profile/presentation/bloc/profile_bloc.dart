@@ -101,10 +101,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     // AppAuthNotifier listens to authStateChanges and triggers GoRouter redirect
   }
 
-  // ─────────────────────────────────────────
-  // Helpers
-  // ─────────────────────────────────────────
-
   Future<void> _loadStats(Emitter<ProfileState> emit) async {
     final DateRange range = _buildRange(
       state.periodType,

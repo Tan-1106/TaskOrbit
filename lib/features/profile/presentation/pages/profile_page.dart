@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:task_orbit/core/common/layout/app_shell_layout.dart';
+import 'package:task_orbit/core/common/locale/locale_notifier.dart';
 import 'package:task_orbit/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:task_orbit/init_dependencies.dart';
 import 'package:task_orbit/l10n/app_localizations.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -28,10 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (!_actionsInitialized) {
       _actionsInitialized = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          // Clear any actions left by the previous page (e.g. Agenda)
-          ShellActionsScope.of(context).setActions([]);
-        }
+        if (mounted) ShellActionsScope.of(context).setActions([]);
       });
     }
   }
@@ -72,8 +71,8 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 16),
 
-            // ── 2. Security ─────────────────────────────
-            _SecurityCard(
+            // Settings
+            _SettingsCard(
               isLoading:
                   state.changePasswordStatus == ChangePasswordStatus.loading,
             ),
@@ -158,18 +157,19 @@ class _UserInfoCard extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Security Card
+// Settings Card (change password + language switcher)
 // ─────────────────────────────────────────────────────────────────────────────
 
-class _SecurityCard extends StatelessWidget {
+class _SettingsCard extends StatelessWidget {
   final bool isLoading;
 
-  const _SecurityCard({required this.isLoading});
+  const _SettingsCard({required this.isLoading});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
+    final currentLocale = serviceLocator<LocaleNotifier>().value;
 
     return Card(
       elevation: 0,
@@ -185,7 +185,7 @@ class _SecurityCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
             child: Text(
-              l10n.profileSecurityTitle,
+              l10n.profileSettingsTitle,
               style: theme.textTheme.labelLarge?.copyWith(
                 color: theme.colorScheme.primary,
                 fontWeight: FontWeight.bold,
@@ -203,6 +203,29 @@ class _SecurityCard extends StatelessWidget {
                   )
                 : const Icon(Icons.chevron_right),
             onTap: isLoading ? null : () => _showChangePasswordSheet(context),
+          ),
+          ListTile(
+            leading: const Icon(Icons.language),
+            title: Text(l10n.profileLanguageLabel),
+            trailing: DropdownButton<String>(
+              value: currentLocale.languageCode,
+              underline: const SizedBox.shrink(),
+              items: [
+                DropdownMenuItem(
+                  value: 'en',
+                  child: Text(l10n.profileLanguageEnglish),
+                ),
+                DropdownMenuItem(
+                  value: 'vi',
+                  child: Text(l10n.profileLanguageVietnamese),
+                ),
+              ],
+              onChanged: (code) {
+                if (code != null) {
+                  serviceLocator<LocaleNotifier>().setLocale(Locale(code));
+                }
+              },
+            ),
           ),
         ],
       ),
@@ -533,6 +556,7 @@ class _PeriodPicker extends StatelessWidget {
     final bloc = context.read<ProfileBloc>();
     final now = DateTime.now();
 
+    final locale = Localizations.localeOf(context).toString();
     // Build year list: ±5 years from now
     final years = List.generate(11, (i) => now.year - 5 + i);
     final months = List.generate(12, (i) => i + 1);
@@ -590,7 +614,7 @@ class _PeriodPicker extends StatelessWidget {
                     (m) => DropdownMenuItem(
                       value: m,
                       child: Text(
-                        DateFormat.MMMM().format(DateTime(2000, m)),
+                        DateFormat.MMMM(locale).format(DateTime(2000, m)),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),

@@ -5,6 +5,7 @@ import 'package:task_orbit/l10n/app_localizations.dart';
 import 'package:task_orbit/core/config/theme/theme.dart';
 import 'package:task_orbit/core/utils/create_theme.dart';
 import 'package:task_orbit/core/config/routes/app_router.dart';
+import 'package:task_orbit/core/common/locale/locale_notifier.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:task_orbit/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -16,7 +17,6 @@ Future<void> main() async {
   await initDependencies();
   runApp(
     MultiBlocProvider(
-      // Blocs
       providers: [
         BlocProvider(
           create: (context) => serviceLocator<AuthBloc>(),
@@ -33,8 +33,30 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late final LocaleNotifier _localeNotifier;
+
+  @override
+  void initState() {
+    super.initState();
+    _localeNotifier = serviceLocator<LocaleNotifier>();
+    _localeNotifier.addListener(_onLocaleChanged);
+  }
+
+  void _onLocaleChanged() => setState(() {});
+
+  @override
+  void dispose() {
+    _localeNotifier.removeListener(_onLocaleChanged);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,28 +64,18 @@ class MyApp extends StatelessWidget {
     MaterialTheme theme = MaterialTheme(textTheme);
 
     return MaterialApp.router(
-      // Title and Routing
       title: 'Task Orbit',
       routerConfig: appRouter,
 
-      // Theming
       theme: theme.light(),
       darkTheme: theme.dark(),
       themeMode: ThemeMode.system,
 
-      // Localization
+      locale: _localeNotifier.value,
       supportedLocales: const [
-        Locale('en', 'US'),
+        Locale('en'),
+        Locale('vi'),
       ],
-      localeResolutionCallback: (deviceLocale, supportedLocales) {
-        for (var locale in supportedLocales) {
-          if (locale.languageCode == deviceLocale!.languageCode &&
-              locale.countryCode == deviceLocale.countryCode) {
-            return deviceLocale;
-          }
-        }
-        return supportedLocales.first;
-      },
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -71,7 +83,6 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
 
-      // Other configurations
       debugShowCheckedModeBanner: false,
     );
   }

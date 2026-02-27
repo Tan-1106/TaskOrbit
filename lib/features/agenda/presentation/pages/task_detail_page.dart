@@ -83,6 +83,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).toString();
     final task = widget.task;
 
     return SingleChildScrollView(
@@ -122,7 +123,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           _InfoRow(
             icon: Icons.calendar_today,
             label: l10n.taskDetailLabelDate,
-            value: DateFormat('EEEE, d MMMM yyyy').format(task.date),
+            value: DateFormat('EEEE, d MMMM yyyy', locale).format(task.date),
           ),
 
           // Time
@@ -137,7 +138,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
               icon: Icons.schedule,
               label: l10n.taskDetailLabelTime,
               value:
-                  '${DateFormat.Hm().format(task.startTime!)} – ${DateFormat.Hm().format(task.endTime!)}',
+                  '${DateFormat.Hm(locale).format(task.startTime!)} – ${DateFormat.Hm(locale).format(task.endTime!)}',
             ),
 
           // Description

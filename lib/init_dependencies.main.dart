@@ -34,15 +34,16 @@ Future<void> _initCore() async {
     await FirebaseAuth.instance.signOut();
   }
 
-  // Auth State Notifier — drives GoRouter redirect
   serviceLocator.registerLazySingleton(
     () => AppAuthNotifier(serviceLocator()),
   );
 
-  // Drift Database (SQLite)
+  serviceLocator.registerLazySingleton(
+    () => LocaleNotifier(serviceLocator()),
+  );
+
   serviceLocator.registerLazySingleton(() => AppDatabase());
 
-  // Connectivity Service
   serviceLocator.registerLazySingleton(() => ConnectivityService());
 }
 
