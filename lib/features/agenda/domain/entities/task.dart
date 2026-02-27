@@ -13,6 +13,7 @@ class Task {
   final DateTime updatedAt;
   final bool isSynced;
   final bool isDeleted;
+  final int? notificationMinutesBefore;
 
   const Task({
     required this.id,
@@ -29,6 +30,7 @@ class Task {
     required this.updatedAt,
     this.isSynced = false,
     this.isDeleted = false,
+    this.notificationMinutesBefore,
   });
 
   Task copyWith({
@@ -46,6 +48,7 @@ class Task {
     DateTime? updatedAt,
     bool? isSynced,
     bool? isDeleted,
+    int? notificationMinutesBefore,
   }) {
     return Task(
       id: id ?? this.id,
@@ -62,6 +65,8 @@ class Task {
       updatedAt: updatedAt ?? this.updatedAt,
       isSynced: isSynced ?? this.isSynced,
       isDeleted: isDeleted ?? this.isDeleted,
+      notificationMinutesBefore:
+          notificationMinutesBefore ?? this.notificationMinutesBefore,
     );
   }
 

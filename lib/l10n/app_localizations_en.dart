@@ -370,4 +370,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSignOutContent => 'Are you sure you want to sign out?';
+
+  @override
+  String get taskFormNotificationLabel => 'Remind me';
+
+  @override
+  String get taskFormNotificationNone => 'No reminder';
+
+  @override
+  String get taskFormNotification30m => '30 minutes before';
+
+  @override
+  String get taskFormNotification1h => '1 hour before';
+
+  @override
+  String get taskFormNotification2h => '2 hours before';
+
+  @override
+  String get taskFormNotification4h => '4 hours before';
+
+  @override
+  String get taskFormNotificationCustom => 'Custom';
+
+  @override
+  String get taskFormNotificationCustomLabel => 'Hours before';
+
+  @override
+  String get taskFormNotificationCustomSuffix => 'hours';
+
+  @override
+  String get taskFormNotificationCustomRequired => 'Please enter a value';
+
+  @override
+  String get taskFormNotificationCustomInvalid => 'Invalid value';
+
+  @override
+  String get taskFormNotificationPastError => 'Notification time cannot be in the past';
 }

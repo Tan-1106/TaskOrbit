@@ -183,6 +183,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
         initialEndTime: widget.task.endTime,
         initialIsAllDay: widget.task.isAllDay,
         initialCategoryId: widget.task.categoryId,
+        initialNotificationMinutesBefore: widget.task.notificationMinutesBefore,
         categories: state.categories,
       ),
     );
@@ -204,6 +205,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
               isAllDay: result['isAllDay'] as bool,
               categoryId: result['categoryId'] as String?,
               isCompleted: widget.task.isCompleted,
+              notificationMinutesBefore:
+                  result['notificationMinutesBefore'] as int?,
             ),
           );
           context.pop(); // Go back to AgendaPage

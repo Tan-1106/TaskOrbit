@@ -10,6 +10,7 @@ class AddEditTaskSheet extends StatefulWidget {
   final DateTime? initialEndTime;
   final bool initialIsAllDay;
   final String? initialCategoryId;
+  final int? initialNotificationMinutesBefore;
   final bool isEditing;
   final List<Category> categories;
 
@@ -22,6 +23,7 @@ class AddEditTaskSheet extends StatefulWidget {
     this.initialEndTime,
     this.initialIsAllDay = false,
     this.initialCategoryId,
+    this.initialNotificationMinutesBefore,
     this.isEditing = false,
     this.categories = const [],
   });
@@ -40,23 +42,46 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
   late bool _isAllDay;
   String? _selectedCategoryId;
 
+  int? _notificationValue; // dropdown selected value
+  bool _isCustomNotification = false;
+  late TextEditingController _customHrController;
+
   @override
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.initialTitle);
-    _descriptionController =
-        TextEditingController(text: widget.initialDescription);
+    _descriptionController = TextEditingController(
+      text: widget.initialDescription,
+    );
     _selectedDate = widget.initialDate;
     _startTime = widget.initialStartTime;
     _endTime = widget.initialEndTime;
     _isAllDay = widget.initialIsAllDay;
     _selectedCategoryId = widget.initialCategoryId;
+
+    // Map initial notification value to state
+    final initNotif = widget.initialNotificationMinutesBefore;
+    if (initNotif == null) {
+      _notificationValue = null;
+    } else if ([30, 60, 120, 240].contains(initNotif)) {
+      _notificationValue = initNotif;
+    } else {
+      _notificationValue = -1; // -1 represents custom
+      _isCustomNotification = true;
+    }
+
+    _customHrController = TextEditingController(
+      text: _isCustomNotification
+          ? (initNotif! / 60).toStringAsFixed(1).replaceAll('.0', '')
+          : '',
+    );
   }
 
   @override
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
+    _customHrController.dispose();
     super.dispose();
   }
 
@@ -74,11 +99,11 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
   Future<void> _pickTime({required bool isStart}) async {
     final initial = isStart
         ? (_startTime != null
-            ? TimeOfDay.fromDateTime(_startTime!)
-            : TimeOfDay.now())
+              ? TimeOfDay.fromDateTime(_startTime!)
+              : TimeOfDay.now())
         : (_endTime != null
-            ? TimeOfDay.fromDateTime(_endTime!)
-            : TimeOfDay.now());
+              ? TimeOfDay.fromDateTime(_endTime!)
+              : TimeOfDay.now());
 
     final picked = await showTimePicker(
       context: context,
@@ -127,8 +152,9 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.onSurfaceVariant
-                        .withValues(alpha: 0.4),
+                    color: theme.colorScheme.onSurfaceVariant.withValues(
+                      alpha: 0.4,
+                    ),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -256,8 +282,7 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
                         onTap: () => _pickTime(isStart: true),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
-                          side: BorderSide(
-                              color: theme.colorScheme.outline),
+                          side: BorderSide(color: theme.colorScheme.outline),
                         ),
                       ),
                     ),
@@ -273,12 +298,87 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
                         onTap: () => _pickTime(isStart: false),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
-                          side: BorderSide(
-                              color: theme.colorScheme.outline),
+                          side: BorderSide(color: theme.colorScheme.outline),
                         ),
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(height: 12),
+              ],
+
+              // Notification Dropdown
+              DropdownButtonFormField<int?>(
+                initialValue: _notificationValue,
+                decoration: InputDecoration(
+                  labelText: l10n.taskFormNotificationLabel,
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.notifications),
+                ),
+                items: [
+                  DropdownMenuItem(
+                    value: null,
+                    child: Text(l10n.taskFormNotificationNone),
+                  ),
+                  DropdownMenuItem(
+                    value: 30,
+                    child: Text(l10n.taskFormNotification30m),
+                  ),
+                  DropdownMenuItem(
+                    value: 60,
+                    child: Text(l10n.taskFormNotification1h),
+                  ),
+                  DropdownMenuItem(
+                    value: 120,
+                    child: Text(l10n.taskFormNotification2h),
+                  ),
+                  DropdownMenuItem(
+                    value: 240,
+                    child: Text(l10n.taskFormNotification4h),
+                  ),
+                  DropdownMenuItem(
+                    value: -1,
+                    child: Text(l10n.taskFormNotificationCustom),
+                  ),
+                ],
+                onChanged: (val) {
+                  setState(() {
+                    _notificationValue = val;
+                    if (val == -1) {
+                      _isCustomNotification = true;
+                    } else {
+                      _isCustomNotification = false;
+                      _customHrController.clear();
+                    }
+                  });
+                },
+              ),
+              const SizedBox(height: 12),
+
+              if (_isCustomNotification) ...[
+                TextFormField(
+                  controller: _customHrController,
+                  decoration: InputDecoration(
+                    labelText: l10n.taskFormNotificationCustomLabel,
+                    border: const OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.timer),
+                    suffixText: l10n.taskFormNotificationCustomSuffix,
+                  ),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  validator: (value) {
+                    if (_isCustomNotification) {
+                      if (value == null || value.isEmpty) {
+                        return l10n.taskFormNotificationCustomRequired;
+                      }
+                      if (double.tryParse(value) == null ||
+                          double.parse(value) <= 0) {
+                        return l10n.taskFormNotificationCustomInvalid;
+                      }
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 12),
               ],
@@ -295,27 +395,80 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
                           _endTime!.isBefore(_startTime!)) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                              content:
-                                  Text(l10n.taskFormEndBeforeStartError)),
+                            content: Text(l10n.taskFormEndBeforeStartError),
+                          ),
                         );
                         return;
                       }
 
+                      int? finalNotificationMinutes;
+                      if (_notificationValue == -1) {
+                        final hrs =
+                            double.tryParse(_customHrController.text.trim()) ??
+                            0;
+                        finalNotificationMinutes = (hrs * 60).round();
+                      } else {
+                        finalNotificationMinutes = _notificationValue;
+                      }
+
+                      if (finalNotificationMinutes != null) {
+                        DateTime baseTime;
+                        if (_isAllDay) {
+                          // For all day, base time is 00:00 of the selected date
+                          baseTime = DateTime(
+                            _selectedDate.year,
+                            _selectedDate.month,
+                            _selectedDate.day,
+                          );
+                        } else {
+                          // Both date and start time combine
+                          if (_startTime == null) {
+                            baseTime = DateTime(
+                              _selectedDate.year,
+                              _selectedDate.month,
+                              _selectedDate.day,
+                            );
+                          } else {
+                            baseTime = DateTime(
+                              _selectedDate.year,
+                              _selectedDate.month,
+                              _selectedDate.day,
+                              _startTime!.hour,
+                              _startTime!.minute,
+                            );
+                          }
+                        }
+
+                        final notificationTime = baseTime.subtract(
+                          Duration(minutes: finalNotificationMinutes),
+                        );
+                        if (notificationTime.isBefore(DateTime.now())) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(l10n.taskFormNotificationPastError),
+                            ),
+                          );
+                          return;
+                        }
+                      }
+
                       Navigator.of(context).pop({
                         'title': _titleController.text.trim(),
-                        'description':
-                            _descriptionController.text.trim(),
+                        'description': _descriptionController.text.trim(),
                         'date': _selectedDate,
                         'startTime': _isAllDay ? null : _startTime,
                         'endTime': _isAllDay ? null : _endTime,
                         'isAllDay': _isAllDay,
                         'categoryId': _selectedCategoryId,
+                        'notificationMinutesBefore': finalNotificationMinutes,
                       });
                     }
                   },
-                  child: Text(widget.isEditing
-                      ? l10n.taskFormSaveButton
-                      : l10n.taskFormCreateButton),
+                  child: Text(
+                    widget.isEditing
+                        ? l10n.taskFormSaveButton
+                        : l10n.taskFormCreateButton,
+                  ),
                 ),
               ),
               const SizedBox(height: 16),

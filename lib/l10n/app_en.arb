@@ -144,5 +144,18 @@
   "profileStatsMissed": "Missed",
   "profileSignOut": "Sign Out",
   "profileSignOutTitle": "Sign Out",
-  "profileSignOutContent": "Are you sure you want to sign out?"
+  "profileSignOutContent": "Are you sure you want to sign out?",
+
+  "taskFormNotificationLabel": "Remind me",
+  "taskFormNotificationNone": "No reminder",
+  "taskFormNotification30m": "30 minutes before",
+  "taskFormNotification1h": "1 hour before",
+  "taskFormNotification2h": "2 hours before",
+  "taskFormNotification4h": "4 hours before",
+  "taskFormNotificationCustom": "Custom",
+  "taskFormNotificationCustomLabel": "Hours before",
+  "taskFormNotificationCustomSuffix": "hours",
+  "taskFormNotificationCustomRequired": "Please enter a value",
+  "taskFormNotificationCustomInvalid": "Invalid value",
+  "taskFormNotificationPastError": "Notification time cannot be in the past"
 }

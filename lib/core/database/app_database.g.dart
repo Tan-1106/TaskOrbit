@@ -174,6 +174,17 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _notificationMinutesBeforeMeta =
+      const VerificationMeta('notificationMinutesBefore');
+  @override
+  late final GeneratedColumn<int> notificationMinutesBefore =
+      GeneratedColumn<int>(
+        'notification_minutes_before',
+        aliasedName,
+        true,
+        type: DriftSqlType.int,
+        requiredDuringInsert: false,
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -190,6 +201,7 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
     updatedAt,
     isSynced,
     isDeleted,
+    notificationMinutesBefore,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -302,6 +314,15 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
         isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta),
       );
     }
+    if (data.containsKey('notification_minutes_before')) {
+      context.handle(
+        _notificationMinutesBeforeMeta,
+        notificationMinutesBefore.isAcceptableOrUnknown(
+          data['notification_minutes_before']!,
+          _notificationMinutesBeforeMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -367,6 +388,10 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
         DriftSqlType.bool,
         data['${effectivePrefix}is_deleted'],
       )!,
+      notificationMinutesBefore: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}notification_minutes_before'],
+      ),
     );
   }
 
@@ -391,6 +416,7 @@ class Task extends DataClass implements Insertable<Task> {
   final DateTime updatedAt;
   final bool isSynced;
   final bool isDeleted;
+  final int? notificationMinutesBefore;
   const Task({
     required this.id,
     required this.userId,
@@ -406,6 +432,7 @@ class Task extends DataClass implements Insertable<Task> {
     required this.updatedAt,
     required this.isSynced,
     required this.isDeleted,
+    this.notificationMinutesBefore,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -432,6 +459,11 @@ class Task extends DataClass implements Insertable<Task> {
     map['updated_at'] = Variable<DateTime>(updatedAt);
     map['is_synced'] = Variable<bool>(isSynced);
     map['is_deleted'] = Variable<bool>(isDeleted);
+    if (!nullToAbsent || notificationMinutesBefore != null) {
+      map['notification_minutes_before'] = Variable<int>(
+        notificationMinutesBefore,
+      );
+    }
     return map;
   }
 
@@ -459,6 +491,10 @@ class Task extends DataClass implements Insertable<Task> {
       updatedAt: Value(updatedAt),
       isSynced: Value(isSynced),
       isDeleted: Value(isDeleted),
+      notificationMinutesBefore:
+          notificationMinutesBefore == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notificationMinutesBefore),
     );
   }
 
@@ -482,6 +518,9 @@ class Task extends DataClass implements Insertable<Task> {
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       isSynced: serializer.fromJson<bool>(json['isSynced']),
       isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      notificationMinutesBefore: serializer.fromJson<int?>(
+        json['notificationMinutesBefore'],
+      ),
     );
   }
   @override
@@ -502,6 +541,9 @@ class Task extends DataClass implements Insertable<Task> {
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'isSynced': serializer.toJson<bool>(isSynced),
       'isDeleted': serializer.toJson<bool>(isDeleted),
+      'notificationMinutesBefore': serializer.toJson<int?>(
+        notificationMinutesBefore,
+      ),
     };
   }
 
@@ -520,6 +562,7 @@ class Task extends DataClass implements Insertable<Task> {
     DateTime? updatedAt,
     bool? isSynced,
     bool? isDeleted,
+    Value<int?> notificationMinutesBefore = const Value.absent(),
   }) => Task(
     id: id ?? this.id,
     userId: userId ?? this.userId,
@@ -535,6 +578,9 @@ class Task extends DataClass implements Insertable<Task> {
     updatedAt: updatedAt ?? this.updatedAt,
     isSynced: isSynced ?? this.isSynced,
     isDeleted: isDeleted ?? this.isDeleted,
+    notificationMinutesBefore: notificationMinutesBefore.present
+        ? notificationMinutesBefore.value
+        : this.notificationMinutesBefore,
   );
   Task copyWithCompanion(TasksCompanion data) {
     return Task(
@@ -558,6 +604,9 @@ class Task extends DataClass implements Insertable<Task> {
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       isSynced: data.isSynced.present ? data.isSynced.value : this.isSynced,
       isDeleted: data.isDeleted.present ? data.isDeleted.value : this.isDeleted,
+      notificationMinutesBefore: data.notificationMinutesBefore.present
+          ? data.notificationMinutesBefore.value
+          : this.notificationMinutesBefore,
     );
   }
 
@@ -577,7 +626,8 @@ class Task extends DataClass implements Insertable<Task> {
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('isSynced: $isSynced, ')
-          ..write('isDeleted: $isDeleted')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('notificationMinutesBefore: $notificationMinutesBefore')
           ..write(')'))
         .toString();
   }
@@ -598,6 +648,7 @@ class Task extends DataClass implements Insertable<Task> {
     updatedAt,
     isSynced,
     isDeleted,
+    notificationMinutesBefore,
   );
   @override
   bool operator ==(Object other) =>
@@ -616,7 +667,8 @@ class Task extends DataClass implements Insertable<Task> {
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.isSynced == this.isSynced &&
-          other.isDeleted == this.isDeleted);
+          other.isDeleted == this.isDeleted &&
+          other.notificationMinutesBefore == this.notificationMinutesBefore);
 }
 
 class TasksCompanion extends UpdateCompanion<Task> {
@@ -634,6 +686,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
   final Value<DateTime> updatedAt;
   final Value<bool> isSynced;
   final Value<bool> isDeleted;
+  final Value<int?> notificationMinutesBefore;
   final Value<int> rowid;
   const TasksCompanion({
     this.id = const Value.absent(),
@@ -650,6 +703,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     this.updatedAt = const Value.absent(),
     this.isSynced = const Value.absent(),
     this.isDeleted = const Value.absent(),
+    this.notificationMinutesBefore = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   TasksCompanion.insert({
@@ -667,6 +721,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     required DateTime updatedAt,
     this.isSynced = const Value.absent(),
     this.isDeleted = const Value.absent(),
+    this.notificationMinutesBefore = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        userId = Value(userId),
@@ -689,6 +744,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     Expression<DateTime>? updatedAt,
     Expression<bool>? isSynced,
     Expression<bool>? isDeleted,
+    Expression<int>? notificationMinutesBefore,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -706,6 +762,8 @@ class TasksCompanion extends UpdateCompanion<Task> {
       if (updatedAt != null) 'updated_at': updatedAt,
       if (isSynced != null) 'is_synced': isSynced,
       if (isDeleted != null) 'is_deleted': isDeleted,
+      if (notificationMinutesBefore != null)
+        'notification_minutes_before': notificationMinutesBefore,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -725,6 +783,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     Value<DateTime>? updatedAt,
     Value<bool>? isSynced,
     Value<bool>? isDeleted,
+    Value<int?>? notificationMinutesBefore,
     Value<int>? rowid,
   }) {
     return TasksCompanion(
@@ -742,6 +801,8 @@ class TasksCompanion extends UpdateCompanion<Task> {
       updatedAt: updatedAt ?? this.updatedAt,
       isSynced: isSynced ?? this.isSynced,
       isDeleted: isDeleted ?? this.isDeleted,
+      notificationMinutesBefore:
+          notificationMinutesBefore ?? this.notificationMinutesBefore,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -791,6 +852,11 @@ class TasksCompanion extends UpdateCompanion<Task> {
     if (isDeleted.present) {
       map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
+    if (notificationMinutesBefore.present) {
+      map['notification_minutes_before'] = Variable<int>(
+        notificationMinutesBefore.value,
+      );
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -814,6 +880,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
           ..write('updatedAt: $updatedAt, ')
           ..write('isSynced: $isSynced, ')
           ..write('isDeleted: $isDeleted, ')
+          ..write('notificationMinutesBefore: $notificationMinutesBefore, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -1262,6 +1329,7 @@ typedef $$TasksTableCreateCompanionBuilder =
       required DateTime updatedAt,
       Value<bool> isSynced,
       Value<bool> isDeleted,
+      Value<int?> notificationMinutesBefore,
       Value<int> rowid,
     });
 typedef $$TasksTableUpdateCompanionBuilder =
@@ -1280,6 +1348,7 @@ typedef $$TasksTableUpdateCompanionBuilder =
       Value<DateTime> updatedAt,
       Value<bool> isSynced,
       Value<bool> isDeleted,
+      Value<int?> notificationMinutesBefore,
       Value<int> rowid,
     });
 
@@ -1358,6 +1427,11 @@ class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
 
   ColumnFilters<bool> get isDeleted => $composableBuilder(
     column: $table.isDeleted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get notificationMinutesBefore => $composableBuilder(
+    column: $table.notificationMinutesBefore,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -1440,6 +1514,11 @@ class $$TasksTableOrderingComposer
     column: $table.isDeleted,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get notificationMinutesBefore => $composableBuilder(
+    column: $table.notificationMinutesBefore,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$TasksTableAnnotationComposer
@@ -1498,6 +1577,11 @@ class $$TasksTableAnnotationComposer
 
   GeneratedColumn<bool> get isDeleted =>
       $composableBuilder(column: $table.isDeleted, builder: (column) => column);
+
+  GeneratedColumn<int> get notificationMinutesBefore => $composableBuilder(
+    column: $table.notificationMinutesBefore,
+    builder: (column) => column,
+  );
 }
 
 class $$TasksTableTableManager
@@ -1542,6 +1626,7 @@ class $$TasksTableTableManager
                 Value<DateTime> updatedAt = const Value.absent(),
                 Value<bool> isSynced = const Value.absent(),
                 Value<bool> isDeleted = const Value.absent(),
+                Value<int?> notificationMinutesBefore = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => TasksCompanion(
                 id: id,
@@ -1558,6 +1643,7 @@ class $$TasksTableTableManager
                 updatedAt: updatedAt,
                 isSynced: isSynced,
                 isDeleted: isDeleted,
+                notificationMinutesBefore: notificationMinutesBefore,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -1576,6 +1662,7 @@ class $$TasksTableTableManager
                 required DateTime updatedAt,
                 Value<bool> isSynced = const Value.absent(),
                 Value<bool> isDeleted = const Value.absent(),
+                Value<int?> notificationMinutesBefore = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => TasksCompanion.insert(
                 id: id,
@@ -1592,6 +1679,7 @@ class $$TasksTableTableManager
                 updatedAt: updatedAt,
                 isSynced: isSynced,
                 isDeleted: isDeleted,
+                notificationMinutesBefore: notificationMinutesBefore,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

@@ -370,4 +370,40 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get profileSignOutContent => 'Bạn có chắc muốn đăng xuất không?';
+
+  @override
+  String get taskFormNotificationLabel => 'Nhắc nhở';
+
+  @override
+  String get taskFormNotificationNone => 'Không nhắc báo';
+
+  @override
+  String get taskFormNotification30m => 'Trước 30 phút';
+
+  @override
+  String get taskFormNotification1h => 'Trước 1 tiếng';
+
+  @override
+  String get taskFormNotification2h => 'Trước 2 tiếng';
+
+  @override
+  String get taskFormNotification4h => 'Trước 4 tiếng';
+
+  @override
+  String get taskFormNotificationCustom => 'Tuỳ chỉnh';
+
+  @override
+  String get taskFormNotificationCustomLabel => 'Báo trước';
+
+  @override
+  String get taskFormNotificationCustomSuffix => 'giờ';
+
+  @override
+  String get taskFormNotificationCustomRequired => 'Vui lòng nhập thời gian';
+
+  @override
+  String get taskFormNotificationCustomInvalid => 'Không hợp lệ';
+
+  @override
+  String get taskFormNotificationPastError => 'Thời gian báo nhắc lùi về quá khứ';
 }

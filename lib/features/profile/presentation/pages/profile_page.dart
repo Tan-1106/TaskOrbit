@@ -443,12 +443,28 @@ class _StatsCardState extends State<_StatsCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header
-            Text(
-              l10n.profileStatsTitle,
-              style: theme.textTheme.labelLarge?.copyWith(
-                color: theme.colorScheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  l10n.profileStatsTitle,
+                  style: theme.textTheme.labelLarge?.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.refresh),
+                  tooltip: 'Reload',
+                  onPressed: state.statsLoading
+                      ? null
+                      : () {
+                          context.read<ProfileBloc>().add(
+                            ProfileReloadRequested(),
+                          );
+                        },
+                ),
+              ],
             ),
             const SizedBox(height: 12),
 
@@ -534,7 +550,7 @@ class _PeriodToggle extends StatelessWidget {
         bloc.add(
           ProfilePeriodChanged(
             periodType: type,
-            year: state.selectedYear,
+            year: state.selectedYear ?? DateTime.now().year,
             month: type == PeriodType.month
                 ? (state.selectedMonth ?? DateTime.now().month)
                 : null,
@@ -566,7 +582,7 @@ class _PeriodPicker extends StatelessWidget {
         // Year picker
         Expanded(
           child: DropdownButtonFormField<int>(
-            initialValue: state.selectedYear,
+            initialValue: state.selectedYear ?? now.year,
             decoration: InputDecoration(
               labelText: l10n.profilePeriodYear,
               contentPadding: const EdgeInsets.symmetric(
@@ -625,7 +641,7 @@ class _PeriodPicker extends StatelessWidget {
                 bloc.add(
                   ProfilePeriodChanged(
                     periodType: state.periodType,
-                    year: state.selectedYear,
+                    year: state.selectedYear ?? now.year,
                     month: m,
                   ),
                 );

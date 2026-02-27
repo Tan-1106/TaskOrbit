@@ -28,6 +28,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
        _firebaseAuth = firebaseAuth,
        super(const ProfileState()) {
     on<ProfileLoadRequested>(_onLoad);
+    on<ProfileReloadRequested>(_onReload);
     on<ProfilePeriodChanged>(_onPeriodChanged);
     on<ProfileChangePasswordRequested>(_onChangePassword);
     on<ProfileSignOutRequested>(_onSignOut);
@@ -57,6 +58,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       statsLoading: true,
     );
     emit(initialState);
+    await _loadStats(emit);
+  }
+
+  Future<void> _onReload(
+    ProfileReloadRequested event,
+    Emitter<ProfileState> emit,
+  ) async {
+    emit(state.copyWith(statsLoading: true));
     await _loadStats(emit);
   }
 
@@ -116,7 +125,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Future<void> _loadStats(Emitter<ProfileState> emit) async {
     final DateRange range = _buildRange(
       state.periodType,
-      state.selectedYear,
+      state.selectedYear ?? DateTime.now().year,
       state.selectedMonth,
     );
 

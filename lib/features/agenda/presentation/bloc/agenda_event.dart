@@ -29,6 +29,7 @@ class AgendaCreateTask extends AgendaEvent {
   final DateTime? endTime;
   final bool isAllDay;
   final String? categoryId;
+  final int? notificationMinutesBefore;
 
   AgendaCreateTask({
     required this.title,
@@ -38,6 +39,7 @@ class AgendaCreateTask extends AgendaEvent {
     this.endTime,
     this.isAllDay = false,
     this.categoryId,
+    this.notificationMinutesBefore,
   });
 }
 
@@ -51,6 +53,7 @@ class AgendaUpdateTask extends AgendaEvent {
   final bool isAllDay;
   final String? categoryId;
   final bool isCompleted;
+  final int? notificationMinutesBefore;
 
   AgendaUpdateTask({
     required this.taskId,
@@ -62,6 +65,7 @@ class AgendaUpdateTask extends AgendaEvent {
     this.isAllDay = false,
     this.categoryId,
     required this.isCompleted,
+    this.notificationMinutesBefore,
   });
 }
 

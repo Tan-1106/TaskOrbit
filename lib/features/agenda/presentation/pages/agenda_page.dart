@@ -241,6 +241,8 @@ class _AgendaPageState extends State<AgendaPage> {
           endTime: result['endTime'] as DateTime?,
           isAllDay: result['isAllDay'] as bool,
           categoryId: result['categoryId'] as String?,
+          notificationMinutesBefore:
+              result['notificationMinutesBefore'] as int?,
         ),
       );
     }

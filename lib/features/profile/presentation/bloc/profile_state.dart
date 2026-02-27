@@ -6,7 +6,7 @@ class ProfileState {
   final String userName;
   final String userEmail;
   final PeriodType periodType;
-  final int selectedYear;
+  final int? selectedYear;
   final int? selectedMonth;
   final bool statsLoading;
   final int completedCount;
@@ -21,7 +21,7 @@ class ProfileState {
     this.userName = '',
     this.userEmail = '',
     this.periodType = PeriodType.month,
-    this.selectedYear = 0,
+    this.selectedYear,
     this.selectedMonth,
     this.statsLoading = false,
     this.completedCount = 0,

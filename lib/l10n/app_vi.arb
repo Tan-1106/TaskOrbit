@@ -144,5 +144,18 @@
   "profileStatsMissed": "Đã bỏ lỡ",
   "profileSignOut": "Đăng xuất",
   "profileSignOutTitle": "Đăng xuất",
-  "profileSignOutContent": "Bạn có chắc muốn đăng xuất không?"
+  "profileSignOutContent": "Bạn có chắc muốn đăng xuất không?",
+
+  "taskFormNotificationLabel": "Nhắc nhở",
+  "taskFormNotificationNone": "Không nhắc báo",
+  "taskFormNotification30m": "Trước 30 phút",
+  "taskFormNotification1h": "Trước 1 tiếng",
+  "taskFormNotification2h": "Trước 2 tiếng",
+  "taskFormNotification4h": "Trước 4 tiếng",
+  "taskFormNotificationCustom": "Tuỳ chỉnh",
+  "taskFormNotificationCustomLabel": "Báo trước",
+  "taskFormNotificationCustomSuffix": "giờ",
+  "taskFormNotificationCustomRequired": "Vui lòng nhập thời gian",
+  "taskFormNotificationCustomInvalid": "Không hợp lệ",
+  "taskFormNotificationPastError": "Thời gian báo nhắc lùi về quá khứ"
 }

@@ -45,6 +45,8 @@ Future<void> _initCore() async {
   serviceLocator.registerLazySingleton(() => AppDatabase());
 
   serviceLocator.registerLazySingleton(() => ConnectivityService());
+
+  serviceLocator.registerLazySingleton(() => NotificationService());
 }
 
 void _initAuth() {
@@ -117,9 +119,9 @@ void _initAgenda() {
     )
     // Task Use Cases
     ..registerFactory(() => GetTasksByDate(serviceLocator()))
-    ..registerFactory(() => CreateTask(serviceLocator()))
-    ..registerFactory(() => UpdateTask(serviceLocator()))
-    ..registerFactory(() => DeleteTask(serviceLocator()))
+    ..registerFactory(() => CreateTask(serviceLocator(), serviceLocator()))
+    ..registerFactory(() => UpdateTask(serviceLocator(), serviceLocator()))
+    ..registerFactory(() => DeleteTask(serviceLocator(), serviceLocator()))
     ..registerFactory(() => ToggleTaskComplete(serviceLocator()))
     ..registerFactory(() => SearchTasks(serviceLocator()))
     ..registerFactory(() => SyncTasks(serviceLocator()))

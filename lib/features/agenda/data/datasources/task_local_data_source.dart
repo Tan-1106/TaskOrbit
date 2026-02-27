@@ -39,9 +39,17 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
     final startOfDay = DateTime(date.year, date.month, date.day);
     final endOfDay = startOfDay.add(const Duration(days: 1));
 
-    final rows = await (db.select(
-      db.tasks,
-    )..where((t) => t.userId.equals(userId) & t.date.isBiggerOrEqualValue(startOfDay) & t.date.isSmallerThanValue(endOfDay) & t.isDeleted.equals(false))).get();
+    final rows =
+        await (db.select(
+              db.tasks,
+            )..where(
+              (t) =>
+                  t.userId.equals(userId) &
+                  t.date.isBiggerOrEqualValue(startOfDay) &
+                  t.date.isSmallerThanValue(endOfDay) &
+                  t.isDeleted.equals(false),
+            ))
+            .get();
 
     return rows.map(_taskFromRow).toList();
   }
@@ -53,7 +61,9 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
 
   @override
   Future<void> updateTask(domain.Task task) async {
-    await (db.update(db.tasks)..where((t) => t.id.equals(task.id))).write(_taskToCompanion(task));
+    await (db.update(
+      db.tasks,
+    )..where((t) => t.id.equals(task.id))).write(_taskToCompanion(task));
   }
 
   @override
@@ -69,19 +79,25 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
 
   @override
   Future<domain.Task?> getTaskById(String taskId) async {
-    final row = await (db.select(db.tasks)..where((t) => t.id.equals(taskId))).getSingleOrNull();
+    final row = await (db.select(
+      db.tasks,
+    )..where((t) => t.id.equals(taskId))).getSingleOrNull();
     return row != null ? _taskFromRow(row) : null;
   }
 
   @override
   Future<List<domain.Task>> getUnsyncedTasks(String userId) async {
-    final rows = await (db.select(db.tasks)..where((t) => t.userId.equals(userId) & t.isSynced.equals(false))).get();
+    final rows = await (db.select(
+      db.tasks,
+    )..where((t) => t.userId.equals(userId) & t.isSynced.equals(false))).get();
     return rows.map(_taskFromRow).toList();
   }
 
   @override
   Future<void> markAsSynced(String taskId) async {
-    await (db.update(db.tasks)..where((t) => t.id.equals(taskId))).write(const db_schema.TasksCompanion(isSynced: Value(true)));
+    await (db.update(db.tasks)..where((t) => t.id.equals(taskId))).write(
+      const db_schema.TasksCompanion(isSynced: Value(true)),
+    );
   }
 
   @override
@@ -103,10 +119,13 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
     DateTime? fromDate,
     DateTime? toDate,
   }) async {
-    final query = db.select(db.tasks)..where((t) => t.userId.equals(userId) & t.isDeleted.equals(false));
+    final query = db.select(db.tasks)
+      ..where((t) => t.userId.equals(userId) & t.isDeleted.equals(false));
 
     if (keyword != null && keyword.isNotEmpty) {
-      query.where((t) => t.title.contains(keyword) | t.description.contains(keyword));
+      query.where(
+        (t) => t.title.contains(keyword) | t.description.contains(keyword),
+      );
     }
     if (categoryId != null) {
       query.where((t) => t.categoryId.equals(categoryId));
@@ -118,7 +137,9 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
       query.where((t) => t.date.isBiggerOrEqualValue(fromDate));
     }
     if (toDate != null) {
-      query.where((t) => t.date.isSmallerThanValue(toDate.add(const Duration(days: 1))));
+      query.where(
+        (t) => t.date.isSmallerThanValue(toDate.add(const Duration(days: 1))),
+      );
     }
 
     query.orderBy([(t) => OrderingTerm.asc(t.date)]);
@@ -147,6 +168,7 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
       updatedAt: row.updatedAt,
       isSynced: row.isSynced,
       isDeleted: row.isDeleted,
+      notificationMinutesBefore: row.notificationMinutesBefore,
     );
   }
 
@@ -166,6 +188,7 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
       updatedAt: Value(task.updatedAt),
       isSynced: Value(task.isSynced),
       isDeleted: Value(task.isDeleted),
+      notificationMinutesBefore: Value(task.notificationMinutesBefore),
     );
   }
 }

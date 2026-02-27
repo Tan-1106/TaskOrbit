@@ -7,6 +7,7 @@ import 'package:task_orbit/core/utils/create_theme.dart';
 import 'package:task_orbit/core/config/routes/app_router.dart';
 import 'package:task_orbit/core/common/locale/locale_notifier.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:task_orbit/core/services/notification_service.dart';
 
 import 'package:task_orbit/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:task_orbit/features/agenda/presentation/bloc/agenda_bloc.dart';
@@ -15,6 +16,11 @@ import 'package:task_orbit/features/profile/presentation/bloc/profile_bloc.dart'
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
+
+  final notificationService = serviceLocator<NotificationService>();
+  await notificationService.init();
+  await notificationService.requestPermission();
+
   runApp(
     MultiBlocProvider(
       providers: [

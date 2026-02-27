@@ -157,6 +157,7 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
       categoryId: event.categoryId,
       createdAt: now,
       updatedAt: now,
+      notificationMinutesBefore: event.notificationMinutesBefore,
     );
 
     final result = await _createTask(task);
@@ -202,6 +203,7 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
       categoryId: event.categoryId,
       isCompleted: event.isCompleted,
       updatedAt: now,
+      notificationMinutesBefore: event.notificationMinutesBefore,
     );
 
     final result = await _updateTask(updatedTask);

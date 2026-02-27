@@ -57,6 +57,19 @@ class MockIAuthRepository extends _i1.Mock implements _i2.IAuthRepository {
           as _i3.Future<_i4.Either<_i5.Failure, _i6.User>>);
 
   @override
+  _i3.Future<_i4.Either<_i5.Failure, _i6.User>> getCurrentUser() =>
+      (super.noSuchMethod(
+            Invocation.method(#getCurrentUser, []),
+            returnValue: _i3.Future<_i4.Either<_i5.Failure, _i6.User>>.value(
+              _i7.dummyValue<_i4.Either<_i5.Failure, _i6.User>>(
+                this,
+                Invocation.method(#getCurrentUser, []),
+              ),
+            ),
+          )
+          as _i3.Future<_i4.Either<_i5.Failure, _i6.User>>);
+
+  @override
   _i3.Future<_i4.Either<_i5.Failure, _i6.User>> signUp({
     required String? name,
     required String? email,

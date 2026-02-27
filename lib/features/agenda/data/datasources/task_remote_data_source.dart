@@ -113,6 +113,7 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
       isSynced: true,
       // From Firebase = always synced
       isDeleted: false,
+      notificationMinutesBefore: d['notificationMinutesBefore'] as int?,
     );
   }
 
@@ -133,6 +134,8 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
       'isCompleted': task.isCompleted,
       'createdAt': Timestamp.fromDate(task.createdAt),
       'updatedAt': Timestamp.fromDate(task.updatedAt),
+      if (task.notificationMinutesBefore != null)
+        'notificationMinutesBefore': task.notificationMinutesBefore,
     };
   }
 }

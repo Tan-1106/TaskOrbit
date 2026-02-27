@@ -2,6 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:task_orbit/core/error/failure.dart';
 import 'package:task_orbit/core/usecases/usecase.dart';
 import 'package:task_orbit/features/agenda/domain/repository/task_repository.dart';
+import 'package:task_orbit/core/services/notification_service.dart';
 
 class DeleteTaskParams {
   final String taskId;
@@ -12,14 +13,18 @@ class DeleteTaskParams {
 
 class DeleteTask implements UseCase<void, DeleteTaskParams> {
   final ITaskRepository repository;
+  final NotificationService notificationService;
 
-  const DeleteTask(this.repository);
+  const DeleteTask(this.repository, this.notificationService);
 
   @override
   Future<Either<Failure, void>> call(DeleteTaskParams params) async {
-    return await repository.deleteTask(
+    final result = await repository.deleteTask(
       taskId: params.taskId,
       userId: params.userId,
     );
+    return result.map((_) {
+      notificationService.cancelNotification(params.taskId.hashCode);
+    });
   }
 }

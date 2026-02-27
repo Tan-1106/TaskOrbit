@@ -808,6 +808,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to sign out?'**
   String get profileSignOutContent;
+
+  /// No description provided for @taskFormNotificationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me'**
+  String get taskFormNotificationLabel;
+
+  /// No description provided for @taskFormNotificationNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No reminder'**
+  String get taskFormNotificationNone;
+
+  /// No description provided for @taskFormNotification30m.
+  ///
+  /// In en, this message translates to:
+  /// **'30 minutes before'**
+  String get taskFormNotification30m;
+
+  /// No description provided for @taskFormNotification1h.
+  ///
+  /// In en, this message translates to:
+  /// **'1 hour before'**
+  String get taskFormNotification1h;
+
+  /// No description provided for @taskFormNotification2h.
+  ///
+  /// In en, this message translates to:
+  /// **'2 hours before'**
+  String get taskFormNotification2h;
+
+  /// No description provided for @taskFormNotification4h.
+  ///
+  /// In en, this message translates to:
+  /// **'4 hours before'**
+  String get taskFormNotification4h;
+
+  /// No description provided for @taskFormNotificationCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get taskFormNotificationCustom;
+
+  /// No description provided for @taskFormNotificationCustomLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours before'**
+  String get taskFormNotificationCustomLabel;
+
+  /// No description provided for @taskFormNotificationCustomSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'hours'**
+  String get taskFormNotificationCustomSuffix;
+
+  /// No description provided for @taskFormNotificationCustomRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a value'**
+  String get taskFormNotificationCustomRequired;
+
+  /// No description provided for @taskFormNotificationCustomInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid value'**
+  String get taskFormNotificationCustomInvalid;
+
+  /// No description provided for @taskFormNotificationPastError.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification time cannot be in the past'**
+  String get taskFormNotificationPastError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

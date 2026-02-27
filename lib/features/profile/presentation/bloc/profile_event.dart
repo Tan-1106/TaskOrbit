@@ -5,6 +5,8 @@ sealed class ProfileEvent {}
 
 final class ProfileLoadRequested extends ProfileEvent {}
 
+final class ProfileReloadRequested extends ProfileEvent {}
+
 final class ProfilePeriodChanged extends ProfileEvent {
   final PeriodType periodType;
   final int year;
