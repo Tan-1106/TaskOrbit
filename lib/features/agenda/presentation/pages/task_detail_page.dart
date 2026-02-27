@@ -17,32 +17,66 @@ class TaskDetailPage extends StatefulWidget {
   State<TaskDetailPage> createState() => _TaskDetailPageState();
 }
 
+enum _TaskDetailAction { edit, delete }
+
 class _TaskDetailPageState extends State<TaskDetailPage> {
+  _TaskDetailAction? _activeAction;
+
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _setShellActions();
+    });
+  }
+
+  Future<void> _dismissCurrentAction() async {
+    if (_activeAction != null && mounted) {
+      Navigator.of(context).pop();
+      await Future.delayed(const Duration(milliseconds: 50));
+    }
+  }
+
+  void _setShellActions() {
     final l10n = AppLocalizations.of(context)!;
     final shellActions = ShellActionsScope.of(context);
-
     shellActions.setActions([
       IconButton(
         icon: const Icon(Icons.edit_outlined),
         tooltip: l10n.taskDetailEditTooltip,
-        onPressed: () => _showEditSheet(context, l10n),
+        onPressed: () async {
+          if (_activeAction == _TaskDetailAction.edit) return;
+          await _dismissCurrentAction();
+          if (!mounted) return;
+          setState(() => _activeAction = _TaskDetailAction.edit);
+          await _showEditSheet(context, l10n);
+          if (mounted) {
+            setState(() {
+              if (_activeAction == _TaskDetailAction.edit) _activeAction = null;
+            });
+          }
+        },
       ),
       IconButton(
         icon: const Icon(Icons.delete_outlined),
         tooltip: l10n.taskDetailDeleteTooltip,
-        onPressed: () => _showDeleteDialog(context, l10n),
+        onPressed: () async {
+          if (_activeAction == _TaskDetailAction.delete) return;
+          await _dismissCurrentAction();
+          if (!mounted) return;
+          setState(() => _activeAction = _TaskDetailAction.delete);
+          await _showDeleteDialog(context, l10n);
+          if (mounted) {
+            setState(() {
+              if (_activeAction == _TaskDetailAction.delete) {
+                _activeAction = null;
+              }
+            });
+          }
+        },
       ),
     ]);
     shellActions.setFab(null);
-  }
-
-  @override
-  void dispose() {
-    ShellActionsScope.of(context).clear();
-    super.dispose();
   }
 
   @override
@@ -61,8 +95,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             task.title,
             style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
-              decoration:
-                  task.isCompleted ? TextDecoration.lineThrough : null,
+              decoration: task.isCompleted ? TextDecoration.lineThrough : null,
             ),
           ),
           const SizedBox(height: 12),
@@ -129,7 +162,10 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     );
   }
 
-  void _showEditSheet(BuildContext context, AppLocalizations l10n) async {
+  Future<void> _showEditSheet(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) async {
     final state = context.read<AgendaBloc>().state;
     final result = await showModalBottomSheet<Map<String, dynamic>>(
       context: context,
@@ -151,50 +187,55 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     );
 
     if (result != null && context.mounted) {
-      _showConfirmDialog(
+      await _showConfirmDialog(
         context,
         title: l10n.taskDetailConfirmEdit,
         content: l10n.taskDetailConfirmEditContent,
         onConfirm: () {
-          context.read<AgendaBloc>().add(AgendaUpdateTask(
-                taskId: widget.task.id,
-                title: result['title'] as String,
-                description: result['description'] as String?,
-                date: result['date'] as DateTime,
-                startTime: result['startTime'] as DateTime?,
-                endTime: result['endTime'] as DateTime?,
-                isAllDay: result['isAllDay'] as bool,
-                categoryId: result['categoryId'] as String?,
-                isCompleted: widget.task.isCompleted,
-              ));
+          context.read<AgendaBloc>().add(
+            AgendaUpdateTask(
+              taskId: widget.task.id,
+              title: result['title'] as String,
+              description: result['description'] as String?,
+              date: result['date'] as DateTime,
+              startTime: result['startTime'] as DateTime?,
+              endTime: result['endTime'] as DateTime?,
+              isAllDay: result['isAllDay'] as bool,
+              categoryId: result['categoryId'] as String?,
+              isCompleted: widget.task.isCompleted,
+            ),
+          );
           context.pop(); // Go back to AgendaPage
         },
       );
     }
   }
 
-  void _showDeleteDialog(BuildContext context, AppLocalizations l10n) {
-    _showConfirmDialog(
+  Future<void> _showDeleteDialog(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) async {
+    await _showConfirmDialog(
       context,
       title: l10n.taskDetailDeleteTitle,
       content: l10n.taskDetailDeleteContent(widget.task.title),
       onConfirm: () {
-        context
-            .read<AgendaBloc>()
-            .add(AgendaDeleteTask(taskId: widget.task.id));
+        context.read<AgendaBloc>().add(
+          AgendaDeleteTask(taskId: widget.task.id),
+        );
         context.pop();
       },
     );
   }
 
-  void _showConfirmDialog(
+  Future<void> _showConfirmDialog(
     BuildContext context, {
     required String title,
     required String content,
     required VoidCallback onConfirm,
-  }) {
+  }) async {
     final l10n = AppLocalizations.of(context)!;
-    showDialog(
+    await showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(title),

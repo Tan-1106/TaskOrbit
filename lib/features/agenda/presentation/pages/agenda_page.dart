@@ -20,7 +20,13 @@ class AgendaPage extends StatefulWidget {
   State<AgendaPage> createState() => _AgendaPageState();
 }
 
+enum _AgendaAction { addTask, filter, categoryManagement }
+
 class _AgendaPageState extends State<AgendaPage> {
+  bool _actionsInitialized = false;
+
+  _AgendaAction? _activeAction;
+
   @override
   void initState() {
     super.initState();
@@ -31,25 +37,77 @@ class _AgendaPageState extends State<AgendaPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Inject action buttons + FAB into the parent shell
+    if (!_actionsInitialized) {
+      _actionsInitialized = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _setShellActions();
+      });
+    }
+  }
+
+  Future<void> _dismissCurrentAction() async {
+    if (_activeAction != null && mounted) {
+      Navigator.of(context).pop();
+      await Future.delayed(const Duration(milliseconds: 50));
+    }
+  }
+
+  void _setShellActions() {
     final l10n = AppLocalizations.of(context)!;
     final shellActions = ShellActionsScope.of(context);
     shellActions.setActions([
       IconButton(
         icon: const Icon(Icons.label),
         tooltip: l10n.agendaManageCategories,
-        onPressed: () => _showCategoryManagement(context),
+        onPressed: () async {
+          if (_activeAction == _AgendaAction.categoryManagement) return;
+          await _dismissCurrentAction();
+          if (!mounted) return;
+          setState(() => _activeAction = _AgendaAction.categoryManagement);
+          await _showCategoryManagement(context);
+          if (mounted) {
+            setState(() {
+              if (_activeAction == _AgendaAction.categoryManagement) {
+                _activeAction = null;
+              }
+            });
+          }
+        },
       ),
       IconButton(
         icon: const Icon(Icons.filter_list),
         tooltip: l10n.agendaFilter,
-        onPressed: () => _showFilterDialog(context),
+        onPressed: () async {
+          if (_activeAction == _AgendaAction.filter) return;
+          await _dismissCurrentAction();
+          if (!mounted) return;
+          setState(() => _activeAction = _AgendaAction.filter);
+          await _showFilterDialog(context);
+          if (mounted) {
+            setState(() {
+              if (_activeAction == _AgendaAction.filter) _activeAction = null;
+            });
+          }
+        },
       ),
     ]);
-    shellActions.setFab(FloatingActionButton(
-      onPressed: () => _showAddTaskSheet(context),
-      child: const Icon(Icons.add),
-    ));
+    shellActions.setFab(
+      FloatingActionButton(
+        onPressed: () async {
+          if (_activeAction == _AgendaAction.addTask) return;
+          await _dismissCurrentAction();
+          if (!mounted) return;
+          setState(() => _activeAction = _AgendaAction.addTask);
+          await _showAddTaskSheet(context);
+          if (mounted) {
+            setState(() {
+              if (_activeAction == _AgendaAction.addTask) _activeAction = null;
+            });
+          }
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 
   @override
@@ -86,14 +144,12 @@ class _AgendaPageState extends State<AgendaPage> {
               selectedDate: state.selectedDate,
               currentMonth: state.currentMonth,
               onDateSelected: (date) {
-                context
-                    .read<AgendaBloc>()
-                    .add(AgendaDateChanged(date: date));
+                context.read<AgendaBloc>().add(AgendaDateChanged(date: date));
               },
               onMonthChanged: (month) {
-                context
-                    .read<AgendaBloc>()
-                    .add(AgendaMonthChanged(month: month));
+                context.read<AgendaBloc>().add(
+                  AgendaMonthChanged(month: month),
+                );
               },
             ),
             const Divider(height: 1),
@@ -103,52 +159,47 @@ class _AgendaPageState extends State<AgendaPage> {
               child: state is AgendaLoading
                   ? const Center(child: CircularProgressIndicator())
                   : state.tasks.isEmpty
-                      ? Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.event_available,
-                                size: 64,
-                                color: theme.colorScheme.onSurfaceVariant
-                                    .withValues(alpha: 0.4),
-                              ),
-                              const SizedBox(height: 16),
-                              Text(
-                                l10n.agendaNoTasks,
-                                style:
-                                    theme.textTheme.bodyLarge?.copyWith(
-                                  color:
-                                      theme.colorScheme.onSurfaceVariant,
-                                ),
-                              ),
-                            ],
+                  ? Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.event_available,
+                            size: 64,
+                            color: theme.colorScheme.onSurfaceVariant
+                                .withValues(alpha: 0.4),
                           ),
-                        )
-                      : ListView.builder(
-                          padding:
-                              const EdgeInsets.symmetric(vertical: 8),
-                          itemCount: state.tasks.length,
-                          itemBuilder: (context, index) {
-                            final task = state.tasks[index];
-                            final category = task.categoryId != null
-                                ? state.categories
-                                    .where(
-                                        (c) => c.id == task.categoryId)
-                                    .firstOrNull
-                                : null;
+                          const SizedBox(height: 16),
+                          Text(
+                            l10n.agendaNoTasks,
+                            style: theme.textTheme.bodyLarge?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      itemCount: state.tasks.length,
+                      itemBuilder: (context, index) {
+                        final task = state.tasks[index];
+                        final category = task.categoryId != null
+                            ? state.categories
+                                  .where((c) => c.id == task.categoryId)
+                                  .firstOrNull
+                            : null;
 
-                            return TaskCard(
-                              task: task,
-                              category: category,
-                              onTap: () =>
-                                  _openTaskDetail(context, task),
-                              onToggleComplete: (_) {
-                                _showToggleConfirm(context, task);
-                              },
-                            );
+                        return TaskCard(
+                          task: task,
+                          category: category,
+                          onTap: () => _openTaskDetail(context, task),
+                          onToggleComplete: (_) {
+                            _showToggleConfirm(context, task);
                           },
-                        ),
+                        );
+                      },
+                    ),
             ),
           ],
         );
@@ -156,7 +207,7 @@ class _AgendaPageState extends State<AgendaPage> {
     );
   }
 
-  void _showAddTaskSheet(BuildContext context) async {
+  Future<void> _showAddTaskSheet(BuildContext context) async {
     final state = context.read<AgendaBloc>().state;
     final result = await showModalBottomSheet<Map<String, dynamic>>(
       context: context,
@@ -171,20 +222,24 @@ class _AgendaPageState extends State<AgendaPage> {
     );
 
     if (result != null && context.mounted) {
-      context.read<AgendaBloc>().add(AgendaCreateTask(
-            title: result['title'] as String,
-            description: result['description'] as String?,
-            date: result['date'] as DateTime,
-            startTime: result['startTime'] as DateTime?,
-            endTime: result['endTime'] as DateTime?,
-            isAllDay: result['isAllDay'] as bool,
-            categoryId: result['categoryId'] as String?,
-          ));
+      context.read<AgendaBloc>().add(
+        AgendaCreateTask(
+          title: result['title'] as String,
+          description: result['description'] as String?,
+          date: result['date'] as DateTime,
+          startTime: result['startTime'] as DateTime?,
+          endTime: result['endTime'] as DateTime?,
+          isAllDay: result['isAllDay'] as bool,
+          categoryId: result['categoryId'] as String?,
+        ),
+      );
     }
   }
 
-  void _openTaskDetail(BuildContext context, task) {
-    context.push('/agenda/task-detail', extra: task);
+  Future<void> _openTaskDetail(BuildContext context, task) async {
+    await context.push('/agenda/task-detail', extra: task);
+    // Restore AgendaPage's actions after returning from TaskDetailPage
+    if (mounted) _setShellActions();
   }
 
   void _showToggleConfirm(BuildContext context, task) {
@@ -207,8 +262,8 @@ class _AgendaPageState extends State<AgendaPage> {
             onPressed: () {
               Navigator.of(ctx).pop();
               context.read<AgendaBloc>().add(
-                    AgendaToggleTaskComplete(taskId: task.id),
-                  );
+                AgendaToggleTaskComplete(taskId: task.id),
+              );
             },
             child: Text(l10n.dialogConfirmButton),
           ),
@@ -217,7 +272,7 @@ class _AgendaPageState extends State<AgendaPage> {
     );
   }
 
-  void _showFilterDialog(BuildContext context) async {
+  Future<void> _showFilterDialog(BuildContext context) async {
     final state = context.read<AgendaBloc>().state;
     final result = await showDialog<TaskFilter>(
       context: context,
@@ -229,8 +284,8 @@ class _AgendaPageState extends State<AgendaPage> {
     }
   }
 
-  void _showCategoryManagement(BuildContext context) {
-    showModalBottomSheet(
+  Future<void> _showCategoryManagement(BuildContext context) async {
+    await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
