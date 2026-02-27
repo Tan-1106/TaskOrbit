@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/get_tasks_for_period.dart';
 import 'package:task_orbit/features/authentication/domain/usecases/change_password.dart';
+import 'package:task_orbit/features/authentication/domain/usecases/get_current_user.dart';
+import 'package:task_orbit/core/usecases/usecase.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
@@ -12,14 +14,17 @@ enum PeriodType { month, year }
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetTasksForPeriod _getTasksForPeriod;
   final ChangePassword _changePassword;
+  final GetCurrentUser _getCurrentUser;
   final FirebaseAuth _firebaseAuth;
 
   ProfileBloc({
     required GetTasksForPeriod getTasksForPeriod,
     required ChangePassword changePassword,
+    required GetCurrentUser getCurrentUser,
     required FirebaseAuth firebaseAuth,
   }) : _getTasksForPeriod = getTasksForPeriod,
        _changePassword = changePassword,
+       _getCurrentUser = getCurrentUser,
        _firebaseAuth = firebaseAuth,
        super(const ProfileState()) {
     on<ProfileLoadRequested>(_onLoad);
@@ -36,8 +41,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) async {
     final firebaseUser = _firebaseAuth.currentUser;
     final now = DateTime.now();
+
+    final userResult = await _getCurrentUser(NoParams());
+    final userName = userResult.fold(
+      (_) => firebaseUser?.displayName ?? '',
+      (user) => user.name,
+    );
+
     final initialState = state.copyWith(
-      userName: firebaseUser?.displayName ?? '',
+      userName: userName,
       userEmail: firebaseUser?.email ?? '',
       periodType: PeriodType.month,
       selectedYear: now.year,

@@ -64,6 +64,11 @@ void _initAuth() {
     )
     // Use cases
     ..registerFactory(
+      () => GetCurrentUser(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory(
       () => UserSignUp(
         serviceLocator(),
       ),
@@ -158,10 +163,11 @@ void _initAgenda() {
 }
 
 void _initProfile() {
-  serviceLocator.registerLazySingleton(
+  serviceLocator.registerFactory<ProfileBloc>(
     () => ProfileBloc(
       getTasksForPeriod: serviceLocator(),
       changePassword: serviceLocator(),
+      getCurrentUser: serviceLocator(),
       firebaseAuth: serviceLocator(),
     ),
   );

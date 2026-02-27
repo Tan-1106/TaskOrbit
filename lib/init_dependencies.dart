@@ -19,6 +19,7 @@ import 'package:task_orbit/features/authentication/domain/usecases/forgot_passwo
 import 'package:task_orbit/features/authentication/domain/usecases/user_login.dart';
 import 'package:task_orbit/features/authentication/domain/usecases/user_sign_up.dart';
 import 'package:task_orbit/features/authentication/domain/usecases/change_password.dart';
+import 'package:task_orbit/features/authentication/domain/usecases/get_current_user.dart';
 import 'package:task_orbit/features/authentication/presentation/bloc/auth_bloc.dart';
 
 // Agenda Feature
