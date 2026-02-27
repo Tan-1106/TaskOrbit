@@ -32,8 +32,10 @@ class TaskRepositoryImpl implements ITaskRepository {
       if (isOnline) {
         // Fetch from Firebase and merge into local DB
         try {
-          final remoteTasks =
-              await remoteDataSource.getTasksByDate(userId, date);
+          final remoteTasks = await remoteDataSource.getTasksByDate(
+            userId,
+            date,
+          );
           if (remoteTasks.isNotEmpty) {
             await localDataSource.insertAll(
               remoteTasks.map((t) => t.copyWith(isSynced: true)).toList(),
@@ -46,6 +48,38 @@ class TaskRepositoryImpl implements ITaskRepository {
 
       // Always return from local DB (single source of truth)
       final tasks = await localDataSource.getTasksByDate(userId, date);
+      return right(tasks);
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Task>>> getTasksForPeriod({
+    required String userId,
+    required DateTime from,
+    required DateTime to,
+  }) async {
+    try {
+      final isOnline = await connectivityService.isConnected;
+      if (isOnline) {
+        try {
+          final remoteTasks = await remoteDataSource.getTasksInRange(
+            userId,
+            from,
+            to,
+          );
+          return right(remoteTasks);
+        } catch (_) {
+          // Fall through to local
+        }
+      }
+      // Offline fallback: use local search by date range
+      final tasks = await localDataSource.searchTasks(
+        userId,
+        fromDate: from,
+        toDate: to,
+      );
       return right(tasks);
     } catch (e) {
       return left(Failure(e.toString()));

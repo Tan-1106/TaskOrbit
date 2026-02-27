@@ -17,6 +17,7 @@ import 'package:task_orbit/features/authentication/domain/repository/auth_reposi
 import 'package:task_orbit/features/authentication/domain/usecases/forgot_password.dart';
 import 'package:task_orbit/features/authentication/domain/usecases/user_login.dart';
 import 'package:task_orbit/features/authentication/domain/usecases/user_sign_up.dart';
+import 'package:task_orbit/features/authentication/domain/usecases/change_password.dart';
 import 'package:task_orbit/features/authentication/presentation/bloc/auth_bloc.dart';
 
 // Agenda Feature
@@ -33,6 +34,7 @@ import 'package:task_orbit/features/agenda/domain/usecases/delete_task.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/toggle_task_complete.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/search_tasks.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/sync_tasks.dart';
+import 'package:task_orbit/features/agenda/domain/usecases/get_tasks_for_period.dart';
 import 'package:task_orbit/features/agenda/data/datasources/category_local_data_source.dart';
 import 'package:task_orbit/features/agenda/data/datasources/category_remote_data_source.dart';
 import 'package:task_orbit/features/agenda/data/repositories/category_repository_impl.dart';
@@ -41,5 +43,8 @@ import 'package:task_orbit/features/agenda/domain/usecases/get_categories.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/create_category.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/delete_category.dart';
 import 'package:task_orbit/features/agenda/presentation/bloc/agenda_bloc.dart';
+
+// Profile Feature
+import 'package:task_orbit/features/profile/presentation/bloc/profile_bloc.dart';
 
 part 'init_dependencies.main.dart';

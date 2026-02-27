@@ -24,19 +24,29 @@ enum _AgendaAction { addTask, filter, categoryManagement }
 
 class _AgendaPageState extends State<AgendaPage> {
   bool _actionsInitialized = false;
+  bool _initialLoadDone = false;
 
   _AgendaAction? _activeAction;
 
   @override
   void initState() {
     super.initState();
-    context.read<AgendaBloc>().add(AgendaLoadTasks(date: DateTime.now()));
-    context.read<AgendaBloc>().add(AgendaLoadCategories());
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if (!_initialLoadDone) {
+      _initialLoadDone = true;
+      // Support navigating to a specific date (e.g. from Profile task stats).
+      // GoRouterState.extra carries a DateTime when coming from ProfilePage.
+      final routerState = GoRouterState.of(context);
+      final initialDate = (routerState.extra is DateTime)
+          ? routerState.extra as DateTime
+          : DateTime.now();
+      context.read<AgendaBloc>().add(AgendaLoadTasks(date: initialDate));
+      context.read<AgendaBloc>().add(AgendaLoadCategories());
+    }
     if (!_actionsInitialized) {
       _actionsInitialized = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {

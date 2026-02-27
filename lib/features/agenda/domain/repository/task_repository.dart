@@ -50,6 +50,13 @@ abstract interface class ITaskRepository {
     required TaskFilter filter,
   });
 
+  /// Get all tasks in a date range (for profile statistics)
+  Future<Either<Failure, List<Task>>> getTasksForPeriod({
+    required String userId,
+    required DateTime from,
+    required DateTime to,
+  });
+
   /// Sync all pending local changes to Firebase
   Future<Either<Failure, void>> syncPendingChanges({required String userId});
 }

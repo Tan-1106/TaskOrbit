@@ -17,4 +17,9 @@ abstract interface class IAuthRepository {
   Future<Either<Failure, void>> forgotPassword({
     required String email,
   });
+
+  Future<Either<Failure, void>> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  });
 }

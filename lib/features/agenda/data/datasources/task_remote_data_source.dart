@@ -11,6 +11,12 @@ abstract interface class TaskRemoteDataSource {
   Future<void> deleteTask(String userId, String taskId);
 
   Future<List<domain.Task>> getAllTasks(String userId);
+
+  Future<List<domain.Task>> getTasksInRange(
+    String userId,
+    DateTime from,
+    DateTime to,
+  );
 }
 
 class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
@@ -27,9 +33,16 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     final startOfDay = DateTime(date.year, date.month, date.day);
     final endOfDay = startOfDay.add(const Duration(days: 1));
 
-    final snapshot = await _tasksRef(
-      userId,
-    ).where('date', isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay)).where('date', isLessThan: Timestamp.fromDate(endOfDay)).get();
+    final snapshot =
+        await _tasksRef(
+              userId,
+            )
+            .where(
+              'date',
+              isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay),
+            )
+            .where('date', isLessThan: Timestamp.fromDate(endOfDay))
+            .get();
 
     return snapshot.docs.map((doc) => _taskFromDoc(doc)).toList();
   }
@@ -55,6 +68,25 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     return snapshot.docs.map((doc) => _taskFromDoc(doc)).toList();
   }
 
+  @override
+  Future<List<domain.Task>> getTasksInRange(
+    String userId,
+    DateTime from,
+    DateTime to,
+  ) async {
+    final startOfFrom = DateTime(from.year, from.month, from.day);
+    final endOfTo = DateTime(to.year, to.month, to.day).add(
+      const Duration(days: 1),
+    );
+
+    final snapshot = await _tasksRef(userId)
+        .where('date', isGreaterThanOrEqualTo: Timestamp.fromDate(startOfFrom))
+        .where('date', isLessThan: Timestamp.fromDate(endOfTo))
+        .get();
+
+    return snapshot.docs.map((doc) => _taskFromDoc(doc)).toList();
+  }
+
   // ─────────────────────────────────────
   // Mappers
   // ─────────────────────────────────────
@@ -67,8 +99,12 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
       title: d['title'] as String,
       description: d['description'] as String?,
       date: (d['date'] as Timestamp).toDate(),
-      startTime: d['startTime'] != null ? (d['startTime'] as Timestamp).toDate() : null,
-      endTime: d['endTime'] != null ? (d['endTime'] as Timestamp).toDate() : null,
+      startTime: d['startTime'] != null
+          ? (d['startTime'] as Timestamp).toDate()
+          : null,
+      endTime: d['endTime'] != null
+          ? (d['endTime'] as Timestamp).toDate()
+          : null,
       isAllDay: d['isAllDay'] as bool? ?? false,
       categoryId: d['categoryId'] as String?,
       isCompleted: d['isCompleted'] as bool? ?? false,
@@ -86,8 +122,12 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
       'title': task.title,
       'description': task.description,
       'date': Timestamp.fromDate(task.date),
-      'startTime': task.startTime != null ? Timestamp.fromDate(task.startTime!) : null,
-      'endTime': task.endTime != null ? Timestamp.fromDate(task.endTime!) : null,
+      'startTime': task.startTime != null
+          ? Timestamp.fromDate(task.startTime!)
+          : null,
+      'endTime': task.endTime != null
+          ? Timestamp.fromDate(task.endTime!)
+          : null,
       'isAllDay': task.isAllDay,
       'categoryId': task.categoryId,
       'isCompleted': task.isCompleted,

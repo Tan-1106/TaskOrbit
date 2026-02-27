@@ -8,6 +8,7 @@ import 'package:task_orbit/features/agenda/presentation/pages/agenda_page.dart';
 import 'package:task_orbit/features/agenda/presentation/pages/task_detail_page.dart';
 import 'package:task_orbit/features/agenda/domain/entities/task.dart'
     as task_domain;
+import 'package:task_orbit/features/profile/presentation/pages/profile_page.dart';
 import 'package:task_orbit/init_dependencies.dart';
 import 'package:task_orbit/core/common/layout/app_shell_layout.dart';
 
@@ -89,8 +90,7 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           name: 'profile',
           path: '/profile',
-          builder: (context, state) =>
-              const Center(child: Text('Profile Page')),
+          builder: (context, state) => const ProfilePage(),
         ),
       ],
     ),

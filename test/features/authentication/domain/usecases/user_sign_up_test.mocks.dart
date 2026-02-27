@@ -97,13 +97,22 @@ class MockIAuthRepository extends _i1.Mock implements _i2.IAuthRepository {
           as _i3.Future<_i4.Either<_i5.Failure, void>>);
 
   @override
-  _i3.Future<_i4.Either<_i5.Failure, void>> logout() =>
+  _i3.Future<_i4.Either<_i5.Failure, void>> changePassword({
+    required String? oldPassword,
+    required String? newPassword,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#logout, []),
+            Invocation.method(#changePassword, [], {
+              #oldPassword: oldPassword,
+              #newPassword: newPassword,
+            }),
             returnValue: _i3.Future<_i4.Either<_i5.Failure, void>>.value(
               _i7.dummyValue<_i4.Either<_i5.Failure, void>>(
                 this,
-                Invocation.method(#logout, []),
+                Invocation.method(#changePassword, [], {
+                  #oldPassword: oldPassword,
+                  #newPassword: newPassword,
+                }),
               ),
             ),
           )

@@ -6,6 +6,7 @@ Future<void> initDependencies() async {
   await _initCore();
   _initAuth();
   _initAgenda();
+  _initProfile();
 }
 
 // Initialize Core Modules
@@ -76,6 +77,11 @@ void _initAuth() {
         serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => ChangePassword(
+        serviceLocator(),
+      ),
+    )
     // Bloc
     ..registerLazySingleton(
       () => AuthBloc(
@@ -111,6 +117,7 @@ void _initAgenda() {
     ..registerFactory(() => ToggleTaskComplete(serviceLocator()))
     ..registerFactory(() => SearchTasks(serviceLocator()))
     ..registerFactory(() => SyncTasks(serviceLocator()))
+    ..registerFactory(() => GetTasksForPeriod(serviceLocator()))
     // Category DataSources
     ..registerFactory<CategoryLocalDataSource>(
       () => CategoryLocalDataSourceImpl(serviceLocator()),
@@ -147,4 +154,14 @@ void _initAgenda() {
         connectivityService: serviceLocator(),
       ),
     );
+}
+
+void _initProfile() {
+  serviceLocator.registerLazySingleton(
+    () => ProfileBloc(
+      getTasksForPeriod: serviceLocator(),
+      changePassword: serviceLocator(),
+      firebaseAuth: serviceLocator(),
+    ),
+  );
 }

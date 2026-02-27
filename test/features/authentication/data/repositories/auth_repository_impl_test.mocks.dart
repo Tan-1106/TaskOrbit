@@ -105,9 +105,15 @@ class MockAuthRemoteDataSource extends _i1.Mock
           as _i4.Future<_i2.UserModel?>);
 
   @override
-  _i4.Future<void> signOut() =>
+  _i4.Future<void> changePassword({
+    required String? oldPassword,
+    required String? newPassword,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#signOut, []),
+            Invocation.method(#changePassword, [], {
+              #oldPassword: oldPassword,
+              #newPassword: newPassword,
+            }),
             returnValue: _i4.Future<void>.value(),
             returnValueForMissingStub: _i4.Future<void>.value(),
           )

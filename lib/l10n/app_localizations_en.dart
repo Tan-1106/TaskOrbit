@@ -286,4 +286,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dialogDeleteButton => 'Delete';
+
+  @override
+  String get profileNamePlaceholder => 'No name';
+
+  @override
+  String get profileSecurityTitle => 'Security';
+
+  @override
+  String get profileChangePassword => 'Change Password';
+
+  @override
+  String get profileOldPasswordLabel => 'Current Password';
+
+  @override
+  String get profileNewPasswordLabel => 'New Password';
+
+  @override
+  String get profileConfirmPasswordLabel => 'Confirm New Password';
+
+  @override
+  String get profilePasswordRequired => 'Password is required';
+
+  @override
+  String get profilePasswordMinLength => 'Password must be at least 6 characters';
+
+  @override
+  String get profilePasswordMismatch => 'Passwords do not match';
+
+  @override
+  String get profileChangePasswordButton => 'Update Password';
+
+  @override
+  String get profileChangePasswordSuccess => 'Password updated successfully';
+
+  @override
+  String get profileChangePasswordError => 'Failed to update password';
+
+  @override
+  String get profileStatsTitle => 'Task Statistics';
+
+  @override
+  String get profilePeriodMonth => 'Month';
+
+  @override
+  String get profilePeriodYear => 'Year';
+
+  @override
+  String get profileStatsCompleted => 'Completed';
+
+  @override
+  String get profileStatsIncomplete => 'Incomplete';
+
+  @override
+  String get profileStatsMissed => 'Missed';
+
+  @override
+  String get profileSignOut => 'Sign Out';
+
+  @override
+  String get profileSignOutTitle => 'Sign Out';
+
+  @override
+  String get profileSignOutContent => 'Are you sure you want to sign out?';
 }

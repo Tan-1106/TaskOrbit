@@ -114,5 +114,27 @@
 
   "dialogCancelButton": "Cancel",
   "dialogConfirmButton": "Confirm",
-  "dialogDeleteButton": "Delete"
+  "dialogDeleteButton": "Delete",
+
+  "profileNamePlaceholder": "No name",
+  "profileSecurityTitle": "Security",
+  "profileChangePassword": "Change Password",
+  "profileOldPasswordLabel": "Current Password",
+  "profileNewPasswordLabel": "New Password",
+  "profileConfirmPasswordLabel": "Confirm New Password",
+  "profilePasswordRequired": "Password is required",
+  "profilePasswordMinLength": "Password must be at least 6 characters",
+  "profilePasswordMismatch": "Passwords do not match",
+  "profileChangePasswordButton": "Update Password",
+  "profileChangePasswordSuccess": "Password updated successfully",
+  "profileChangePasswordError": "Failed to update password",
+  "profileStatsTitle": "Task Statistics",
+  "profilePeriodMonth": "Month",
+  "profilePeriodYear": "Year",
+  "profileStatsCompleted": "Completed",
+  "profileStatsIncomplete": "Incomplete",
+  "profileStatsMissed": "Missed",
+  "profileSignOut": "Sign Out",
+  "profileSignOutTitle": "Sign Out",
+  "profileSignOutContent": "Are you sure you want to sign out?"
 }

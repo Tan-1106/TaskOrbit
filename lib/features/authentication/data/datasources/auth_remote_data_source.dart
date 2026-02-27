@@ -20,6 +20,11 @@ abstract interface class AuthRemoteDataSource {
   });
 
   Future<UserModel?> getCurrentUserData();
+
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  });
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -126,6 +131,29 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       await firebaseAuth.sendPasswordResetEmail(email: email);
     } on firebase.FirebaseAuthException catch (e) {
       throw ServerException(e.message ?? 'Failed to send reset email');
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    try {
+      final user = firebaseAuth.currentUser;
+      if (user == null) throw const ServerException('No authenticated user');
+
+      final credential = firebase.EmailAuthProvider.credential(
+        email: user.email!,
+        password: oldPassword,
+      );
+
+      await user.reauthenticateWithCredential(credential);
+      await user.updatePassword(newPassword);
+    } on firebase.FirebaseAuthException catch (e) {
+      throw ServerException(e.message ?? 'Failed to change password');
     } catch (e) {
       throw ServerException(e.toString());
     }

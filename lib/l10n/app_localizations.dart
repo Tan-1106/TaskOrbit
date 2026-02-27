@@ -638,6 +638,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get dialogDeleteButton;
+
+  /// No description provided for @profileNamePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'No name'**
+  String get profileNamePlaceholder;
+
+  /// No description provided for @profileSecurityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get profileSecurityTitle;
+
+  /// No description provided for @profileChangePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get profileChangePassword;
+
+  /// No description provided for @profileOldPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Password'**
+  String get profileOldPasswordLabel;
+
+  /// No description provided for @profileNewPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get profileNewPasswordLabel;
+
+  /// No description provided for @profileConfirmPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm New Password'**
+  String get profileConfirmPasswordLabel;
+
+  /// No description provided for @profilePasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is required'**
+  String get profilePasswordRequired;
+
+  /// No description provided for @profilePasswordMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get profilePasswordMinLength;
+
+  /// No description provided for @profilePasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get profilePasswordMismatch;
+
+  /// No description provided for @profileChangePasswordButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Password'**
+  String get profileChangePasswordButton;
+
+  /// No description provided for @profileChangePasswordSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Password updated successfully'**
+  String get profileChangePasswordSuccess;
+
+  /// No description provided for @profileChangePasswordError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update password'**
+  String get profileChangePasswordError;
+
+  /// No description provided for @profileStatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Statistics'**
+  String get profileStatsTitle;
+
+  /// No description provided for @profilePeriodMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get profilePeriodMonth;
+
+  /// No description provided for @profilePeriodYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get profilePeriodYear;
+
+  /// No description provided for @profileStatsCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get profileStatsCompleted;
+
+  /// No description provided for @profileStatsIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Incomplete'**
+  String get profileStatsIncomplete;
+
+  /// No description provided for @profileStatsMissed.
+  ///
+  /// In en, this message translates to:
+  /// **'Missed'**
+  String get profileStatsMissed;
+
+  /// No description provided for @profileSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get profileSignOut;
+
+  /// No description provided for @profileSignOutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get profileSignOutTitle;
+
+  /// No description provided for @profileSignOutContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get profileSignOutContent;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
