@@ -57,16 +57,30 @@ class _SignUpPageState extends State<SignUpPage> {
 
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state is AuthFailure) {
+            if (state is AuthEmailAlreadyExists) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(l10n.signUpEmailAlreadyExists),
+                  backgroundColor: Theme.of(context).colorScheme.error,
+                ),
+              );
+            } else if (state is AuthFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),
+              );
+            } else if (state is AuthVerificationEmailSent) {
+              context.push(
+                '/email-verification',
+                extra: {'email': state.email, 'name': state.name},
               );
             }
           },
           builder: (context, state) {
             if (state is AuthLoading) {
               return Center(
-                child: CircularProgressIndicator(color: Theme.of(context).colorScheme.onPrimary),
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               );
             }
 
@@ -89,8 +103,13 @@ class _SignUpPageState extends State<SignUpPage> {
 
                       TextFormField(
                         controller: _nameController,
-                        decoration: _inputDecoration(l10n.signUpNameLabel, Icons.person),
-                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                        decoration: _inputDecoration(
+                          l10n.signUpNameLabel,
+                          Icons.person,
+                        ),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return l10n.signUpNameRequired;
@@ -101,8 +120,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _emailController,
-                        decoration: _inputDecoration(l10n.signUpEmailLabel, Icons.email),
-                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                        decoration: _inputDecoration(
+                          l10n.signUpEmailLabel,
+                          Icons.email,
+                        ),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return l10n.signUpEmailRequired;
@@ -117,8 +141,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       TextFormField(
                         controller: _passwordController,
                         obscureText: true,
-                        decoration: _inputDecoration(l10n.signUpPasswordLabel, Icons.lock),
-                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                        decoration: _inputDecoration(
+                          l10n.signUpPasswordLabel,
+                          Icons.lock,
+                        ),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return l10n.signUpPasswordRequired;
@@ -135,8 +164,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         onPressed: _onSignUp,
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(double.infinity, 50),
-                          backgroundColor: Theme.of(context).colorScheme.onPrimary,
-                          foregroundColor: Theme.of(context).colorScheme.primary,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.onPrimary,
+                          foregroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -155,19 +188,27 @@ class _SignUpPageState extends State<SignUpPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            AppLocalizations.of(context)!.signUpAlreadyHaveAccount,
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            ),
+                            AppLocalizations.of(
+                              context,
+                            )!.signUpAlreadyHaveAccount,
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimary,
+                                ),
                           ),
                           GestureDetector(
-                            onTap: () => context.pop(),
+                            onTap: () => context.go('/sign-in'),
                             child: Text(
                               AppLocalizations.of(context)!.signUpSignIn,
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
                           ),
                         ],

@@ -30,3 +30,13 @@ final class AuthForgotPasswordRequested extends AuthEvent {
 
   AuthForgotPasswordRequested({required this.email});
 }
+
+final class AuthSendVerificationEmailRequested extends AuthEvent {}
+
+final class AuthCheckEmailVerifiedRequested extends AuthEvent {
+  final String name;
+
+  AuthCheckEmailVerifiedRequested({required this.name});
+}
+
+final class AuthDeleteUnverifiedUserRequested extends AuthEvent {}

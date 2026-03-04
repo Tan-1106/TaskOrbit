@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:task_orbit/core/database/app_database.dart' as db_schema;
-import 'package:task_orbit/features/pomodoro/domain/entities/pomodoro_preset.dart' as domain;
+import 'package:task_orbit/features/pomodoro/domain/entities/pomodoro_preset.dart'
+    as domain;
 
 abstract interface class PomodoroPresetLocalDataSource {
   Future<List<domain.PomodoroPreset>> getPresets(String userId);
@@ -13,10 +14,13 @@ abstract interface class PomodoroPresetLocalDataSource {
 
   Future<List<domain.PomodoroPreset>> getUnsyncedPresets(String userId);
 
+  Future<void> migrateGuestData(String newUserId);
+
   Future<void> insertAll(List<domain.PomodoroPreset> presets);
 }
 
-class PomodoroPresetLocalDataSourceImpl implements PomodoroPresetLocalDataSource {
+class PomodoroPresetLocalDataSourceImpl
+    implements PomodoroPresetLocalDataSource {
   final db_schema.AppDatabase db;
 
   const PomodoroPresetLocalDataSourceImpl(this.db);
@@ -33,7 +37,9 @@ class PomodoroPresetLocalDataSourceImpl implements PomodoroPresetLocalDataSource
 
   @override
   Future<void> insertPreset(domain.PomodoroPreset preset) async {
-    await db.into(db.pomodoroPresets).insertOnConflictUpdate(_presetToCompanion(preset));
+    await db
+        .into(db.pomodoroPresets)
+        .insertOnConflictUpdate(_presetToCompanion(preset));
   }
 
   @override
@@ -65,6 +71,18 @@ class PomodoroPresetLocalDataSourceImpl implements PomodoroPresetLocalDataSource
             ))
             .get();
     return rows.map(_presetFromRow).toList();
+  }
+
+  @override
+  Future<void> migrateGuestData(String newUserId) async {
+    await (db.update(
+      db.pomodoroPresets,
+    )..where((p) => p.userId.equals(''))).write(
+      db_schema.PomodoroPresetsCompanion(
+        userId: Value(newUserId),
+        isSynced: const Value(false),
+      ),
+    );
   }
 
   @override

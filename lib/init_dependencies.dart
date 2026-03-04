@@ -17,6 +17,9 @@ import 'package:task_orbit/features/authentication/domain/usecases/user_login.da
 import 'package:task_orbit/features/authentication/domain/usecases/user_sign_up.dart';
 import 'package:task_orbit/features/authentication/domain/usecases/change_password.dart';
 import 'package:task_orbit/features/authentication/domain/usecases/get_current_user.dart';
+import 'package:task_orbit/features/authentication/domain/usecases/send_email_verification.dart';
+import 'package:task_orbit/features/authentication/domain/usecases/check_email_verified.dart';
+import 'package:task_orbit/features/authentication/domain/usecases/delete_current_user.dart';
 import 'package:task_orbit/features/authentication/presentation/bloc/auth_bloc.dart';
 
 import 'package:task_orbit/core/database/app_database.dart';

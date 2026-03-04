@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +18,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ChangePassword _changePassword;
   final GetCurrentUser _getCurrentUser;
   final FirebaseAuth _firebaseAuth;
+  StreamSubscription<User?>? _authSubscription;
 
   ProfileBloc({
     required GetTasksForPeriod getTasksForPeriod,
@@ -33,6 +35,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<ProfilePeriodChanged>(_onPeriodChanged);
     on<ProfileChangePasswordRequested>(_onChangePassword);
     on<ProfileSignOutRequested>(_onSignOut);
+    on<ProfileUserSignedOut>(_onUserSignedOut);
+
+    _authSubscription = _firebaseAuth.authStateChanges().listen((user) {
+      if (user == null) {
+        add(ProfileUserSignedOut());
+      }
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _authSubscription?.cancel();
+    return super.close();
   }
 
   String get _userId => _firebaseAuth.currentUser?.uid ?? '';
@@ -121,6 +136,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) async {
     await _firebaseAuth.signOut();
     // GoRouter redirect handles navigation after sign-out.
+  }
+
+  void _onUserSignedOut(
+    ProfileUserSignedOut event,
+    Emitter<ProfileState> emit,
+  ) {
+    emit(const ProfileState());
   }
 
   Future<void> _loadStats(Emitter<ProfileState> emit) async {

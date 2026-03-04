@@ -24,4 +24,10 @@ abstract interface class IAuthRepository {
     required String oldPassword,
     required String newPassword,
   });
+
+  Future<Either<Failure, void>> sendEmailVerification();
+
+  Future<Either<Failure, User>> checkEmailVerified({required String name});
+
+  Future<Either<Failure, void>> deleteCurrentUser();
 }

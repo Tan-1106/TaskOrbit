@@ -77,6 +77,36 @@ class AuthRepositoryImpl implements IAuthRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, void>> sendEmailVerification() async {
+    try {
+      await remoteDataSource.sendEmailVerification();
+      return right(null);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> checkEmailVerified({
+    required String name,
+  }) async {
+    return _getUser(
+      () async =>
+          await remoteDataSource.reloadAndCheckEmailVerified(name: name),
+    );
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteCurrentUser() async {
+    try {
+      await remoteDataSource.deleteCurrentUser();
+      return right(null);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
   Future<Either<Failure, User>> _getUser(Future<User> Function() fn) async {
     try {
       final user = await fn();

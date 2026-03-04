@@ -25,7 +25,7 @@ class TaskRepositoryImpl implements ITaskRepository {
     try {
       final isOnline = await connectivityService.isConnected;
 
-      if (isOnline) {
+      if (isOnline && userId.isNotEmpty) {
         try {
           final remoteTasks = await remoteDataSource.getTasksByDate(
             userId,
@@ -56,7 +56,7 @@ class TaskRepositoryImpl implements ITaskRepository {
   }) async {
     try {
       final isOnline = await connectivityService.isConnected;
-      if (isOnline) {
+      if (isOnline && userId.isNotEmpty) {
         try {
           final remoteTasks = await remoteDataSource.getTasksInRange(
             userId,
@@ -83,8 +83,9 @@ class TaskRepositoryImpl implements ITaskRepository {
   Future<Either<Failure, Task>> createTask({required Task task}) async {
     try {
       final isOnline = await connectivityService.isConnected;
+      final canSync = isOnline && task.userId.isNotEmpty;
 
-      if (isOnline) {
+      if (canSync) {
         final syncedTask = task.copyWith(isSynced: true);
         await localDataSource.insertTask(syncedTask);
         await remoteDataSource.createTask(syncedTask);
@@ -103,14 +104,15 @@ class TaskRepositoryImpl implements ITaskRepository {
   Future<Either<Failure, Task>> updateTask({required Task task}) async {
     try {
       final isOnline = await connectivityService.isConnected;
+      final canSync = isOnline && task.userId.isNotEmpty;
       final updatedTask = task.copyWith(
         updatedAt: DateTime.now(),
-        isSynced: isOnline,
+        isSynced: canSync,
       );
 
       await localDataSource.updateTask(updatedTask);
 
-      if (isOnline) {
+      if (canSync) {
         await remoteDataSource.updateTask(updatedTask);
       }
 
@@ -130,7 +132,7 @@ class TaskRepositoryImpl implements ITaskRepository {
 
       await localDataSource.deleteTask(taskId);
 
-      if (isOnline) {
+      if (isOnline && userId.isNotEmpty) {
         await remoteDataSource.deleteTask(userId, taskId);
       }
 
@@ -189,7 +191,9 @@ class TaskRepositoryImpl implements ITaskRepository {
   }) async {
     try {
       final isOnline = await connectivityService.isConnected;
-      if (!isOnline) return right(null);
+      if (!isOnline || userId.isEmpty) return right(null);
+
+      await localDataSource.migrateGuestData(userId);
 
       final unsyncedTasks = await localDataSource.getUnsyncedTasks(userId);
 

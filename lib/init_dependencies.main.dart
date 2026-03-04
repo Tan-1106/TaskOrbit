@@ -82,11 +82,23 @@ void _initAuth() {
         serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => SendEmailVerification(serviceLocator()),
+    )
+    ..registerFactory(
+      () => CheckEmailVerified(serviceLocator()),
+    )
+    ..registerFactory(
+      () => DeleteCurrentUser(serviceLocator()),
+    )
     ..registerLazySingleton(
       () => AuthBloc(
         userSignUp: serviceLocator(),
         userLogin: serviceLocator(),
         forgotPassword: serviceLocator(),
+        sendEmailVerification: serviceLocator(),
+        checkEmailVerified: serviceLocator(),
+        deleteCurrentUser: serviceLocator(),
       ),
     );
 }

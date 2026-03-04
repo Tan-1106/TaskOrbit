@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_orbit/core/auth/app_auth_notifier.dart';
+import 'package:task_orbit/features/authentication/presentation/pages/email_verification_page.dart';
 import 'package:task_orbit/features/authentication/presentation/pages/forgot_password_page.dart';
 import 'package:task_orbit/features/authentication/presentation/pages/sign_in_page.dart';
 import 'package:task_orbit/features/authentication/presentation/pages/sign_up_page.dart';
 import 'package:task_orbit/features/agenda/presentation/pages/agenda_page.dart';
 import 'package:task_orbit/features/agenda/presentation/pages/task_detail_page.dart';
-import 'package:task_orbit/features/agenda/domain/entities/task.dart' as task_domain;
+import 'package:task_orbit/features/agenda/domain/entities/task.dart'
+    as task_domain;
 import 'package:task_orbit/features/profile/presentation/pages/profile_page.dart';
 import 'package:task_orbit/features/pomodoro/presentation/pages/pomodoro_page.dart';
 import 'package:task_orbit/init_dependencies.dart';
@@ -14,11 +16,16 @@ import 'package:task_orbit/core/common/layout/app_shell_layout.dart';
 
 final _appShellNavigatorKey = GlobalKey<NavigatorState>();
 
-const _authRoutes = ['/sign-in', '/sign-up', '/forgot-password'];
-const _appRoutes = ['/agenda', '/pomodoro', '/profile'];
+const _authRoutes = [
+  '/sign-in',
+  '/sign-up',
+  '/forgot-password',
+  '/email-verification',
+];
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/sign-in',
+  // App starts at Agenda; guests can use the app without signing in.
+  initialLocation: '/agenda',
   navigatorKey: serviceLocator<GlobalKey<NavigatorState>>(),
   refreshListenable: serviceLocator<AppAuthNotifier>(),
 
@@ -27,11 +34,11 @@ final GoRouter appRouter = GoRouter(
     final location = state.uri.path;
 
     final isOnAuthRoute = _authRoutes.any((r) => location.startsWith(r));
-    final isOnAppRoute = _appRoutes.any((r) => location.startsWith(r));
 
+    // Redirect authenticated users away from auth pages (e.g. after login).
     if (isAuthenticated && isOnAuthRoute) return '/agenda';
-    if (!isAuthenticated && isOnAppRoute) return '/sign-in';
 
+    // Guests are allowed to access all app routes freely; no forced redirect.
     return null;
   },
 
@@ -50,6 +57,17 @@ final GoRouter appRouter = GoRouter(
       name: 'forgot-password',
       path: '/forgot-password',
       builder: (context, state) => const ForgotPasswordPage(),
+    ),
+    GoRoute(
+      name: 'email-verification',
+      path: '/email-verification',
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>? ?? {};
+        return EmailVerificationPage(
+          email: (extra['email'] as String?) ?? '',
+          name: (extra['name'] as String?) ?? '',
+        );
+      },
     ),
 
     ShellRoute(

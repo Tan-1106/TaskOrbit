@@ -30,3 +30,5 @@ final class ProfileChangePasswordRequested extends ProfileEvent {
 }
 
 final class ProfileSignOutRequested extends ProfileEvent {}
+
+final class ProfileUserSignedOut extends ProfileEvent {}

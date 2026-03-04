@@ -60,6 +60,15 @@ class AppLocalizationsVi extends AppLocalizations {
   String get signInSignUp => 'Đăng ký';
 
   @override
+  String get signInOr => 'Hoặc';
+
+  @override
+  String get signInContinue => 'Tiếp tục ';
+
+  @override
+  String get signInWithoutSignIn => 'mà không đăng nhập';
+
+  @override
   String get signUpTitle => 'Tạo tài khoản';
 
   @override
@@ -94,6 +103,34 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get signUpSignIn => 'Đăng nhập';
+
+  @override
+  String get signUpEmailAlreadyExists => 'Email này đã được đăng ký. Vui lòng đăng nhập thay thế.';
+
+  @override
+  String get emailVerificationTitle => 'Xác thực email';
+
+  @override
+  String emailVerificationMessage(String email) {
+    return 'Email xác thực đã được gửi đến $email. Vui lòng kiểm tra hộp thư và nhấp vào liên kết để xác thực tài khoản.';
+  }
+
+  @override
+  String get emailVerificationResendButton => 'Gửi lại';
+
+  @override
+  String emailVerificationResendCountdown(int seconds) {
+    return 'Gửi lại sau ${seconds}s';
+  }
+
+  @override
+  String get emailVerificationConfirmButton => 'Tôi đã xác thực email';
+
+  @override
+  String get emailVerificationNotVerifiedError => 'Email chưa được xác thực. Vui lòng kiểm tra hộp thư và nhấp vào liên kết xác thực.';
+
+  @override
+  String get emailVerificationBackButton => 'Quay lại đăng nhập';
 
   @override
   String get forgotPasswordAppBarTitle => 'Đặt lại mật khẩu';
@@ -373,6 +410,24 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get profileSignOutContent => 'Bạn có chắc muốn đăng xuất không?';
+
+  @override
+  String get profileNoInternetTitle => 'Không có kết nối mạng';
+
+  @override
+  String get profileNoInternetMessage => 'Vui lòng kiểm tra kết nối và thử lại.';
+
+  @override
+  String get profileGuestTitle => 'Bạn chưa đăng nhập';
+
+  @override
+  String get profileGuestMessage => 'Đăng nhập để đồng bộ dữ liệu và truy cập trên nhiều thiết bị.';
+
+  @override
+  String get profileSignInButton => 'Đăng nhập';
+
+  @override
+  String get profileCreateAccountButton => 'Tạo tài khoản';
 
   @override
   String get taskFormNotificationLabel => 'Nhắc nhở';

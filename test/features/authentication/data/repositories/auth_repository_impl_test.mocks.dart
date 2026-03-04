@@ -118,4 +118,39 @@ class MockAuthRemoteDataSource extends _i1.Mock
             returnValueForMissingStub: _i4.Future<void>.value(),
           )
           as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> sendEmailVerification() =>
+      (super.noSuchMethod(
+            Invocation.method(#sendEmailVerification, []),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
+
+  @override
+  _i4.Future<_i2.UserModel> reloadAndCheckEmailVerified({
+    required String? name,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#reloadAndCheckEmailVerified, [], {#name: name}),
+            returnValue: _i4.Future<_i2.UserModel>.value(
+              _FakeUserModel_0(
+                this,
+                Invocation.method(#reloadAndCheckEmailVerified, [], {
+                  #name: name,
+                }),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.UserModel>);
+
+  @override
+  _i4.Future<void> deleteCurrentUser() =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteCurrentUser, []),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 }

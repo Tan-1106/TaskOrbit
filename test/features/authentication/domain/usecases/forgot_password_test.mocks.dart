@@ -130,4 +130,45 @@ class MockIAuthRepository extends _i1.Mock implements _i2.IAuthRepository {
             ),
           )
           as _i3.Future<_i4.Either<_i5.Failure, void>>);
+
+  @override
+  _i3.Future<_i4.Either<_i5.Failure, void>> sendEmailVerification() =>
+      (super.noSuchMethod(
+            Invocation.method(#sendEmailVerification, []),
+            returnValue: _i3.Future<_i4.Either<_i5.Failure, void>>.value(
+              _i7.dummyValue<_i4.Either<_i5.Failure, void>>(
+                this,
+                Invocation.method(#sendEmailVerification, []),
+              ),
+            ),
+          )
+          as _i3.Future<_i4.Either<_i5.Failure, void>>);
+
+  @override
+  _i3.Future<_i4.Either<_i5.Failure, _i6.User>> checkEmailVerified({
+    required String? name,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#checkEmailVerified, [], {#name: name}),
+            returnValue: _i3.Future<_i4.Either<_i5.Failure, _i6.User>>.value(
+              _i7.dummyValue<_i4.Either<_i5.Failure, _i6.User>>(
+                this,
+                Invocation.method(#checkEmailVerified, [], {#name: name}),
+              ),
+            ),
+          )
+          as _i3.Future<_i4.Either<_i5.Failure, _i6.User>>);
+
+  @override
+  _i3.Future<_i4.Either<_i5.Failure, void>> deleteCurrentUser() =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteCurrentUser, []),
+            returnValue: _i3.Future<_i4.Either<_i5.Failure, void>>.value(
+              _i7.dummyValue<_i4.Either<_i5.Failure, void>>(
+                this,
+                Invocation.method(#deleteCurrentUser, []),
+              ),
+            ),
+          )
+          as _i3.Future<_i4.Either<_i5.Failure, void>>);
 }

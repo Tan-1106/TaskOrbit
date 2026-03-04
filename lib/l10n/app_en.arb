@@ -18,6 +18,9 @@
   "signInButton": "Sign In",
   "signInNoAccount": "Don't have an account? ",
   "signInSignUp": "Sign Up",
+  "signInOr": "Or",
+  "signInContinue": "Continue ",
+  "signInWithoutSignIn": "without signing in",
 
   "signUpTitle": "Create Account",
   "signUpNameLabel": "Full Name",
@@ -31,6 +34,25 @@
   "signUpButton": "Sign Up",
   "signUpAlreadyHaveAccount": "Already have an account? ",
   "signUpSignIn": "Sign In",
+  "signUpEmailAlreadyExists": "An account with this email already exists. Please sign in instead.",
+
+  "emailVerificationTitle": "Verify your email",
+  "emailVerificationMessage": "A verification email has been sent to {email}. Please check your inbox and click the link to verify your account.",
+  "@emailVerificationMessage": {
+    "placeholders": {
+      "email": { "type": "String" }
+    }
+  },
+  "emailVerificationResendButton": "Resend",
+  "emailVerificationResendCountdown": "Resend in {seconds}s",
+  "@emailVerificationResendCountdown": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "emailVerificationConfirmButton": "I've verified my email",
+  "emailVerificationNotVerifiedError": "Email not yet verified. Please check your inbox and click the verification link.",
+  "emailVerificationBackButton": "Back to Sign In",
 
   "forgotPasswordAppBarTitle": "Reset Password",
   "forgotPasswordTitle": "Forgot Password?",
@@ -146,6 +168,13 @@
   "profileSignOut": "Sign Out",
   "profileSignOutTitle": "Sign Out",
   "profileSignOutContent": "Are you sure you want to sign out?",
+
+  "profileNoInternetTitle": "No Internet Connection",
+  "profileNoInternetMessage": "Please check your connection and try again.",
+  "profileGuestTitle": "You are not signed in",
+  "profileGuestMessage": "Sign in to sync your data and access it across devices.",
+  "profileSignInButton": "Sign In",
+  "profileCreateAccountButton": "Create Account",
 
   "taskFormNotificationLabel": "Remind me",
   "taskFormNotificationNone": "No reminder",

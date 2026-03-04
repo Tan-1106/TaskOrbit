@@ -15,6 +15,8 @@ abstract interface class TaskLocalDataSource {
 
   Future<List<domain.Task>> getUnsyncedTasks(String userId);
 
+  Future<void> migrateGuestData(String newUserId);
+
   Future<void> markAsSynced(String taskId);
 
   Future<void> insertAll(List<domain.Task> tasks);
@@ -43,7 +45,11 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
         await (db.select(
               db.tasks,
             )..where(
-              (t) => t.userId.equals(userId) & t.date.isBiggerOrEqualValue(startOfDay) & t.date.isSmallerThanValue(endOfDay) & t.isDeleted.equals(false),
+              (t) =>
+                  t.userId.equals(userId) &
+                  t.date.isBiggerOrEqualValue(startOfDay) &
+                  t.date.isSmallerThanValue(endOfDay) &
+                  t.isDeleted.equals(false),
             ))
             .get();
 
@@ -90,6 +96,16 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
   }
 
   @override
+  Future<void> migrateGuestData(String newUserId) async {
+    await (db.update(db.tasks)..where((t) => t.userId.equals(''))).write(
+      db_schema.TasksCompanion(
+        userId: Value(newUserId),
+        isSynced: const Value(false),
+      ),
+    );
+  }
+
+  @override
   Future<void> markAsSynced(String taskId) async {
     await (db.update(db.tasks)..where((t) => t.id.equals(taskId))).write(
       const db_schema.TasksCompanion(isSynced: Value(true)),
@@ -115,7 +131,8 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
     DateTime? fromDate,
     DateTime? toDate,
   }) async {
-    final query = db.select(db.tasks)..where((t) => t.userId.equals(userId) & t.isDeleted.equals(false));
+    final query = db.select(db.tasks)
+      ..where((t) => t.userId.equals(userId) & t.isDeleted.equals(false));
 
     if (keyword != null && keyword.isNotEmpty) {
       query.where(

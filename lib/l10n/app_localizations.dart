@@ -197,6 +197,24 @@ abstract class AppLocalizations {
   /// **'Sign Up'**
   String get signInSignUp;
 
+  /// No description provided for @signInOr.
+  ///
+  /// In en, this message translates to:
+  /// **'Or'**
+  String get signInOr;
+
+  /// No description provided for @signInContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue '**
+  String get signInContinue;
+
+  /// No description provided for @signInWithoutSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'without signing in'**
+  String get signInWithoutSignIn;
+
   /// No description provided for @signUpTitle.
   ///
   /// In en, this message translates to:
@@ -268,6 +286,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign In'**
   String get signUpSignIn;
+
+  /// No description provided for @signUpEmailAlreadyExists.
+  ///
+  /// In en, this message translates to:
+  /// **'An account with this email already exists. Please sign in instead.'**
+  String get signUpEmailAlreadyExists;
+
+  /// No description provided for @emailVerificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your email'**
+  String get emailVerificationTitle;
+
+  /// No description provided for @emailVerificationMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'A verification email has been sent to {email}. Please check your inbox and click the link to verify your account.'**
+  String emailVerificationMessage(String email);
+
+  /// No description provided for @emailVerificationResendButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend'**
+  String get emailVerificationResendButton;
+
+  /// No description provided for @emailVerificationResendCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in {seconds}s'**
+  String emailVerificationResendCountdown(int seconds);
+
+  /// No description provided for @emailVerificationConfirmButton.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve verified my email'**
+  String get emailVerificationConfirmButton;
+
+  /// No description provided for @emailVerificationNotVerifiedError.
+  ///
+  /// In en, this message translates to:
+  /// **'Email not yet verified. Please check your inbox and click the verification link.'**
+  String get emailVerificationNotVerifiedError;
+
+  /// No description provided for @emailVerificationBackButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Sign In'**
+  String get emailVerificationBackButton;
 
   /// No description provided for @forgotPasswordAppBarTitle.
   ///
@@ -814,6 +880,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to sign out?'**
   String get profileSignOutContent;
+
+  /// No description provided for @profileNoInternetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No Internet Connection'**
+  String get profileNoInternetTitle;
+
+  /// No description provided for @profileNoInternetMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your connection and try again.'**
+  String get profileNoInternetMessage;
+
+  /// No description provided for @profileGuestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You are not signed in'**
+  String get profileGuestTitle;
+
+  /// No description provided for @profileGuestMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to sync your data and access it across devices.'**
+  String get profileGuestMessage;
+
+  /// No description provided for @profileSignInButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get profileSignInButton;
+
+  /// No description provided for @profileCreateAccountButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get profileCreateAccountButton;
 
   /// No description provided for @taskFormNotificationLabel.
   ///

@@ -23,6 +23,7 @@ class PomodoroBloc extends Bloc<PomodoroEvent, PomodoroState> {
   final FirebaseAuth firebaseAuth;
 
   Timer? _timer;
+  StreamSubscription? _authSubscription;
 
   PomodoroBloc({
     required this.getPresets,
@@ -40,6 +41,12 @@ class PomodoroBloc extends Bloc<PomodoroEvent, PomodoroState> {
     on<PomodoroSavePreset>(_onSavePreset);
     on<PomodoroDeletePreset>(_onDeletePreset);
     on<PomodoroToggleRepeat>(_onToggleRepeat);
+
+    _authSubscription = firebaseAuth.authStateChanges().listen((user) {
+      if (user != null) {
+        add(PomodoroLoad(user.uid));
+      }
+    });
   }
 
   String? get _userId => firebaseAuth.currentUser?.uid;
@@ -288,6 +295,7 @@ class PomodoroBloc extends Bloc<PomodoroEvent, PomodoroState> {
   @override
   Future<void> close() {
     _cancelTimer();
+    _authSubscription?.cancel();
     return super.close();
   }
 }

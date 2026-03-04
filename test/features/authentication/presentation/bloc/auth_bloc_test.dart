@@ -5,7 +5,10 @@ import 'package:mockito/mockito.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:task_orbit/core/error/failure.dart';
 import 'package:task_orbit/features/authentication/domain/entities/user.dart';
+import 'package:task_orbit/features/authentication/domain/usecases/check_email_verified.dart';
+import 'package:task_orbit/features/authentication/domain/usecases/delete_current_user.dart';
 import 'package:task_orbit/features/authentication/domain/usecases/forgot_password.dart';
+import 'package:task_orbit/features/authentication/domain/usecases/send_email_verification.dart';
 import 'package:task_orbit/features/authentication/domain/usecases/user_login.dart';
 import 'package:task_orbit/features/authentication/domain/usecases/user_sign_up.dart';
 import 'package:task_orbit/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -14,6 +17,9 @@ import 'package:task_orbit/features/authentication/presentation/bloc/auth_bloc.d
   MockSpec<UserLogin>(),
   MockSpec<UserSignUp>(),
   MockSpec<ForgotPassword>(),
+  MockSpec<SendEmailVerification>(),
+  MockSpec<CheckEmailVerified>(),
+  MockSpec<DeleteCurrentUser>(),
 ])
 import 'auth_bloc_test.mocks.dart';
 
@@ -22,11 +28,17 @@ void main() {
   late MockUserLogin mockUserLogin;
   late MockUserSignUp mockUserSignUp;
   late MockForgotPassword mockForgotPassword;
+  late MockSendEmailVerification mockSendEmailVerification;
+  late MockCheckEmailVerified mockCheckEmailVerified;
+  late MockDeleteCurrentUser mockDeleteCurrentUser;
 
   setUp(() {
     mockUserLogin = MockUserLogin();
     mockUserSignUp = MockUserSignUp();
     mockForgotPassword = MockForgotPassword();
+    mockSendEmailVerification = MockSendEmailVerification();
+    mockCheckEmailVerified = MockCheckEmailVerified();
+    mockDeleteCurrentUser = MockDeleteCurrentUser();
     provideDummy<Either<Failure, User>>(Left(Failure()));
     provideDummy<Either<Failure, void>>(Left(Failure()));
 
@@ -34,6 +46,9 @@ void main() {
       userLogin: mockUserLogin,
       userSignUp: mockUserSignUp,
       forgotPassword: mockForgotPassword,
+      sendEmailVerification: mockSendEmailVerification,
+      checkEmailVerified: mockCheckEmailVerified,
+      deleteCurrentUser: mockDeleteCurrentUser,
     );
   });
 
@@ -97,7 +112,7 @@ void main() {
   // ─────────────────────────────────────────
   group('AuthSignUpRequested', () {
     blocTest<AuthBloc, AuthState>(
-      'emits [AuthLoading, AuthSuccess] when sign up succeeds',
+      'emits [AuthLoading, AuthVerificationEmailSent] when sign up succeeds',
       build: () {
         when(mockUserSignUp(any)).thenAnswer((_) async => Right(tUser));
         return authBloc;
@@ -107,16 +122,35 @@ void main() {
       ),
       expect: () => [
         isA<AuthLoading>(),
-        isA<AuthSuccess>(),
+        isA<AuthVerificationEmailSent>(),
       ],
     );
 
     blocTest<AuthBloc, AuthState>(
-      'emits [AuthLoading, AuthFailure] when sign up fails',
+      'emits [AuthLoading, AuthEmailAlreadyExists] when sign up fails with email_already_in_use',
       build: () {
         when(
           mockUserSignUp(any),
-        ).thenAnswer((_) async => Left(Failure('Email already in use')));
+        ).thenAnswer(
+          (_) async => Left(Failure('email_already_in_use')),
+        );
+        return authBloc;
+      },
+      act: (bloc) => bloc.add(
+        AuthSignUpRequested(name: tName, email: tEmail, password: tPassword),
+      ),
+      expect: () => [
+        isA<AuthLoading>(),
+        isA<AuthEmailAlreadyExists>(),
+      ],
+    );
+
+    blocTest<AuthBloc, AuthState>(
+      'emits [AuthLoading, AuthFailure] when sign up fails with other error',
+      build: () {
+        when(
+          mockUserSignUp(any),
+        ).thenAnswer((_) async => Left(Failure('Registration failed')));
         return authBloc;
       },
       act: (bloc) => bloc.add(

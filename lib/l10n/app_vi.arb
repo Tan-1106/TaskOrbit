@@ -18,6 +18,9 @@
   "signInButton": "Đăng nhập",
   "signInNoAccount": "Chưa có tài khoản? ",
   "signInSignUp": "Đăng ký",
+  "signInOr": "Hoặc",
+  "signInContinue": "Tiếp tục ",
+  "signInWithoutSignIn": "mà không đăng nhập",
 
   "signUpTitle": "Tạo tài khoản",
   "signUpNameLabel": "Họ và tên",
@@ -31,6 +34,25 @@
   "signUpButton": "Đăng ký",
   "signUpAlreadyHaveAccount": "Đã có tài khoản? ",
   "signUpSignIn": "Đăng nhập",
+  "signUpEmailAlreadyExists": "Email này đã được đăng ký. Vui lòng đăng nhập thay thế.",
+
+  "emailVerificationTitle": "Xác thực email",
+  "emailVerificationMessage": "Email xác thực đã được gửi đến {email}. Vui lòng kiểm tra hộp thư và nhấp vào liên kết để xác thực tài khoản.",
+  "@emailVerificationMessage": {
+    "placeholders": {
+      "email": { "type": "String" }
+    }
+  },
+  "emailVerificationResendButton": "Gửi lại",
+  "emailVerificationResendCountdown": "Gửi lại sau {seconds}s",
+  "@emailVerificationResendCountdown": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "emailVerificationConfirmButton": "Tôi đã xác thực email",
+  "emailVerificationNotVerifiedError": "Email chưa được xác thực. Vui lòng kiểm tra hộp thư và nhấp vào liên kết xác thực.",
+  "emailVerificationBackButton": "Quay lại đăng nhập",
 
   "forgotPasswordAppBarTitle": "Đặt lại mật khẩu",
   "forgotPasswordTitle": "Quên mật khẩu?",
@@ -146,6 +168,13 @@
   "profileSignOut": "Đăng xuất",
   "profileSignOutTitle": "Đăng xuất",
   "profileSignOutContent": "Bạn có chắc muốn đăng xuất không?",
+
+  "profileNoInternetTitle": "Không có kết nối mạng",
+  "profileNoInternetMessage": "Vui lòng kiểm tra kết nối và thử lại.",
+  "profileGuestTitle": "Bạn chưa đăng nhập",
+  "profileGuestMessage": "Đăng nhập để đồng bộ dữ liệu và truy cập trên nhiều thiết bị.",
+  "profileSignInButton": "Đăng nhập",
+  "profileCreateAccountButton": "Tạo tài khoản",
 
   "taskFormNotificationLabel": "Nhắc nhở",
   "taskFormNotificationNone": "Không nhắc báo",

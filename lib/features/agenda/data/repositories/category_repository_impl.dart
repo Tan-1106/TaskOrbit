@@ -24,7 +24,7 @@ class CategoryRepositoryImpl implements ICategoryRepository {
     try {
       final isOnline = await connectivityService.isConnected;
 
-      if (isOnline) {
+      if (isOnline && userId.isNotEmpty) {
         try {
           final remote = await remoteDataSource.getCategories(userId);
           if (remote.isNotEmpty) {
@@ -48,8 +48,9 @@ class CategoryRepositoryImpl implements ICategoryRepository {
   }) async {
     try {
       final isOnline = await connectivityService.isConnected;
+      final canSync = isOnline && category.userId.isNotEmpty;
 
-      if (isOnline) {
+      if (canSync) {
         final synced = category.copyWith(isSynced: true);
         await localDataSource.insertCategory(synced);
         await remoteDataSource.createCategory(synced);
@@ -73,7 +74,7 @@ class CategoryRepositoryImpl implements ICategoryRepository {
       final isOnline = await connectivityService.isConnected;
       await localDataSource.deleteCategory(categoryId);
 
-      if (isOnline) {
+      if (isOnline && userId.isNotEmpty) {
         await remoteDataSource.deleteCategory(userId, categoryId);
       }
 
@@ -89,7 +90,9 @@ class CategoryRepositoryImpl implements ICategoryRepository {
   }) async {
     try {
       final isOnline = await connectivityService.isConnected;
-      if (!isOnline) return right(null);
+      if (!isOnline || userId.isEmpty) return right(null);
+
+      await localDataSource.migrateGuestData(userId);
 
       final unsynced = await localDataSource.getUnsyncedCategories(userId);
 

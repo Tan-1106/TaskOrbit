@@ -24,7 +24,7 @@ class PomodoroRepositoryImpl implements IPomodoroPresetRepository {
     try {
       final isOnline = await connectivityService.isConnected;
 
-      if (isOnline) {
+      if (isOnline && userId.isNotEmpty) {
         try {
           final remotePresets = await remoteDataSource.getAllPresets(userId);
           if (remotePresets.isNotEmpty) {
@@ -47,8 +47,9 @@ class PomodoroRepositoryImpl implements IPomodoroPresetRepository {
   ) async {
     try {
       final isOnline = await connectivityService.isConnected;
+      final canSync = isOnline && preset.userId.isNotEmpty;
 
-      if (isOnline) {
+      if (canSync) {
         final syncedPreset = preset.copyWith(isSynced: true);
         await localDataSource.insertPreset(syncedPreset);
         await remoteDataSource.createPreset(syncedPreset);
@@ -72,7 +73,7 @@ class PomodoroRepositoryImpl implements IPomodoroPresetRepository {
       final isOnline = await connectivityService.isConnected;
       await localDataSource.deletePreset(presetId);
 
-      if (isOnline) {
+      if (isOnline && userId.isNotEmpty) {
         await remoteDataSource.deletePreset(userId, presetId);
       }
 
@@ -86,7 +87,9 @@ class PomodoroRepositoryImpl implements IPomodoroPresetRepository {
   Future<Either<Failure, void>> syncPresets(String userId) async {
     try {
       final isOnline = await connectivityService.isConnected;
-      if (!isOnline) return right(null);
+      if (!isOnline || userId.isEmpty) return right(null);
+
+      await localDataSource.migrateGuestData(userId);
 
       final unsyncedPresets = await localDataSource.getUnsyncedPresets(userId);
 

@@ -60,6 +60,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signInSignUp => 'Sign Up';
 
   @override
+  String get signInOr => 'Or';
+
+  @override
+  String get signInContinue => 'Continue ';
+
+  @override
+  String get signInWithoutSignIn => 'without signing in';
+
+  @override
   String get signUpTitle => 'Create Account';
 
   @override
@@ -94,6 +103,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signUpSignIn => 'Sign In';
+
+  @override
+  String get signUpEmailAlreadyExists => 'An account with this email already exists. Please sign in instead.';
+
+  @override
+  String get emailVerificationTitle => 'Verify your email';
+
+  @override
+  String emailVerificationMessage(String email) {
+    return 'A verification email has been sent to $email. Please check your inbox and click the link to verify your account.';
+  }
+
+  @override
+  String get emailVerificationResendButton => 'Resend';
+
+  @override
+  String emailVerificationResendCountdown(int seconds) {
+    return 'Resend in ${seconds}s';
+  }
+
+  @override
+  String get emailVerificationConfirmButton => 'I\'ve verified my email';
+
+  @override
+  String get emailVerificationNotVerifiedError => 'Email not yet verified. Please check your inbox and click the verification link.';
+
+  @override
+  String get emailVerificationBackButton => 'Back to Sign In';
 
   @override
   String get forgotPasswordAppBarTitle => 'Reset Password';
@@ -373,6 +410,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSignOutContent => 'Are you sure you want to sign out?';
+
+  @override
+  String get profileNoInternetTitle => 'No Internet Connection';
+
+  @override
+  String get profileNoInternetMessage => 'Please check your connection and try again.';
+
+  @override
+  String get profileGuestTitle => 'You are not signed in';
+
+  @override
+  String get profileGuestMessage => 'Sign in to sync your data and access it across devices.';
+
+  @override
+  String get profileSignInButton => 'Sign In';
+
+  @override
+  String get profileCreateAccountButton => 'Create Account';
 
   @override
   String get taskFormNotificationLabel => 'Remind me';

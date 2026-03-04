@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:task_orbit/core/common/layout/app_shell_layout.dart';
 import 'package:task_orbit/core/common/locale/locale_notifier.dart';
+import 'package:task_orbit/core/network/connectivity_service.dart';
+import 'package:task_orbit/core/auth/app_auth_notifier.dart';
 import 'package:task_orbit/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:task_orbit/init_dependencies.dart';
 import 'package:task_orbit/l10n/app_localizations.dart';
@@ -37,48 +39,199 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ProfileBloc, ProfileState>(
-      listener: (context, state) {
-        if (state.changePasswordStatus == ChangePasswordStatus.success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                AppLocalizations.of(context)!.profileChangePasswordSuccess,
-              ),
-              backgroundColor: Colors.green,
-            ),
-          );
-        } else if (state.changePasswordStatus == ChangePasswordStatus.failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                state.changePasswordError ?? AppLocalizations.of(context)!.profileChangePasswordError,
-              ),
-              backgroundColor: Theme.of(context).colorScheme.error,
+    final connectivityService = serviceLocator<ConnectivityService>();
+    final authNotifier = serviceLocator<AppAuthNotifier>();
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+
+    return StreamBuilder<bool>(
+      stream: connectivityService.onConnectivityChanged,
+      initialData: true,
+      builder: (context, snapshot) {
+        final isOnline = snapshot.data ?? true;
+
+        if (!isOnline) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.wifi_off,
+                  size: 64,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  l10n.profileNoInternetTitle,
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  l10n.profileNoInternetMessage,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                const SizedBox(height: 32),
+                _LanguageSwitcherCard(),
+              ],
             ),
           );
         }
-      },
-      builder: (context, state) {
-        return ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            _UserInfoCard(
-              name: state.userName,
-              email: state.userEmail,
-            ),
-            const SizedBox(height: 16),
-            _SettingsCard(
-              isLoading: state.changePasswordStatus == ChangePasswordStatus.loading,
-            ),
-            const SizedBox(height: 16),
-            _StatsCard(state: state),
-            const SizedBox(height: 24),
-            _SignOutButton(),
-            const SizedBox(height: 16),
-          ],
+
+        return ListenableBuilder(
+          listenable: authNotifier,
+          builder: (context, _) {
+            if (authNotifier.isGuest) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.account_circle_outlined,
+                        size: 80,
+                        color: theme.colorScheme.primary,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        l10n.profileGuestTitle,
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        l10n.profileGuestMessage,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      FilledButton(
+                        onPressed: () => context.go('/sign-in'),
+                        style: FilledButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 50),
+                        ),
+                        child: Text(l10n.profileSignInButton),
+                      ),
+                      const SizedBox(height: 12),
+                      OutlinedButton(
+                        onPressed: () => context.go('/sign-up'),
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 50),
+                        ),
+                        child: Text(l10n.profileCreateAccountButton),
+                      ),
+                      const SizedBox(height: 32),
+                      _LanguageSwitcherCard(),
+                    ],
+                  ),
+                ),
+              );
+            }
+
+            return BlocConsumer<ProfileBloc, ProfileState>(
+              listener: (context, state) {
+                if (state.changePasswordStatus ==
+                    ChangePasswordStatus.success) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        AppLocalizations.of(
+                          context,
+                        )!.profileChangePasswordSuccess,
+                      ),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                } else if (state.changePasswordStatus ==
+                    ChangePasswordStatus.failure) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        state.changePasswordError ??
+                            AppLocalizations.of(
+                              context,
+                            )!.profileChangePasswordError,
+                      ),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                    ),
+                  );
+                }
+              },
+              builder: (context, state) {
+                return ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    _UserInfoCard(
+                      name: state.userName,
+                      email: state.userEmail,
+                    ),
+                    const SizedBox(height: 16),
+                    _SettingsCard(
+                      isLoading:
+                          state.changePasswordStatus ==
+                          ChangePasswordStatus.loading,
+                    ),
+                    const SizedBox(height: 16),
+                    _StatsCard(state: state),
+                    const SizedBox(height: 24),
+                    _SignOutButton(),
+                    const SizedBox(height: 16),
+                  ],
+                );
+              },
+            );
+          },
         );
       },
+    );
+  }
+}
+
+class _LanguageSwitcherCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    final currentLocale = serviceLocator<LocaleNotifier>().value;
+
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
+        ),
+      ),
+      child: ListTile(
+        leading: const Icon(Icons.language),
+        title: Text(l10n.profileLanguageLabel),
+        trailing: DropdownButton<String>(
+          value: currentLocale.languageCode,
+          underline: const SizedBox.shrink(),
+          items: [
+            DropdownMenuItem(
+              value: 'en',
+              child: Text(l10n.profileLanguageEnglish),
+            ),
+            DropdownMenuItem(
+              value: 'vi',
+              child: Text(l10n.profileLanguageVietnamese),
+            ),
+          ],
+          onChanged: (code) {
+            if (code != null) {
+              serviceLocator<LocaleNotifier>().setLocale(Locale(code));
+            }
+          },
+        ),
+      ),
     );
   }
 }
@@ -314,7 +467,9 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              validator: (v) => (v == null || v.isEmpty) ? l10n.profilePasswordRequired : null,
+              validator: (v) => (v == null || v.isEmpty)
+                  ? l10n.profilePasswordRequired
+                  : null,
             ),
             const SizedBox(height: 12),
             TextFormField(
@@ -350,7 +505,8 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
                   icon: Icon(
                     _obscureConfirm ? Icons.visibility_off : Icons.visibility,
                   ),
-                  onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
+                  onPressed: () =>
+                      setState(() => _obscureConfirm = !_obscureConfirm),
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -459,7 +615,8 @@ class _StatsCardState extends State<_StatsCard> {
                 count: state.pendingCount,
                 expanded: _pendingExpanded,
                 dates: state.pendingDates,
-                onToggle: () => setState(() => _pendingExpanded = !_pendingExpanded),
+                onToggle: () =>
+                    setState(() => _pendingExpanded = !_pendingExpanded),
               ),
               const SizedBox(height: 8),
               _ExpandableStatRow(
@@ -469,7 +626,8 @@ class _StatsCardState extends State<_StatsCard> {
                 count: state.missedCount,
                 expanded: _missedExpanded,
                 dates: state.missedDates,
-                onToggle: () => setState(() => _missedExpanded = !_missedExpanded),
+                onToggle: () =>
+                    setState(() => _missedExpanded = !_missedExpanded),
               ),
             ],
           ],
@@ -509,7 +667,9 @@ class _PeriodToggle extends StatelessWidget {
           ProfilePeriodChanged(
             periodType: type,
             year: state.selectedYear ?? DateTime.now().year,
-            month: type == PeriodType.month ? (state.selectedMonth ?? DateTime.now().month) : null,
+            month: type == PeriodType.month
+                ? (state.selectedMonth ?? DateTime.now().month)
+                : null,
           ),
         );
       },
@@ -547,7 +707,9 @@ class _PeriodPicker extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            items: years.map((y) => DropdownMenuItem(value: y, child: Text('$y'))).toList(),
+            items: years
+                .map((y) => DropdownMenuItem(value: y, child: Text('$y')))
+                .toList(),
             onChanged: (y) {
               if (y == null) return;
               bloc.add(

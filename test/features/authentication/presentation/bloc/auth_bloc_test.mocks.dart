@@ -9,12 +9,19 @@ import 'package:fpdart/fpdart.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:task_orbit/core/error/failure.dart' as _i6;
+import 'package:task_orbit/core/usecases/usecase.dart' as _i12;
 import 'package:task_orbit/features/authentication/domain/entities/user.dart'
     as _i7;
 import 'package:task_orbit/features/authentication/domain/repository/auth_repository.dart'
     as _i2;
+import 'package:task_orbit/features/authentication/domain/usecases/check_email_verified.dart'
+    as _i13;
+import 'package:task_orbit/features/authentication/domain/usecases/delete_current_user.dart'
+    as _i14;
 import 'package:task_orbit/features/authentication/domain/usecases/forgot_password.dart'
     as _i10;
+import 'package:task_orbit/features/authentication/domain/usecases/send_email_verification.dart'
+    as _i11;
 import 'package:task_orbit/features/authentication/domain/usecases/user_login.dart'
     as _i3;
 import 'package:task_orbit/features/authentication/domain/usecases/user_sign_up.dart'
@@ -148,6 +155,130 @@ class MockForgotPassword extends _i1.Mock implements _i10.ForgotPassword {
   _i4.Future<_i5.Either<_i6.Failure, void>> call(
     _i10.ForgotPasswordParams? params,
   ) =>
+      (super.noSuchMethod(
+            Invocation.method(#call, [params]),
+            returnValue: _i4.Future<_i5.Either<_i6.Failure, void>>.value(
+              _i8.dummyValue<_i5.Either<_i6.Failure, void>>(
+                this,
+                Invocation.method(#call, [params]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i5.Either<_i6.Failure, void>>.value(
+                  _i8.dummyValue<_i5.Either<_i6.Failure, void>>(
+                    this,
+                    Invocation.method(#call, [params]),
+                  ),
+                ),
+          )
+          as _i4.Future<_i5.Either<_i6.Failure, void>>);
+}
+
+/// A class which mocks [SendEmailVerification].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSendEmailVerification extends _i1.Mock
+    implements _i11.SendEmailVerification {
+  @override
+  _i2.IAuthRepository get authRepository =>
+      (super.noSuchMethod(
+            Invocation.getter(#authRepository),
+            returnValue: _FakeIAuthRepository_0(
+              this,
+              Invocation.getter(#authRepository),
+            ),
+            returnValueForMissingStub: _FakeIAuthRepository_0(
+              this,
+              Invocation.getter(#authRepository),
+            ),
+          )
+          as _i2.IAuthRepository);
+
+  @override
+  _i4.Future<_i5.Either<_i6.Failure, void>> call(_i12.NoParams? params) =>
+      (super.noSuchMethod(
+            Invocation.method(#call, [params]),
+            returnValue: _i4.Future<_i5.Either<_i6.Failure, void>>.value(
+              _i8.dummyValue<_i5.Either<_i6.Failure, void>>(
+                this,
+                Invocation.method(#call, [params]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i5.Either<_i6.Failure, void>>.value(
+                  _i8.dummyValue<_i5.Either<_i6.Failure, void>>(
+                    this,
+                    Invocation.method(#call, [params]),
+                  ),
+                ),
+          )
+          as _i4.Future<_i5.Either<_i6.Failure, void>>);
+}
+
+/// A class which mocks [CheckEmailVerified].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCheckEmailVerified extends _i1.Mock
+    implements _i13.CheckEmailVerified {
+  @override
+  _i2.IAuthRepository get authRepository =>
+      (super.noSuchMethod(
+            Invocation.getter(#authRepository),
+            returnValue: _FakeIAuthRepository_0(
+              this,
+              Invocation.getter(#authRepository),
+            ),
+            returnValueForMissingStub: _FakeIAuthRepository_0(
+              this,
+              Invocation.getter(#authRepository),
+            ),
+          )
+          as _i2.IAuthRepository);
+
+  @override
+  _i4.Future<_i5.Either<_i6.Failure, _i7.User>> call(
+    _i13.CheckEmailVerifiedParams? params,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#call, [params]),
+            returnValue: _i4.Future<_i5.Either<_i6.Failure, _i7.User>>.value(
+              _i8.dummyValue<_i5.Either<_i6.Failure, _i7.User>>(
+                this,
+                Invocation.method(#call, [params]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i5.Either<_i6.Failure, _i7.User>>.value(
+                  _i8.dummyValue<_i5.Either<_i6.Failure, _i7.User>>(
+                    this,
+                    Invocation.method(#call, [params]),
+                  ),
+                ),
+          )
+          as _i4.Future<_i5.Either<_i6.Failure, _i7.User>>);
+}
+
+/// A class which mocks [DeleteCurrentUser].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDeleteCurrentUser extends _i1.Mock implements _i14.DeleteCurrentUser {
+  @override
+  _i2.IAuthRepository get authRepository =>
+      (super.noSuchMethod(
+            Invocation.getter(#authRepository),
+            returnValue: _FakeIAuthRepository_0(
+              this,
+              Invocation.getter(#authRepository),
+            ),
+            returnValueForMissingStub: _FakeIAuthRepository_0(
+              this,
+              Invocation.getter(#authRepository),
+            ),
+          )
+          as _i2.IAuthRepository);
+
+  @override
+  _i4.Future<_i5.Either<_i6.Failure, void>> call(_i12.NoParams? params) =>
       (super.noSuchMethod(
             Invocation.method(#call, [params]),
             returnValue: _i4.Future<_i5.Either<_i6.Failure, void>>.value(

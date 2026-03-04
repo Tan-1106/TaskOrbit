@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
 import 'package:task_orbit/core/network/connectivity_service.dart';
 import 'package:task_orbit/features/agenda/domain/entities/task.dart' as domain;
-import 'package:task_orbit/features/agenda/domain/entities/category.dart' as domain_cat;
+import 'package:task_orbit/features/agenda/domain/entities/category.dart'
+    as domain_cat;
 import 'package:task_orbit/features/agenda/domain/usecases/get_tasks_by_date.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/create_task.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/update_task.dart';
@@ -30,6 +32,9 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
   final DeleteCategory _deleteCategory;
   final FirebaseAuth _firebaseAuth;
   final ConnectivityService _connectivityService;
+
+  StreamSubscription? _connectivitySubscription;
+  StreamSubscription? _authSubscription;
 
   static const _uuid = Uuid();
 
@@ -71,8 +76,16 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     on<AgendaLoadCategories>(_onLoadCategories);
     on<AgendaCreateCategory>(_onCreateCategory);
     on<AgendaDeleteCategory>(_onDeleteCategory);
-    _connectivityService.onConnectivityChanged.listen((isConnected) {
-      if (isConnected) {
+
+    _connectivitySubscription = _connectivityService.onConnectivityChanged
+        .listen((isConnected) {
+          if (isConnected) {
+            add(AgendaSyncTasks());
+          }
+        });
+
+    _authSubscription = _firebaseAuth.authStateChanges().listen((user) {
+      if (user != null) {
         add(AgendaSyncTasks());
       }
     });
@@ -425,5 +438,12 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
         add(AgendaLoadCategories());
       },
     );
+  }
+
+  @override
+  Future<void> close() {
+    _connectivitySubscription?.cancel();
+    _authSubscription?.cancel();
+    return super.close();
   }
 }
