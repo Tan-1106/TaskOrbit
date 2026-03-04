@@ -7,6 +7,7 @@ import 'package:task_orbit/features/authentication/domain/usecases/get_current_u
 import 'package:task_orbit/core/usecases/usecase.dart';
 
 part 'profile_event.dart';
+
 part 'profile_state.dart';
 
 enum PeriodType { month, year }
@@ -109,7 +110,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       ),
     );
 
-    // Reset status after a short delay so UI can react once
+    // Reset status so the UI only reacts once.
     await Future.delayed(const Duration(milliseconds: 100));
     emit(state.copyWith(changePasswordStatus: ChangePasswordStatus.idle));
   }
@@ -119,7 +120,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     Emitter<ProfileState> emit,
   ) async {
     await _firebaseAuth.signOut();
-    // AppAuthNotifier listens to authStateChanges and triggers GoRouter redirect
+    // GoRouter redirect handles navigation after sign-out.
   }
 
   Future<void> _loadStats(Emitter<ProfileState> emit) async {
@@ -198,5 +199,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 class DateRange {
   final DateTime from;
   final DateTime to;
+
   const DateRange({required this.from, required this.to});
 }

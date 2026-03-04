@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-/// Provides a reactive stream of internet connectivity status.
-/// Used by repositories to decide online/offline data strategy.
+/// Provides a reactive stream of connectivity status.
 class ConnectivityService {
   final Connectivity _connectivity;
   late final StreamController<bool> _controller;
@@ -15,10 +14,8 @@ class ConnectivityService {
     });
   }
 
-  /// Stream of connectivity changes
   Stream<bool> get onConnectivityChanged => _controller.stream;
 
-  /// Check current connectivity (one-shot)
   Future<bool> get isConnected async {
     final results = await _connectivity.checkConnectivity();
     return _isConnected(results);

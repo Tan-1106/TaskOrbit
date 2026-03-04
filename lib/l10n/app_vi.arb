@@ -157,5 +157,42 @@
   "taskFormNotificationCustomSuffix": "giờ",
   "taskFormNotificationCustomRequired": "Vui lòng nhập thời gian",
   "taskFormNotificationCustomInvalid": "Không hợp lệ",
-  "taskFormNotificationPastError": "Thời gian báo nhắc lùi về quá khứ"
+  "taskFormNotificationPastError": "Thời gian báo nhắc lùi về quá khứ",
+
+  "pomodoroClassicPresetName": "Pomodoro cổ điển",
+  "pomodoroClassicPresetDescription": "Kỹ thuật 25/5/15 nguyên bản",
+  "pomodoroPhaseLabel_focus": "Tập trung",
+  "pomodoroPhaseLabel_shortBreak": "Nghỉ ngắn",
+  "pomodoroPhaseLabel_longBreak": "Nghỉ dài",
+  "pomodoroStart": "Bắt đầu",
+  "pomodoroPause": "Tạm dừng",
+  "pomodoroResetPhase": "Đặt lại giai đoạn",
+  "pomodoroResetAll": "Đặt lại tất cả",
+  "pomodoroSelectPreset": "Chọn chu kỳ",
+  "pomodoroAddPreset": "Thêm chu kỳ",
+  "pomodoroEditPreset": "Chỉnh sửa chu kỳ",
+  "pomodoroPresetFormNew": "Chu kỳ mới",
+  "pomodoroPresetFormEdit": "Chỉnh sửa chu kỳ",
+  "pomodoroPresetNameLabel": "Tên",
+  "pomodoroPresetNameRequired": "Tên là bắt buộc",
+  "pomodoroPresetDescLabel": "Mô tả (tùy chọn)",
+  "pomodoroPresetFocusLabel": "Thời gian tập trung (phút)",
+  "pomodoroPresetShortBreakLabel": "Nghỉ ngắn (phút)",
+  "pomodoroPresetLongBreakLabel": "Nghỉ dài (phút)",
+  "pomodoroPresetCyclesLabel": "Số chu kỳ trước nghỉ dài",
+  "pomodoroPresetOtherOption": "Khác",
+  "pomodoroPresetSaveButton": "Lưu chu kỳ",
+  "pomodoroPresetDeleteButton": "Xóa chu kỳ",
+  "pomodoroDeletePresetTitle": "Xóa chu kỳ",
+  "pomodoroDeletePresetContent": "Xóa \"{name}\"?",
+  "@pomodoroDeletePresetContent": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "pomodoroPresetCustomValueHint": "Nhập giá trị",
+  "pomodoroPresetCustomValueRequired": "Vui lòng nhập giá trị",
+  "pomodoroPresetCustomValueInvalid": "Phải là số dương",
+  "pomodoroRepeat": "Lặp lại"
 }
+

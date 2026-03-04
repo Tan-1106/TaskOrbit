@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart' as firebase;
+﻿import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:task_orbit/core/error/exceptions.dart';
 import 'package:task_orbit/features/authentication/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,10 +37,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<UserModel?> getCurrentUserData() async {
     try {
       if (firebaseAuth.currentUser != null) {
-        final userData = await firestore
-            .collection('users')
-            .doc(firebaseAuth.currentUser!.uid)
-            .get();
+        final userData = await firestore.collection('users').doc(firebaseAuth.currentUser!.uid).get();
 
         if (userData.data() != null) {
           return UserModel.fromJson(userData.data()!);
@@ -67,11 +64,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const ServerException('User is null!');
       }
 
-      // Fetch user data from firestore
-      final userDoc = await firestore
-          .collection('users')
-          .doc(response.user!.uid)
-          .get();
+      final userDoc = await firestore.collection('users').doc(response.user!.uid).get();
 
       if (!userDoc.exists || userDoc.data() == null) {
         return UserModel.fromFirebaseUser(
@@ -105,17 +98,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const ServerException('User is null!');
       }
 
-      // Save additional user data to Firestore
       final userModel = UserModel(
         id: response.user!.uid,
         email: email,
         name: name,
       );
 
-      await firestore
-          .collection('users')
-          .doc(response.user!.uid)
-          .set(userModel.toMap());
+      await firestore.collection('users').doc(response.user!.uid).set(userModel.toMap());
 
       return userModel;
     } on firebase.FirebaseAuthException catch (e) {

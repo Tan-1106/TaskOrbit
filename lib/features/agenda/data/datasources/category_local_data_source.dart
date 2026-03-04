@@ -1,4 +1,4 @@
-import 'dart:ui';
+﻿import 'dart:ui';
 import 'package:drift/drift.dart';
 import 'package:task_orbit/core/database/app_database.dart' as db_schema;
 import 'package:task_orbit/features/agenda/domain/entities/category.dart' as domain;
@@ -63,10 +63,6 @@ class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
       );
     });
   }
-
-  // ─────────────────────────────────────
-  // Mappers
-  // ─────────────────────────────────────
 
   domain.Category _categoryFromRow(db_schema.Category row) {
     return domain.Category(

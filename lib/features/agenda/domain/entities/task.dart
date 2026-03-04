@@ -65,8 +65,7 @@ class Task {
       updatedAt: updatedAt ?? this.updatedAt,
       isSynced: isSynced ?? this.isSynced,
       isDeleted: isDeleted ?? this.isDeleted,
-      notificationMinutesBefore:
-          notificationMinutesBefore ?? this.notificationMinutesBefore,
+      notificationMinutesBefore: notificationMinutesBefore ?? this.notificationMinutesBefore,
     );
   }
 

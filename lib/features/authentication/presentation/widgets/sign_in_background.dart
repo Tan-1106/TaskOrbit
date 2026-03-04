@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class SignInBackground extends StatelessWidget {
   const SignInBackground({super.key});
@@ -26,7 +26,6 @@ class Background extends CustomPainter {
     double shadowBlur = 24,
     Offset shadowOffset = const Offset(4, 8),
   }) {
-    // Shadow layer
     canvas.drawCircle(
       center + shadowOffset,
       radius,
@@ -36,7 +35,6 @@ class Background extends CustomPainter {
         ..maskFilter = MaskFilter.blur(BlurStyle.normal, shadowBlur),
     );
 
-    // Circle
     canvas.drawCircle(
       center,
       radius,

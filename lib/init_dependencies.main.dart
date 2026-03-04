@@ -7,28 +7,23 @@ Future<void> initDependencies() async {
   _initAuth();
   _initAgenda();
   _initProfile();
+  _initPomodoro();
 }
 
-// Initialize Core Modules
 Future<void> _initCore() async {
-  // Navigation Key
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   serviceLocator.registerLazySingleton(() => navigatorKey);
 
-  // Firebase Initialization
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   serviceLocator.registerLazySingleton(() => FirebaseAuth.instance);
   serviceLocator.registerLazySingleton(() => FirebaseFirestore.instance);
 
-  // SharedPreferences — for persisting Remember Me flag
   final sharedPreferences = await SharedPreferences.getInstance();
   serviceLocator.registerLazySingleton(() => sharedPreferences);
 
-  // Remember Me startup check:
-  // If user did not check "Remember Me" on last login → sign out immediately
-  // Default is false: if flag was never set, don't preserve the session
+  // Sign out if "Remember Me" was not checked on last login.
   final rememberMe = sharedPreferences.getBool('remember_me') ?? false;
   if (!rememberMe) {
     await FirebaseAuth.instance.signOut();
@@ -50,7 +45,6 @@ Future<void> _initCore() async {
 }
 
 void _initAuth() {
-  // DataSource
   serviceLocator
     ..registerFactory<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(
@@ -58,13 +52,11 @@ void _initAuth() {
         serviceLocator(),
       ),
     )
-    // Repository
     ..registerFactory<IAuthRepository>(
       () => AuthRepositoryImpl(
         serviceLocator(),
       ),
     )
-    // Use cases
     ..registerFactory(
       () => GetCurrentUser(
         serviceLocator(),
@@ -90,7 +82,6 @@ void _initAuth() {
         serviceLocator(),
       ),
     )
-    // Bloc
     ..registerLazySingleton(
       () => AuthBloc(
         userSignUp: serviceLocator(),
@@ -102,14 +93,12 @@ void _initAuth() {
 
 void _initAgenda() {
   serviceLocator
-    // Task DataSources
     ..registerFactory<TaskLocalDataSource>(
       () => TaskLocalDataSourceImpl(serviceLocator()),
     )
     ..registerFactory<TaskRemoteDataSource>(
       () => TaskRemoteDataSourceImpl(serviceLocator()),
     )
-    // Task Repository
     ..registerFactory<ITaskRepository>(
       () => TaskRepositoryImpl(
         localDataSource: serviceLocator(),
@@ -117,7 +106,6 @@ void _initAgenda() {
         connectivityService: serviceLocator(),
       ),
     )
-    // Task Use Cases
     ..registerFactory(() => GetTasksByDate(serviceLocator()))
     ..registerFactory(() => CreateTask(serviceLocator(), serviceLocator()))
     ..registerFactory(() => UpdateTask(serviceLocator(), serviceLocator()))
@@ -126,14 +114,12 @@ void _initAgenda() {
     ..registerFactory(() => SearchTasks(serviceLocator()))
     ..registerFactory(() => SyncTasks(serviceLocator()))
     ..registerFactory(() => GetTasksForPeriod(serviceLocator()))
-    // Category DataSources
     ..registerFactory<CategoryLocalDataSource>(
       () => CategoryLocalDataSourceImpl(serviceLocator()),
     )
     ..registerFactory<CategoryRemoteDataSource>(
       () => CategoryRemoteDataSourceImpl(serviceLocator()),
     )
-    // Category Repository
     ..registerFactory<ICategoryRepository>(
       () => CategoryRepositoryImpl(
         localDataSource: serviceLocator(),
@@ -141,11 +127,9 @@ void _initAgenda() {
         connectivityService: serviceLocator(),
       ),
     )
-    // Category Use Cases
     ..registerFactory(() => GetCategories(serviceLocator()))
     ..registerFactory(() => CreateCategory(serviceLocator()))
     ..registerFactory(() => DeleteCategory(serviceLocator()))
-    // Bloc
     ..registerLazySingleton(
       () => AgendaBloc(
         getTasksByDate: serviceLocator(),
@@ -173,4 +157,34 @@ void _initProfile() {
       firebaseAuth: serviceLocator(),
     ),
   );
+}
+
+void _initPomodoro() {
+  serviceLocator
+    ..registerFactory<PomodoroPresetLocalDataSource>(
+      () => PomodoroPresetLocalDataSourceImpl(serviceLocator()),
+    )
+    ..registerFactory<PomodoroPresetRemoteDataSource>(
+      () => PomodoroPresetRemoteDataSourceImpl(serviceLocator()),
+    )
+    ..registerFactory<IPomodoroPresetRepository>(
+      () => PomodoroRepositoryImpl(
+        localDataSource: serviceLocator(),
+        remoteDataSource: serviceLocator(),
+        connectivityService: serviceLocator(),
+      ),
+    )
+    ..registerFactory(() => GetPresets(serviceLocator()))
+    ..registerFactory(() => SavePreset(serviceLocator()))
+    ..registerFactory(() => DeletePreset(serviceLocator()))
+    ..registerFactory(() => SyncPresets(serviceLocator()))
+    ..registerLazySingleton(
+      () => PomodoroBloc(
+        getPresets: serviceLocator(),
+        savePreset: serviceLocator(),
+        deletePreset: serviceLocator(),
+        syncPresets: serviceLocator(),
+        firebaseAuth: serviceLocator(),
+      ),
+    );
 }

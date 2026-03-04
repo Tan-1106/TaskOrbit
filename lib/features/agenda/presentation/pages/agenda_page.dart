@@ -38,12 +38,9 @@ class _AgendaPageState extends State<AgendaPage> {
     super.didChangeDependencies();
     if (!_initialLoadDone) {
       _initialLoadDone = true;
-      // Support navigating to a specific date (e.g. from Profile task stats).
-      // GoRouterState.extra carries a DateTime when coming from ProfilePage.
+      // Read optional target date passed via GoRouterState.extra.
       final routerState = GoRouterState.of(context);
-      final initialDate = (routerState.extra is DateTime)
-          ? routerState.extra as DateTime
-          : DateTime.now();
+      final initialDate = (routerState.extra is DateTime) ? routerState.extra as DateTime : DateTime.now();
       context.read<AgendaBloc>().add(AgendaLoadTasks(date: initialDate));
       context.read<AgendaBloc>().add(AgendaLoadCategories());
     }
@@ -122,8 +119,7 @@ class _AgendaPageState extends State<AgendaPage> {
 
   @override
   void dispose() {
-    // Clean up actions when leaving this page
-    ShellActionsScope.of(context).clear();
+    // Do NOT call notifier.clear() here — the tree is locked during dispose.
     super.dispose();
   }
 
@@ -149,7 +145,6 @@ class _AgendaPageState extends State<AgendaPage> {
         return Column(
           spacing: 8,
           children: [
-            // ── Horizontal Date Picker ────────────────
             HorizontalDatePicker(
               selectedDate: state.selectedDate,
               currentMonth: state.currentMonth,
@@ -164,7 +159,6 @@ class _AgendaPageState extends State<AgendaPage> {
             ),
             const Divider(height: 1),
 
-            // ── Task List ─────────────────────────────
             Expanded(
               child: state is AgendaLoading
                   ? const Center(child: CircularProgressIndicator())
@@ -176,8 +170,7 @@ class _AgendaPageState extends State<AgendaPage> {
                           Icon(
                             Icons.event_available,
                             size: 64,
-                            color: theme.colorScheme.onSurfaceVariant
-                                .withValues(alpha: 0.4),
+                            color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
                           ),
                           const SizedBox(height: 16),
                           Text(
@@ -194,11 +187,7 @@ class _AgendaPageState extends State<AgendaPage> {
                       itemCount: state.tasks.length,
                       itemBuilder: (context, index) {
                         final task = state.tasks[index];
-                        final category = task.categoryId != null
-                            ? state.categories
-                                  .where((c) => c.id == task.categoryId)
-                                  .firstOrNull
-                            : null;
+                        final category = task.categoryId != null ? state.categories.where((c) => c.id == task.categoryId).firstOrNull : null;
 
                         return TaskCard(
                           task: task,
@@ -241,8 +230,7 @@ class _AgendaPageState extends State<AgendaPage> {
           endTime: result['endTime'] as DateTime?,
           isAllDay: result['isAllDay'] as bool,
           categoryId: result['categoryId'] as String?,
-          notificationMinutesBefore:
-              result['notificationMinutesBefore'] as int?,
+          notificationMinutesBefore: result['notificationMinutesBefore'] as int?,
         ),
       );
     }
@@ -250,15 +238,12 @@ class _AgendaPageState extends State<AgendaPage> {
 
   Future<void> _openTaskDetail(BuildContext context, task) async {
     await context.push('/agenda/task-detail', extra: task);
-    // Restore AgendaPage's actions after returning from TaskDetailPage
     if (mounted) _setShellActions();
   }
 
   void _showToggleConfirm(BuildContext context, task) {
     final l10n = AppLocalizations.of(context)!;
-    final action = task.isCompleted
-        ? l10n.taskDetailToggleMarkPending
-        : l10n.taskDetailToggleMarkCompleted;
+    final action = task.isCompleted ? l10n.taskDetailToggleMarkPending : l10n.taskDetailToggleMarkCompleted;
 
     showDialog(
       context: context,

@@ -35,10 +35,6 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
     await _categoriesRef(userId).doc(categoryId).delete();
   }
 
-  // ─────────────────────────────────────
-  // Mappers
-  // ─────────────────────────────────────
-
   domain.Category _categoryFromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
     final d = doc.data()!;
     return domain.Category(

@@ -4,8 +4,7 @@ import 'package:task_orbit/core/usecases/usecase.dart';
 import 'package:task_orbit/features/agenda/domain/entities/task.dart';
 import 'package:task_orbit/features/agenda/domain/repository/task_repository.dart';
 
-class GetTasksForPeriod
-    implements UseCase<List<Task>, GetTasksForPeriodParams> {
+class GetTasksForPeriod implements UseCase<List<Task>, GetTasksForPeriodParams> {
   final ITaskRepository taskRepository;
 
   GetTasksForPeriod(this.taskRepository);

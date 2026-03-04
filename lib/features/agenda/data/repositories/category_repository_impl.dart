@@ -32,9 +32,7 @@ class CategoryRepositoryImpl implements ICategoryRepository {
               remote.map((c) => c.copyWith(isSynced: true)).toList(),
             );
           }
-        } catch (_) {
-          // Fall back to local silently
-        }
+        } catch (_) {}
       }
 
       final categories = await localDataSource.getCategories(userId);

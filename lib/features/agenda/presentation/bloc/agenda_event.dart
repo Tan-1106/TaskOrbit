@@ -89,8 +89,6 @@ class AgendaSearchTasks extends AgendaEvent {
 
 class AgendaSyncTasks extends AgendaEvent {}
 
-// ── Category Events ─────────────────────────────
-
 class AgendaLoadCategories extends AgendaEvent {}
 
 class AgendaCreateCategory extends AgendaEvent {

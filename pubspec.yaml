@@ -16,32 +16,33 @@ dependencies:
   go_router: ^17.1.0
   google_fonts: ^8.0.1
   cupertino_icons: ^1.0.8
-
-  provider: ^6.1.5+1
-  flutter_bloc: ^9.1.1
-  shared_preferences: ^2.5.2
   connectivity_plus: ^6.1.4
+  flutter_local_notifications: ^21.0.0-dev.2
+
   uuid: ^4.5.1
   intl: ^0.20.2
+  provider: ^6.1.5+1
+  flutter_bloc: ^9.1.1
 
   drift: ^2.25.1
   drift_flutter: ^0.2.8
+  shared_preferences: ^2.5.2
 
+  timezone: ^0.11.0
   firebase_core: ^4.4.0
   firebase_auth: ^6.1.4
-  firebase_messaging: ^16.1.1
   cloud_firestore: ^6.1.2
-  flutter_local_notifications: ^21.0.0-dev.2
-  timezone: ^0.11.0
+  firebase_messaging: ^16.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
   mockito: ^5.4.5
+  drift_dev: ^2.25.1
   bloc_test: ^10.0.0
   build_runner: ^2.4.15
-  drift_dev: ^2.25.1
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   generate: true
@@ -49,3 +50,8 @@ flutter:
   assets:
     - 'assets/icons/'
     - 'assets/images/'
+
+flutter_launcher_icons:
+    android: true
+    ios: true
+    image_path: "assets/icons/app_icon.png"

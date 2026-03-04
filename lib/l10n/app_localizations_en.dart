@@ -406,4 +406,96 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get taskFormNotificationPastError => 'Notification time cannot be in the past';
+
+  @override
+  String get pomodoroClassicPresetName => 'Classic Pomodoro';
+
+  @override
+  String get pomodoroClassicPresetDescription => 'The original 25/5/15 technique';
+
+  @override
+  String get pomodoroPhaseLabel_focus => 'Focus';
+
+  @override
+  String get pomodoroPhaseLabel_shortBreak => 'Short Break';
+
+  @override
+  String get pomodoroPhaseLabel_longBreak => 'Long Break';
+
+  @override
+  String get pomodoroStart => 'Start';
+
+  @override
+  String get pomodoroPause => 'Pause';
+
+  @override
+  String get pomodoroResetPhase => 'Reset phase';
+
+  @override
+  String get pomodoroResetAll => 'Reset all';
+
+  @override
+  String get pomodoroSelectPreset => 'Select preset';
+
+  @override
+  String get pomodoroAddPreset => 'Add preset';
+
+  @override
+  String get pomodoroEditPreset => 'Edit preset';
+
+  @override
+  String get pomodoroPresetFormNew => 'New Preset';
+
+  @override
+  String get pomodoroPresetFormEdit => 'Edit Preset';
+
+  @override
+  String get pomodoroPresetNameLabel => 'Name';
+
+  @override
+  String get pomodoroPresetNameRequired => 'Name is required';
+
+  @override
+  String get pomodoroPresetDescLabel => 'Description (optional)';
+
+  @override
+  String get pomodoroPresetFocusLabel => 'Focus (min)';
+
+  @override
+  String get pomodoroPresetShortBreakLabel => 'Short break (min)';
+
+  @override
+  String get pomodoroPresetLongBreakLabel => 'Long break (min)';
+
+  @override
+  String get pomodoroPresetCyclesLabel => 'Cycles before long break';
+
+  @override
+  String get pomodoroPresetOtherOption => 'Other';
+
+  @override
+  String get pomodoroPresetSaveButton => 'Save Preset';
+
+  @override
+  String get pomodoroPresetDeleteButton => 'Delete Preset';
+
+  @override
+  String get pomodoroDeletePresetTitle => 'Delete Preset';
+
+  @override
+  String pomodoroDeletePresetContent(String name) {
+    return 'Delete \"$name\"?';
+  }
+
+  @override
+  String get pomodoroPresetCustomValueHint => 'Enter value';
+
+  @override
+  String get pomodoroPresetCustomValueRequired => 'Please enter a value';
+
+  @override
+  String get pomodoroPresetCustomValueInvalid => 'Must be a positive number';
+
+  @override
+  String get pomodoroRepeat => 'Repeat session';
 }

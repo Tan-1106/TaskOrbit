@@ -880,6 +880,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notification time cannot be in the past'**
   String get taskFormNotificationPastError;
+
+  /// No description provided for @pomodoroClassicPresetName.
+  ///
+  /// In en, this message translates to:
+  /// **'Classic Pomodoro'**
+  String get pomodoroClassicPresetName;
+
+  /// No description provided for @pomodoroClassicPresetDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'The original 25/5/15 technique'**
+  String get pomodoroClassicPresetDescription;
+
+  /// No description provided for @pomodoroPhaseLabel_focus.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus'**
+  String get pomodoroPhaseLabel_focus;
+
+  /// No description provided for @pomodoroPhaseLabel_shortBreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Short Break'**
+  String get pomodoroPhaseLabel_shortBreak;
+
+  /// No description provided for @pomodoroPhaseLabel_longBreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Long Break'**
+  String get pomodoroPhaseLabel_longBreak;
+
+  /// No description provided for @pomodoroStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get pomodoroStart;
+
+  /// No description provided for @pomodoroPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get pomodoroPause;
+
+  /// No description provided for @pomodoroResetPhase.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset phase'**
+  String get pomodoroResetPhase;
+
+  /// No description provided for @pomodoroResetAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset all'**
+  String get pomodoroResetAll;
+
+  /// No description provided for @pomodoroSelectPreset.
+  ///
+  /// In en, this message translates to:
+  /// **'Select preset'**
+  String get pomodoroSelectPreset;
+
+  /// No description provided for @pomodoroAddPreset.
+  ///
+  /// In en, this message translates to:
+  /// **'Add preset'**
+  String get pomodoroAddPreset;
+
+  /// No description provided for @pomodoroEditPreset.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit preset'**
+  String get pomodoroEditPreset;
+
+  /// No description provided for @pomodoroPresetFormNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New Preset'**
+  String get pomodoroPresetFormNew;
+
+  /// No description provided for @pomodoroPresetFormEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Preset'**
+  String get pomodoroPresetFormEdit;
+
+  /// No description provided for @pomodoroPresetNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get pomodoroPresetNameLabel;
+
+  /// No description provided for @pomodoroPresetNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Name is required'**
+  String get pomodoroPresetNameRequired;
+
+  /// No description provided for @pomodoroPresetDescLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description (optional)'**
+  String get pomodoroPresetDescLabel;
+
+  /// No description provided for @pomodoroPresetFocusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus (min)'**
+  String get pomodoroPresetFocusLabel;
+
+  /// No description provided for @pomodoroPresetShortBreakLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Short break (min)'**
+  String get pomodoroPresetShortBreakLabel;
+
+  /// No description provided for @pomodoroPresetLongBreakLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Long break (min)'**
+  String get pomodoroPresetLongBreakLabel;
+
+  /// No description provided for @pomodoroPresetCyclesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycles before long break'**
+  String get pomodoroPresetCyclesLabel;
+
+  /// No description provided for @pomodoroPresetOtherOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get pomodoroPresetOtherOption;
+
+  /// No description provided for @pomodoroPresetSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Preset'**
+  String get pomodoroPresetSaveButton;
+
+  /// No description provided for @pomodoroPresetDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Preset'**
+  String get pomodoroPresetDeleteButton;
+
+  /// No description provided for @pomodoroDeletePresetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Preset'**
+  String get pomodoroDeletePresetTitle;
+
+  /// No description provided for @pomodoroDeletePresetContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{name}\"?'**
+  String pomodoroDeletePresetContent(String name);
+
+  /// No description provided for @pomodoroPresetCustomValueHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter value'**
+  String get pomodoroPresetCustomValueHint;
+
+  /// No description provided for @pomodoroPresetCustomValueRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a value'**
+  String get pomodoroPresetCustomValueRequired;
+
+  /// No description provided for @pomodoroPresetCustomValueInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Must be a positive number'**
+  String get pomodoroPresetCustomValueInvalid;
+
+  /// No description provided for @pomodoroRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat session'**
+  String get pomodoroRepeat;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

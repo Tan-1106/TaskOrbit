@@ -406,4 +406,96 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get taskFormNotificationPastError => 'Thời gian báo nhắc lùi về quá khứ';
+
+  @override
+  String get pomodoroClassicPresetName => 'Pomodoro cổ điển';
+
+  @override
+  String get pomodoroClassicPresetDescription => 'Kỹ thuật 25/5/15 nguyên bản';
+
+  @override
+  String get pomodoroPhaseLabel_focus => 'Tập trung';
+
+  @override
+  String get pomodoroPhaseLabel_shortBreak => 'Nghỉ ngắn';
+
+  @override
+  String get pomodoroPhaseLabel_longBreak => 'Nghỉ dài';
+
+  @override
+  String get pomodoroStart => 'Bắt đầu';
+
+  @override
+  String get pomodoroPause => 'Tạm dừng';
+
+  @override
+  String get pomodoroResetPhase => 'Đặt lại giai đoạn';
+
+  @override
+  String get pomodoroResetAll => 'Đặt lại tất cả';
+
+  @override
+  String get pomodoroSelectPreset => 'Chọn chu kỳ';
+
+  @override
+  String get pomodoroAddPreset => 'Thêm chu kỳ';
+
+  @override
+  String get pomodoroEditPreset => 'Chỉnh sửa chu kỳ';
+
+  @override
+  String get pomodoroPresetFormNew => 'Chu kỳ mới';
+
+  @override
+  String get pomodoroPresetFormEdit => 'Chỉnh sửa chu kỳ';
+
+  @override
+  String get pomodoroPresetNameLabel => 'Tên';
+
+  @override
+  String get pomodoroPresetNameRequired => 'Tên là bắt buộc';
+
+  @override
+  String get pomodoroPresetDescLabel => 'Mô tả (tùy chọn)';
+
+  @override
+  String get pomodoroPresetFocusLabel => 'Thời gian tập trung (phút)';
+
+  @override
+  String get pomodoroPresetShortBreakLabel => 'Nghỉ ngắn (phút)';
+
+  @override
+  String get pomodoroPresetLongBreakLabel => 'Nghỉ dài (phút)';
+
+  @override
+  String get pomodoroPresetCyclesLabel => 'Số chu kỳ trước nghỉ dài';
+
+  @override
+  String get pomodoroPresetOtherOption => 'Khác';
+
+  @override
+  String get pomodoroPresetSaveButton => 'Lưu chu kỳ';
+
+  @override
+  String get pomodoroPresetDeleteButton => 'Xóa chu kỳ';
+
+  @override
+  String get pomodoroDeletePresetTitle => 'Xóa chu kỳ';
+
+  @override
+  String pomodoroDeletePresetContent(String name) {
+    return 'Xóa \"$name\"?';
+  }
+
+  @override
+  String get pomodoroPresetCustomValueHint => 'Nhập giá trị';
+
+  @override
+  String get pomodoroPresetCustomValueRequired => 'Vui lòng nhập giá trị';
+
+  @override
+  String get pomodoroPresetCustomValueInvalid => 'Phải là số dương';
+
+  @override
+  String get pomodoroRepeat => 'Lặp lại';
 }

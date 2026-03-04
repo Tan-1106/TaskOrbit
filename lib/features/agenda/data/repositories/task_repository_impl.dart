@@ -17,10 +17,6 @@ class TaskRepositoryImpl implements ITaskRepository {
     required this.connectivityService,
   });
 
-  // ─────────────────────────────────────────
-  // READ
-  // ─────────────────────────────────────────
-
   @override
   Future<Either<Failure, List<Task>>> getTasksByDate({
     required String userId,
@@ -30,7 +26,6 @@ class TaskRepositoryImpl implements ITaskRepository {
       final isOnline = await connectivityService.isConnected;
 
       if (isOnline) {
-        // Fetch from Firebase and merge into local DB
         try {
           final remoteTasks = await remoteDataSource.getTasksByDate(
             userId,
@@ -42,11 +37,10 @@ class TaskRepositoryImpl implements ITaskRepository {
             );
           }
         } catch (_) {
-          // Remote fetch failed — fall back to local silently
+          // Remote failed — fall back to local silently
         }
       }
 
-      // Always return from local DB (single source of truth)
       final tasks = await localDataSource.getTasksByDate(userId, date);
       return right(tasks);
     } catch (e) {
@@ -74,7 +68,6 @@ class TaskRepositoryImpl implements ITaskRepository {
           // Fall through to local
         }
       }
-      // Offline fallback: use local search by date range
       final tasks = await localDataSource.searchTasks(
         userId,
         fromDate: from,
@@ -86,23 +79,17 @@ class TaskRepositoryImpl implements ITaskRepository {
     }
   }
 
-  // ─────────────────────────────────────────
-  // CREATE
-  // ─────────────────────────────────────────
-
   @override
   Future<Either<Failure, Task>> createTask({required Task task}) async {
     try {
       final isOnline = await connectivityService.isConnected;
 
       if (isOnline) {
-        // Save to local (synced) + push to Firebase
         final syncedTask = task.copyWith(isSynced: true);
         await localDataSource.insertTask(syncedTask);
         await remoteDataSource.createTask(syncedTask);
         return right(syncedTask);
       } else {
-        // Save locally only (pending sync)
         final unsyncedTask = task.copyWith(isSynced: false);
         await localDataSource.insertTask(unsyncedTask);
         return right(unsyncedTask);
@@ -111,10 +98,6 @@ class TaskRepositoryImpl implements ITaskRepository {
       return left(Failure(e.toString()));
     }
   }
-
-  // ─────────────────────────────────────────
-  // UPDATE
-  // ─────────────────────────────────────────
 
   @override
   Future<Either<Failure, Task>> updateTask({required Task task}) async {
@@ -137,10 +120,6 @@ class TaskRepositoryImpl implements ITaskRepository {
     }
   }
 
-  // ─────────────────────────────────────────
-  // DELETE (soft delete)
-  // ─────────────────────────────────────────
-
   @override
   Future<Either<Failure, void>> deleteTask({
     required String taskId,
@@ -149,14 +128,10 @@ class TaskRepositoryImpl implements ITaskRepository {
     try {
       final isOnline = await connectivityService.isConnected;
 
-      // Soft delete locally
       await localDataSource.deleteTask(taskId);
 
       if (isOnline) {
-        // Hard delete from Firebase
         await remoteDataSource.deleteTask(userId, taskId);
-        // Now hard delete locally too (no need to sync later)
-        // Already soft-deleted, will be cleaned up on sync
       }
 
       return right(null);
@@ -164,10 +139,6 @@ class TaskRepositoryImpl implements ITaskRepository {
       return left(Failure(e.toString()));
     }
   }
-
-  // ─────────────────────────────────────────
-  // TOGGLE COMPLETE
-  // ─────────────────────────────────────────
 
   @override
   Future<Either<Failure, Task>> toggleTaskComplete({
@@ -192,10 +163,6 @@ class TaskRepositoryImpl implements ITaskRepository {
     }
   }
 
-  // ─────────────────────────────────────────
-  // SEARCH / FILTER
-  // ─────────────────────────────────────────
-
   @override
   Future<Either<Failure, List<Task>>> searchTasks({
     required String userId,
@@ -216,10 +183,6 @@ class TaskRepositoryImpl implements ITaskRepository {
     }
   }
 
-  // ─────────────────────────────────────────
-  // SYNC PENDING CHANGES
-  // ─────────────────────────────────────────
-
   @override
   Future<Either<Failure, void>> syncPendingChanges({
     required String userId,
@@ -232,16 +195,13 @@ class TaskRepositoryImpl implements ITaskRepository {
 
       for (final task in unsyncedTasks) {
         if (task.isDeleted) {
-          // Push delete to Firebase
           await remoteDataSource.deleteTask(userId, task.id);
         } else {
-          // Push create/update to Firebase
           await remoteDataSource.createTask(task);
         }
         await localDataSource.markAsSynced(task.id);
       }
 
-      // Also pull any new tasks from Firebase that may not be local
       final remoteTasks = await remoteDataSource.getAllTasks(userId);
       if (remoteTasks.isNotEmpty) {
         await localDataSource.insertAll(

@@ -12,6 +12,7 @@ import 'package:task_orbit/core/services/notification_service.dart';
 import 'package:task_orbit/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:task_orbit/features/agenda/presentation/bloc/agenda_bloc.dart';
 import 'package:task_orbit/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:task_orbit/features/pomodoro/presentation/bloc/pomodoro_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +33,9 @@ Future<void> main() async {
         ),
         BlocProvider(
           create: (context) => serviceLocator<ProfileBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => serviceLocator<PomodoroBloc>(),
         ),
       ],
       child: const MyApp(),
@@ -75,7 +79,7 @@ class _MyAppState extends State<MyApp> {
 
       theme: theme.light(),
       darkTheme: theme.dark(),
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.dark,
 
       locale: _localeNotifier.value,
       supportedLocales: const [

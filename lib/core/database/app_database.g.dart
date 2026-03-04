@@ -1301,16 +1301,664 @@ class CategoriesCompanion extends UpdateCompanion<Category> {
   }
 }
 
+class $PomodoroPresetsTable extends PomodoroPresets
+    with TableInfo<$PomodoroPresetsTable, PomodoroPreset> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PomodoroPresetsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<String> userId = GeneratedColumn<String>(
+    'user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 100,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _focusMinutesMeta = const VerificationMeta(
+    'focusMinutes',
+  );
+  @override
+  late final GeneratedColumn<int> focusMinutes = GeneratedColumn<int>(
+    'focus_minutes',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _shortBreakMinutesMeta = const VerificationMeta(
+    'shortBreakMinutes',
+  );
+  @override
+  late final GeneratedColumn<int> shortBreakMinutes = GeneratedColumn<int>(
+    'short_break_minutes',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _longBreakMinutesMeta = const VerificationMeta(
+    'longBreakMinutes',
+  );
+  @override
+  late final GeneratedColumn<int> longBreakMinutes = GeneratedColumn<int>(
+    'long_break_minutes',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cyclesBeforeLongBreakMeta =
+      const VerificationMeta('cyclesBeforeLongBreak');
+  @override
+  late final GeneratedColumn<int> cyclesBeforeLongBreak = GeneratedColumn<int>(
+    'cycles_before_long_break',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _isSyncedMeta = const VerificationMeta(
+    'isSynced',
+  );
+  @override
+  late final GeneratedColumn<bool> isSynced = GeneratedColumn<bool>(
+    'is_synced',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_synced" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _isDeletedMeta = const VerificationMeta(
+    'isDeleted',
+  );
+  @override
+  late final GeneratedColumn<bool> isDeleted = GeneratedColumn<bool>(
+    'is_deleted',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_deleted" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    userId,
+    name,
+    description,
+    focusMinutes,
+    shortBreakMinutes,
+    longBreakMinutes,
+    cyclesBeforeLongBreak,
+    isSynced,
+    isDeleted,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'pomodoro_presets';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PomodoroPreset> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(
+        _userIdMeta,
+        userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('focus_minutes')) {
+      context.handle(
+        _focusMinutesMeta,
+        focusMinutes.isAcceptableOrUnknown(
+          data['focus_minutes']!,
+          _focusMinutesMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_focusMinutesMeta);
+    }
+    if (data.containsKey('short_break_minutes')) {
+      context.handle(
+        _shortBreakMinutesMeta,
+        shortBreakMinutes.isAcceptableOrUnknown(
+          data['short_break_minutes']!,
+          _shortBreakMinutesMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_shortBreakMinutesMeta);
+    }
+    if (data.containsKey('long_break_minutes')) {
+      context.handle(
+        _longBreakMinutesMeta,
+        longBreakMinutes.isAcceptableOrUnknown(
+          data['long_break_minutes']!,
+          _longBreakMinutesMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_longBreakMinutesMeta);
+    }
+    if (data.containsKey('cycles_before_long_break')) {
+      context.handle(
+        _cyclesBeforeLongBreakMeta,
+        cyclesBeforeLongBreak.isAcceptableOrUnknown(
+          data['cycles_before_long_break']!,
+          _cyclesBeforeLongBreakMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_cyclesBeforeLongBreakMeta);
+    }
+    if (data.containsKey('is_synced')) {
+      context.handle(
+        _isSyncedMeta,
+        isSynced.isAcceptableOrUnknown(data['is_synced']!, _isSyncedMeta),
+      );
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(
+        _isDeletedMeta,
+        isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PomodoroPreset map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PomodoroPreset(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      userId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}user_id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      ),
+      focusMinutes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}focus_minutes'],
+      )!,
+      shortBreakMinutes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}short_break_minutes'],
+      )!,
+      longBreakMinutes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}long_break_minutes'],
+      )!,
+      cyclesBeforeLongBreak: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}cycles_before_long_break'],
+      )!,
+      isSynced: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_synced'],
+      )!,
+      isDeleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_deleted'],
+      )!,
+    );
+  }
+
+  @override
+  $PomodoroPresetsTable createAlias(String alias) {
+    return $PomodoroPresetsTable(attachedDatabase, alias);
+  }
+}
+
+class PomodoroPreset extends DataClass implements Insertable<PomodoroPreset> {
+  final String id;
+  final String userId;
+  final String name;
+  final String? description;
+  final int focusMinutes;
+  final int shortBreakMinutes;
+  final int longBreakMinutes;
+  final int cyclesBeforeLongBreak;
+  final bool isSynced;
+  final bool isDeleted;
+  const PomodoroPreset({
+    required this.id,
+    required this.userId,
+    required this.name,
+    this.description,
+    required this.focusMinutes,
+    required this.shortBreakMinutes,
+    required this.longBreakMinutes,
+    required this.cyclesBeforeLongBreak,
+    required this.isSynced,
+    required this.isDeleted,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['user_id'] = Variable<String>(userId);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    map['focus_minutes'] = Variable<int>(focusMinutes);
+    map['short_break_minutes'] = Variable<int>(shortBreakMinutes);
+    map['long_break_minutes'] = Variable<int>(longBreakMinutes);
+    map['cycles_before_long_break'] = Variable<int>(cyclesBeforeLongBreak);
+    map['is_synced'] = Variable<bool>(isSynced);
+    map['is_deleted'] = Variable<bool>(isDeleted);
+    return map;
+  }
+
+  PomodoroPresetsCompanion toCompanion(bool nullToAbsent) {
+    return PomodoroPresetsCompanion(
+      id: Value(id),
+      userId: Value(userId),
+      name: Value(name),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      focusMinutes: Value(focusMinutes),
+      shortBreakMinutes: Value(shortBreakMinutes),
+      longBreakMinutes: Value(longBreakMinutes),
+      cyclesBeforeLongBreak: Value(cyclesBeforeLongBreak),
+      isSynced: Value(isSynced),
+      isDeleted: Value(isDeleted),
+    );
+  }
+
+  factory PomodoroPreset.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PomodoroPreset(
+      id: serializer.fromJson<String>(json['id']),
+      userId: serializer.fromJson<String>(json['userId']),
+      name: serializer.fromJson<String>(json['name']),
+      description: serializer.fromJson<String?>(json['description']),
+      focusMinutes: serializer.fromJson<int>(json['focusMinutes']),
+      shortBreakMinutes: serializer.fromJson<int>(json['shortBreakMinutes']),
+      longBreakMinutes: serializer.fromJson<int>(json['longBreakMinutes']),
+      cyclesBeforeLongBreak: serializer.fromJson<int>(
+        json['cyclesBeforeLongBreak'],
+      ),
+      isSynced: serializer.fromJson<bool>(json['isSynced']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'userId': serializer.toJson<String>(userId),
+      'name': serializer.toJson<String>(name),
+      'description': serializer.toJson<String?>(description),
+      'focusMinutes': serializer.toJson<int>(focusMinutes),
+      'shortBreakMinutes': serializer.toJson<int>(shortBreakMinutes),
+      'longBreakMinutes': serializer.toJson<int>(longBreakMinutes),
+      'cyclesBeforeLongBreak': serializer.toJson<int>(cyclesBeforeLongBreak),
+      'isSynced': serializer.toJson<bool>(isSynced),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+    };
+  }
+
+  PomodoroPreset copyWith({
+    String? id,
+    String? userId,
+    String? name,
+    Value<String?> description = const Value.absent(),
+    int? focusMinutes,
+    int? shortBreakMinutes,
+    int? longBreakMinutes,
+    int? cyclesBeforeLongBreak,
+    bool? isSynced,
+    bool? isDeleted,
+  }) => PomodoroPreset(
+    id: id ?? this.id,
+    userId: userId ?? this.userId,
+    name: name ?? this.name,
+    description: description.present ? description.value : this.description,
+    focusMinutes: focusMinutes ?? this.focusMinutes,
+    shortBreakMinutes: shortBreakMinutes ?? this.shortBreakMinutes,
+    longBreakMinutes: longBreakMinutes ?? this.longBreakMinutes,
+    cyclesBeforeLongBreak: cyclesBeforeLongBreak ?? this.cyclesBeforeLongBreak,
+    isSynced: isSynced ?? this.isSynced,
+    isDeleted: isDeleted ?? this.isDeleted,
+  );
+  PomodoroPreset copyWithCompanion(PomodoroPresetsCompanion data) {
+    return PomodoroPreset(
+      id: data.id.present ? data.id.value : this.id,
+      userId: data.userId.present ? data.userId.value : this.userId,
+      name: data.name.present ? data.name.value : this.name,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      focusMinutes: data.focusMinutes.present
+          ? data.focusMinutes.value
+          : this.focusMinutes,
+      shortBreakMinutes: data.shortBreakMinutes.present
+          ? data.shortBreakMinutes.value
+          : this.shortBreakMinutes,
+      longBreakMinutes: data.longBreakMinutes.present
+          ? data.longBreakMinutes.value
+          : this.longBreakMinutes,
+      cyclesBeforeLongBreak: data.cyclesBeforeLongBreak.present
+          ? data.cyclesBeforeLongBreak.value
+          : this.cyclesBeforeLongBreak,
+      isSynced: data.isSynced.present ? data.isSynced.value : this.isSynced,
+      isDeleted: data.isDeleted.present ? data.isDeleted.value : this.isDeleted,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PomodoroPreset(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('focusMinutes: $focusMinutes, ')
+          ..write('shortBreakMinutes: $shortBreakMinutes, ')
+          ..write('longBreakMinutes: $longBreakMinutes, ')
+          ..write('cyclesBeforeLongBreak: $cyclesBeforeLongBreak, ')
+          ..write('isSynced: $isSynced, ')
+          ..write('isDeleted: $isDeleted')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    userId,
+    name,
+    description,
+    focusMinutes,
+    shortBreakMinutes,
+    longBreakMinutes,
+    cyclesBeforeLongBreak,
+    isSynced,
+    isDeleted,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PomodoroPreset &&
+          other.id == this.id &&
+          other.userId == this.userId &&
+          other.name == this.name &&
+          other.description == this.description &&
+          other.focusMinutes == this.focusMinutes &&
+          other.shortBreakMinutes == this.shortBreakMinutes &&
+          other.longBreakMinutes == this.longBreakMinutes &&
+          other.cyclesBeforeLongBreak == this.cyclesBeforeLongBreak &&
+          other.isSynced == this.isSynced &&
+          other.isDeleted == this.isDeleted);
+}
+
+class PomodoroPresetsCompanion extends UpdateCompanion<PomodoroPreset> {
+  final Value<String> id;
+  final Value<String> userId;
+  final Value<String> name;
+  final Value<String?> description;
+  final Value<int> focusMinutes;
+  final Value<int> shortBreakMinutes;
+  final Value<int> longBreakMinutes;
+  final Value<int> cyclesBeforeLongBreak;
+  final Value<bool> isSynced;
+  final Value<bool> isDeleted;
+  final Value<int> rowid;
+  const PomodoroPresetsCompanion({
+    this.id = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.description = const Value.absent(),
+    this.focusMinutes = const Value.absent(),
+    this.shortBreakMinutes = const Value.absent(),
+    this.longBreakMinutes = const Value.absent(),
+    this.cyclesBeforeLongBreak = const Value.absent(),
+    this.isSynced = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  PomodoroPresetsCompanion.insert({
+    required String id,
+    required String userId,
+    required String name,
+    this.description = const Value.absent(),
+    required int focusMinutes,
+    required int shortBreakMinutes,
+    required int longBreakMinutes,
+    required int cyclesBeforeLongBreak,
+    this.isSynced = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       userId = Value(userId),
+       name = Value(name),
+       focusMinutes = Value(focusMinutes),
+       shortBreakMinutes = Value(shortBreakMinutes),
+       longBreakMinutes = Value(longBreakMinutes),
+       cyclesBeforeLongBreak = Value(cyclesBeforeLongBreak);
+  static Insertable<PomodoroPreset> custom({
+    Expression<String>? id,
+    Expression<String>? userId,
+    Expression<String>? name,
+    Expression<String>? description,
+    Expression<int>? focusMinutes,
+    Expression<int>? shortBreakMinutes,
+    Expression<int>? longBreakMinutes,
+    Expression<int>? cyclesBeforeLongBreak,
+    Expression<bool>? isSynced,
+    Expression<bool>? isDeleted,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userId != null) 'user_id': userId,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (focusMinutes != null) 'focus_minutes': focusMinutes,
+      if (shortBreakMinutes != null) 'short_break_minutes': shortBreakMinutes,
+      if (longBreakMinutes != null) 'long_break_minutes': longBreakMinutes,
+      if (cyclesBeforeLongBreak != null)
+        'cycles_before_long_break': cyclesBeforeLongBreak,
+      if (isSynced != null) 'is_synced': isSynced,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  PomodoroPresetsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? userId,
+    Value<String>? name,
+    Value<String?>? description,
+    Value<int>? focusMinutes,
+    Value<int>? shortBreakMinutes,
+    Value<int>? longBreakMinutes,
+    Value<int>? cyclesBeforeLongBreak,
+    Value<bool>? isSynced,
+    Value<bool>? isDeleted,
+    Value<int>? rowid,
+  }) {
+    return PomodoroPresetsCompanion(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      focusMinutes: focusMinutes ?? this.focusMinutes,
+      shortBreakMinutes: shortBreakMinutes ?? this.shortBreakMinutes,
+      longBreakMinutes: longBreakMinutes ?? this.longBreakMinutes,
+      cyclesBeforeLongBreak:
+          cyclesBeforeLongBreak ?? this.cyclesBeforeLongBreak,
+      isSynced: isSynced ?? this.isSynced,
+      isDeleted: isDeleted ?? this.isDeleted,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<String>(userId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (focusMinutes.present) {
+      map['focus_minutes'] = Variable<int>(focusMinutes.value);
+    }
+    if (shortBreakMinutes.present) {
+      map['short_break_minutes'] = Variable<int>(shortBreakMinutes.value);
+    }
+    if (longBreakMinutes.present) {
+      map['long_break_minutes'] = Variable<int>(longBreakMinutes.value);
+    }
+    if (cyclesBeforeLongBreak.present) {
+      map['cycles_before_long_break'] = Variable<int>(
+        cyclesBeforeLongBreak.value,
+      );
+    }
+    if (isSynced.present) {
+      map['is_synced'] = Variable<bool>(isSynced.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PomodoroPresetsCompanion(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('focusMinutes: $focusMinutes, ')
+          ..write('shortBreakMinutes: $shortBreakMinutes, ')
+          ..write('longBreakMinutes: $longBreakMinutes, ')
+          ..write('cyclesBeforeLongBreak: $cyclesBeforeLongBreak, ')
+          ..write('isSynced: $isSynced, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $TasksTable tasks = $TasksTable(this);
   late final $CategoriesTable categories = $CategoriesTable(this);
+  late final $PomodoroPresetsTable pomodoroPresets = $PomodoroPresetsTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [tasks, categories];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    tasks,
+    categories,
+    pomodoroPresets,
+  ];
 }
 
 typedef $$TasksTableCreateCompanionBuilder =
@@ -1919,6 +2567,317 @@ typedef $$CategoriesTableProcessedTableManager =
       Category,
       PrefetchHooks Function()
     >;
+typedef $$PomodoroPresetsTableCreateCompanionBuilder =
+    PomodoroPresetsCompanion Function({
+      required String id,
+      required String userId,
+      required String name,
+      Value<String?> description,
+      required int focusMinutes,
+      required int shortBreakMinutes,
+      required int longBreakMinutes,
+      required int cyclesBeforeLongBreak,
+      Value<bool> isSynced,
+      Value<bool> isDeleted,
+      Value<int> rowid,
+    });
+typedef $$PomodoroPresetsTableUpdateCompanionBuilder =
+    PomodoroPresetsCompanion Function({
+      Value<String> id,
+      Value<String> userId,
+      Value<String> name,
+      Value<String?> description,
+      Value<int> focusMinutes,
+      Value<int> shortBreakMinutes,
+      Value<int> longBreakMinutes,
+      Value<int> cyclesBeforeLongBreak,
+      Value<bool> isSynced,
+      Value<bool> isDeleted,
+      Value<int> rowid,
+    });
+
+class $$PomodoroPresetsTableFilterComposer
+    extends Composer<_$AppDatabase, $PomodoroPresetsTable> {
+  $$PomodoroPresetsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get userId => $composableBuilder(
+    column: $table.userId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get focusMinutes => $composableBuilder(
+    column: $table.focusMinutes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get shortBreakMinutes => $composableBuilder(
+    column: $table.shortBreakMinutes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get longBreakMinutes => $composableBuilder(
+    column: $table.longBreakMinutes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get cyclesBeforeLongBreak => $composableBuilder(
+    column: $table.cyclesBeforeLongBreak,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isSynced => $composableBuilder(
+    column: $table.isSynced,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isDeleted => $composableBuilder(
+    column: $table.isDeleted,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$PomodoroPresetsTableOrderingComposer
+    extends Composer<_$AppDatabase, $PomodoroPresetsTable> {
+  $$PomodoroPresetsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get userId => $composableBuilder(
+    column: $table.userId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get focusMinutes => $composableBuilder(
+    column: $table.focusMinutes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get shortBreakMinutes => $composableBuilder(
+    column: $table.shortBreakMinutes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get longBreakMinutes => $composableBuilder(
+    column: $table.longBreakMinutes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get cyclesBeforeLongBreak => $composableBuilder(
+    column: $table.cyclesBeforeLongBreak,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isSynced => $composableBuilder(
+    column: $table.isSynced,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isDeleted => $composableBuilder(
+    column: $table.isDeleted,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PomodoroPresetsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PomodoroPresetsTable> {
+  $$PomodoroPresetsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get userId =>
+      $composableBuilder(column: $table.userId, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get focusMinutes => $composableBuilder(
+    column: $table.focusMinutes,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get shortBreakMinutes => $composableBuilder(
+    column: $table.shortBreakMinutes,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get longBreakMinutes => $composableBuilder(
+    column: $table.longBreakMinutes,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get cyclesBeforeLongBreak => $composableBuilder(
+    column: $table.cyclesBeforeLongBreak,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get isSynced =>
+      $composableBuilder(column: $table.isSynced, builder: (column) => column);
+
+  GeneratedColumn<bool> get isDeleted =>
+      $composableBuilder(column: $table.isDeleted, builder: (column) => column);
+}
+
+class $$PomodoroPresetsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PomodoroPresetsTable,
+          PomodoroPreset,
+          $$PomodoroPresetsTableFilterComposer,
+          $$PomodoroPresetsTableOrderingComposer,
+          $$PomodoroPresetsTableAnnotationComposer,
+          $$PomodoroPresetsTableCreateCompanionBuilder,
+          $$PomodoroPresetsTableUpdateCompanionBuilder,
+          (
+            PomodoroPreset,
+            BaseReferences<
+              _$AppDatabase,
+              $PomodoroPresetsTable,
+              PomodoroPreset
+            >,
+          ),
+          PomodoroPreset,
+          PrefetchHooks Function()
+        > {
+  $$PomodoroPresetsTableTableManager(
+    _$AppDatabase db,
+    $PomodoroPresetsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PomodoroPresetsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PomodoroPresetsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PomodoroPresetsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> userId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                Value<int> focusMinutes = const Value.absent(),
+                Value<int> shortBreakMinutes = const Value.absent(),
+                Value<int> longBreakMinutes = const Value.absent(),
+                Value<int> cyclesBeforeLongBreak = const Value.absent(),
+                Value<bool> isSynced = const Value.absent(),
+                Value<bool> isDeleted = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PomodoroPresetsCompanion(
+                id: id,
+                userId: userId,
+                name: name,
+                description: description,
+                focusMinutes: focusMinutes,
+                shortBreakMinutes: shortBreakMinutes,
+                longBreakMinutes: longBreakMinutes,
+                cyclesBeforeLongBreak: cyclesBeforeLongBreak,
+                isSynced: isSynced,
+                isDeleted: isDeleted,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String userId,
+                required String name,
+                Value<String?> description = const Value.absent(),
+                required int focusMinutes,
+                required int shortBreakMinutes,
+                required int longBreakMinutes,
+                required int cyclesBeforeLongBreak,
+                Value<bool> isSynced = const Value.absent(),
+                Value<bool> isDeleted = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PomodoroPresetsCompanion.insert(
+                id: id,
+                userId: userId,
+                name: name,
+                description: description,
+                focusMinutes: focusMinutes,
+                shortBreakMinutes: shortBreakMinutes,
+                longBreakMinutes: longBreakMinutes,
+                cyclesBeforeLongBreak: cyclesBeforeLongBreak,
+                isSynced: isSynced,
+                isDeleted: isDeleted,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$PomodoroPresetsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PomodoroPresetsTable,
+      PomodoroPreset,
+      $$PomodoroPresetsTableFilterComposer,
+      $$PomodoroPresetsTableOrderingComposer,
+      $$PomodoroPresetsTableAnnotationComposer,
+      $$PomodoroPresetsTableCreateCompanionBuilder,
+      $$PomodoroPresetsTableUpdateCompanionBuilder,
+      (
+        PomodoroPreset,
+        BaseReferences<_$AppDatabase, $PomodoroPresetsTable, PomodoroPreset>,
+      ),
+      PomodoroPreset,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1927,4 +2886,6 @@ class $AppDatabaseManager {
       $$TasksTableTableManager(_db, _db.tasks);
   $$CategoriesTableTableManager get categories =>
       $$CategoriesTableTableManager(_db, _db.categories);
+  $$PomodoroPresetsTableTableManager get pomodoroPresets =>
+      $$PomodoroPresetsTableTableManager(_db, _db.pomodoroPresets);
 }

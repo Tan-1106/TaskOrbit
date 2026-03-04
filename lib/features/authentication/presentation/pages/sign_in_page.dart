@@ -63,23 +63,21 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                           Text(
                             AppLocalizations.of(context)!.appTitle,
-                            style: Theme.of(context).textTheme.headlineLarge
-                                ?.copyWith(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimary,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onPrimary,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             AppLocalizations.of(context)!.signInQuote,
-                            style: Theme.of(context).textTheme.titleLarge
-                                ?.copyWith(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimaryContainer,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onPrimaryContainer,
+                              fontWeight: FontWeight.bold,
+                            ),
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(
@@ -147,12 +145,11 @@ class _SignInPageState extends State<SignInPage> {
                                   AppLocalizations.of(
                                     context,
                                   )!.signInForgotPassword,
-                                  style: Theme.of(context).textTheme.bodyMedium
-                                      ?.copyWith(
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.onPrimaryContainer,
-                                      ),
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimaryContainer,
+                                  ),
                                 ),
                               ),
                               const Spacer(),
@@ -160,20 +157,18 @@ class _SignInPageState extends State<SignInPage> {
                                 AppLocalizations.of(
                                   context,
                                 )!.signInRememberMe,
-                                style: Theme.of(context).textTheme.bodyMedium
-                                    ?.copyWith(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onPrimaryContainer,
-                                    ),
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimaryContainer,
+                                ),
                               ),
                               Transform.translate(
                                 offset: const Offset(6, 0),
                                 child: Checkbox(
                                   value: rememberMe,
                                   visualDensity: VisualDensity.compact,
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
+                                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                   onChanged: (value) {
                                     setState(() {
                                       rememberMe = value ?? false;
@@ -191,18 +186,15 @@ class _SignInPageState extends State<SignInPage> {
                                   ? null
                                   : () {
                                       if (_formKey.currentState!.validate()) {
-                                        // Save "Remember Me" preference synchronously
-                                        // before the router navigates away automatically
-                                        serviceLocator<SharedPreferences>()
-                                            .setBool(
-                                              'remember_me',
-                                              rememberMe,
-                                            );
+                                        // Persist before GoRouter redirects away.
+                                        serviceLocator<SharedPreferences>().setBool(
+                                          'remember_me',
+                                          rememberMe,
+                                        );
                                         context.read<AuthBloc>().add(
                                           AuthLoginRequested(
                                             email: _emailController.text.trim(),
-                                            password: _passwordController.text
-                                                .trim(),
+                                            password: _passwordController.text.trim(),
                                           ),
                                         );
                                       }
@@ -212,14 +204,11 @@ class _SignInPageState extends State<SignInPage> {
                                       AppLocalizations.of(
                                         context,
                                       )!.signInButton,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.copyWith(
-                                            color: Theme.of(
-                                              context,
-                                            ).colorScheme.onPrimaryContainer,
-                                          ),
+                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimaryContainer,
+                                      ),
                                     )
                                   : const SizedBox(
                                       width: 16,
@@ -241,12 +230,11 @@ class _SignInPageState extends State<SignInPage> {
                                 AppLocalizations.of(
                                   context,
                                 )!.signInNoAccount,
-                                style: Theme.of(context).textTheme.bodyMedium
-                                    ?.copyWith(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onPrimaryContainer,
-                                    ),
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimaryContainer,
+                                ),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -256,13 +244,12 @@ class _SignInPageState extends State<SignInPage> {
                                   AppLocalizations.of(
                                     context,
                                   )!.signInSignUp,
-                                  style: Theme.of(context).textTheme.bodyMedium
-                                      ?.copyWith(
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.primary,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ],

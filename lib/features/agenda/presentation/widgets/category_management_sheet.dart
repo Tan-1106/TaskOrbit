@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_orbit/l10n/app_localizations.dart';
 import 'package:task_orbit/features/agenda/domain/entities/category.dart';
@@ -10,8 +10,7 @@ class CategoryManagementSheet extends StatefulWidget {
   const CategoryManagementSheet({super.key});
 
   @override
-  State<CategoryManagementSheet> createState() =>
-      _CategoryManagementSheetState();
+  State<CategoryManagementSheet> createState() => _CategoryManagementSheetState();
 }
 
 class _CategoryManagementSheetState extends State<CategoryManagementSheet> {
@@ -55,14 +54,14 @@ class _CategoryManagementSheetState extends State<CategoryManagementSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Handle
           Center(
             child: Container(
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: theme.colorScheme.onSurfaceVariant
-                    .withValues(alpha: 0.4),
+                color: theme.colorScheme.onSurfaceVariant.withValues(
+                  alpha: 0.4,
+                ),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -77,7 +76,7 @@ class _CategoryManagementSheetState extends State<CategoryManagementSheet> {
           ),
           const SizedBox(height: 16),
 
-          // ── Existing categories ────────────────────
+          // Existing categories
           BlocBuilder<AgendaBloc, AgendaState>(
             builder: (context, state) {
               if (state.categories.isEmpty) {
@@ -109,7 +108,7 @@ class _CategoryManagementSheetState extends State<CategoryManagementSheet> {
           ),
           const Divider(),
 
-          // ── Add new category ──────────────────────
+          // Add new category
           Text(
             l10n.categoryNewTitle,
             style: theme.textTheme.titleSmall?.copyWith(
@@ -128,7 +127,6 @@ class _CategoryManagementSheetState extends State<CategoryManagementSheet> {
           ),
           const SizedBox(height: 12),
 
-          // Color picker
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -150,8 +148,11 @@ class _CategoryManagementSheetState extends State<CategoryManagementSheet> {
                         : null,
                   ),
                   child: isSelected
-                      ? Icon(Icons.check,
-                          size: 18, color: _contrastColor(color))
+                      ? Icon(
+                          Icons.check,
+                          size: 18,
+                          color: _contrastColor(color),
+                        )
                       : null,
                 ),
               );
@@ -173,9 +174,8 @@ class _CategoryManagementSheetState extends State<CategoryManagementSheet> {
                   return;
                 }
                 context.read<AgendaBloc>().add(
-                      AgendaCreateCategory(
-                          name: name, color: _selectedColor),
-                    );
+                  AgendaCreateCategory(name: name, color: _selectedColor),
+                );
                 _nameController.clear();
               },
             ),
@@ -187,7 +187,10 @@ class _CategoryManagementSheetState extends State<CategoryManagementSheet> {
   }
 
   void _confirmDelete(
-      BuildContext context, Category category, AppLocalizations l10n) {
+    BuildContext context,
+    Category category,
+    AppLocalizations l10n,
+  ) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -202,8 +205,8 @@ class _CategoryManagementSheetState extends State<CategoryManagementSheet> {
             onPressed: () {
               Navigator.of(ctx).pop();
               context.read<AgendaBloc>().add(
-                    AgendaDeleteCategory(categoryId: category.id),
-                  );
+                AgendaDeleteCategory(categoryId: category.id),
+              );
             },
             child: Text(l10n.dialogDeleteButton),
           ),
@@ -213,9 +216,7 @@ class _CategoryManagementSheetState extends State<CategoryManagementSheet> {
   }
 
   Color _contrastColor(Color color) {
-    return ThemeData.estimateBrightnessForColor(color) == Brightness.dark
-        ? Colors.white
-        : Colors.black;
+    return ThemeData.estimateBrightnessForColor(color) == Brightness.dark ? Colors.white : Colors.black;
   }
 }
 

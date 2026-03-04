@@ -18,7 +18,10 @@ class _AppShellLayoutState extends State<AppShellLayout> {
   final _shellActions = ShellActionsNotifier();
 
   int _calculateSelectedIndex(BuildContext context) {
-    final location = GoRouterState.of(context).uri.toString();
+    final location = GoRouterState
+        .of(context)
+        .uri
+        .toString();
     if (location.startsWith('/agenda')) return 0;
     if (location.startsWith('/pomodoro')) return 1;
     if (location.startsWith('/profile')) return 2;
@@ -51,7 +54,10 @@ class _AppShellLayoutState extends State<AppShellLayout> {
   }
 
   bool _shouldShowBackButton(BuildContext context) {
-    final location = GoRouterState.of(context).uri.toString();
+    final location = GoRouterState
+        .of(context)
+        .uri
+        .toString();
     return ChildRoutes.isChildRoute(location);
   }
 

@@ -10,8 +10,10 @@ class ProfileState {
   final int? selectedMonth;
   final bool statsLoading;
   final int completedCount;
+
   // Map of date → task count for incomplete tasks in the future (date ≥ today)
   final Map<DateTime, int> pendingDates;
+
   // Map of date → task count for incomplete tasks in the past (date < today)
   final Map<DateTime, int> missedDates;
   final ChangePasswordStatus changePasswordStatus;
@@ -32,6 +34,7 @@ class ProfileState {
   });
 
   int get pendingCount => pendingDates.values.fold(0, (sum, c) => sum + c);
+
   int get missedCount => missedDates.values.fold(0, (sum, c) => sum + c);
 
   ProfileState copyWith({

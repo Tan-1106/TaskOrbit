@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:task_orbit/l10n/app_localizations.dart';
 import 'package:task_orbit/features/agenda/domain/entities/category.dart';
 import 'package:task_orbit/features/agenda/domain/repository/task_repository.dart';
@@ -27,8 +27,7 @@ class _FilterDialogState extends State<FilterDialog> {
   @override
   void initState() {
     super.initState();
-    _keywordController =
-        TextEditingController(text: widget.currentFilter?.keyword);
+    _keywordController = TextEditingController(text: widget.currentFilter?.keyword);
     _isCompleted = widget.currentFilter?.isCompleted;
     _categoryId = widget.currentFilter?.categoryId;
     _fromDate = widget.currentFilter?.fromDate;
@@ -53,7 +52,6 @@ class _FilterDialogState extends State<FilterDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Keyword search
             TextField(
               controller: _keywordController,
               decoration: InputDecoration(
@@ -64,17 +62,13 @@ class _FilterDialogState extends State<FilterDialog> {
             ),
             const SizedBox(height: 16),
 
-            // Status filter
-            Text(l10n.filterStatusLabel,
-                style: theme.textTheme.labelLarge),
+            Text(l10n.filterStatusLabel, style: theme.textTheme.labelLarge),
             const SizedBox(height: 8),
             SegmentedButton<bool?>(
               segments: [
                 ButtonSegment(value: null, label: Text(l10n.filterStatusAll)),
-                ButtonSegment(
-                    value: false, label: Text(l10n.filterStatusPending)),
-                ButtonSegment(
-                    value: true, label: Text(l10n.filterStatusDone)),
+                ButtonSegment(value: false, label: Text(l10n.filterStatusPending)),
+                ButtonSegment(value: true, label: Text(l10n.filterStatusDone)),
               ],
               selected: {_isCompleted},
               onSelectionChanged: (values) {
@@ -83,17 +77,14 @@ class _FilterDialogState extends State<FilterDialog> {
             ),
             const SizedBox(height: 16),
 
-            // Category filter
             if (widget.categories.isNotEmpty) ...[
-              Text(l10n.filterCategoryLabel,
-                  style: theme.textTheme.labelLarge),
+              Text(l10n.filterCategoryLabel, style: theme.textTheme.labelLarge),
               const SizedBox(height: 8),
               DropdownButtonFormField<String?>(
                 initialValue: _categoryId,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 ),
                 isExpanded: true,
                 items: [
@@ -128,9 +119,7 @@ class _FilterDialogState extends State<FilterDialog> {
               const SizedBox(height: 16),
             ],
 
-            // Date range
-            Text(l10n.filterDateRangeLabel,
-                style: theme.textTheme.labelLarge),
+            Text(l10n.filterDateRangeLabel, style: theme.textTheme.labelLarge),
             const SizedBox(height: 8),
             Row(
               children: [
@@ -138,9 +127,7 @@ class _FilterDialogState extends State<FilterDialog> {
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.calendar_today, size: 16),
                     label: Text(
-                      _fromDate != null
-                          ? '${_fromDate!.day}/${_fromDate!.month}/${_fromDate!.year}'
-                          : l10n.filterFromDate,
+                      _fromDate != null ? '${_fromDate!.day}/${_fromDate!.month}/${_fromDate!.year}' : l10n.filterFromDate,
                     ),
                     onPressed: () async {
                       final picked = await showDatePicker(
@@ -160,9 +147,7 @@ class _FilterDialogState extends State<FilterDialog> {
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.calendar_today, size: 16),
                     label: Text(
-                      _toDate != null
-                          ? '${_toDate!.day}/${_toDate!.month}/${_toDate!.year}'
-                          : l10n.filterToDate,
+                      _toDate != null ? '${_toDate!.day}/${_toDate!.month}/${_toDate!.year}' : l10n.filterToDate,
                     ),
                     onPressed: () async {
                       final picked = await showDatePicker(
@@ -195,15 +180,15 @@ class _FilterDialogState extends State<FilterDialog> {
         ),
         FilledButton(
           onPressed: () {
-            Navigator.of(context).pop(TaskFilter(
-              keyword: _keywordController.text.trim().isNotEmpty
-                  ? _keywordController.text.trim()
-                  : null,
-              isCompleted: _isCompleted,
-              categoryId: _categoryId,
-              fromDate: _fromDate,
-              toDate: _toDate,
-            ));
+            Navigator.of(context).pop(
+              TaskFilter(
+                keyword: _keywordController.text.trim().isNotEmpty ? _keywordController.text.trim() : null,
+                isCompleted: _isCompleted,
+                categoryId: _categoryId,
+                fromDate: _fromDate,
+                toDate: _toDate,
+              ),
+            );
           },
           child: Text(l10n.filterApplyButton),
         ),

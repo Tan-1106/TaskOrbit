@@ -79,17 +79,12 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
       const Duration(days: 1),
     );
 
-    final snapshot = await _tasksRef(userId)
-        .where('date', isGreaterThanOrEqualTo: Timestamp.fromDate(startOfFrom))
-        .where('date', isLessThan: Timestamp.fromDate(endOfTo))
-        .get();
+    final snapshot = await _tasksRef(
+      userId,
+    ).where('date', isGreaterThanOrEqualTo: Timestamp.fromDate(startOfFrom)).where('date', isLessThan: Timestamp.fromDate(endOfTo)).get();
 
     return snapshot.docs.map((doc) => _taskFromDoc(doc)).toList();
   }
-
-  // ─────────────────────────────────────
-  // Mappers
-  // ─────────────────────────────────────
 
   domain.Task _taskFromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
     final d = doc.data()!;
@@ -99,19 +94,14 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
       title: d['title'] as String,
       description: d['description'] as String?,
       date: (d['date'] as Timestamp).toDate(),
-      startTime: d['startTime'] != null
-          ? (d['startTime'] as Timestamp).toDate()
-          : null,
-      endTime: d['endTime'] != null
-          ? (d['endTime'] as Timestamp).toDate()
-          : null,
+      startTime: d['startTime'] != null ? (d['startTime'] as Timestamp).toDate() : null,
+      endTime: d['endTime'] != null ? (d['endTime'] as Timestamp).toDate() : null,
       isAllDay: d['isAllDay'] as bool? ?? false,
       categoryId: d['categoryId'] as String?,
       isCompleted: d['isCompleted'] as bool? ?? false,
       createdAt: (d['createdAt'] as Timestamp).toDate(),
       updatedAt: (d['updatedAt'] as Timestamp).toDate(),
       isSynced: true,
-      // From Firebase = always synced
       isDeleted: false,
       notificationMinutesBefore: d['notificationMinutesBefore'] as int?,
     );
@@ -123,19 +113,14 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
       'title': task.title,
       'description': task.description,
       'date': Timestamp.fromDate(task.date),
-      'startTime': task.startTime != null
-          ? Timestamp.fromDate(task.startTime!)
-          : null,
-      'endTime': task.endTime != null
-          ? Timestamp.fromDate(task.endTime!)
-          : null,
+      'startTime': task.startTime != null ? Timestamp.fromDate(task.startTime!) : null,
+      'endTime': task.endTime != null ? Timestamp.fromDate(task.endTime!) : null,
       'isAllDay': task.isAllDay,
       'categoryId': task.categoryId,
       'isCompleted': task.isCompleted,
       'createdAt': Timestamp.fromDate(task.createdAt),
       'updatedAt': Timestamp.fromDate(task.updatedAt),
-      if (task.notificationMinutesBefore != null)
-        'notificationMinutesBefore': task.notificationMinutesBefore,
+      if (task.notificationMinutesBefore != null) 'notificationMinutesBefore': task.notificationMinutesBefore,
     };
   }
 }

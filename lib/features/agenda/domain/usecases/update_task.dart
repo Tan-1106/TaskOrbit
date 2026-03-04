@@ -16,12 +16,9 @@ class UpdateTask implements UseCase<Task, Task> {
     final result = await repository.updateTask(task: task);
 
     return result.map((updatedTask) {
-      // Always cancel existing notification to reset it cleanly
       notificationService.cancelNotification(updatedTask.id.hashCode);
 
-      if (!updatedTask.isCompleted &&
-          !updatedTask.isDeleted &&
-          updatedTask.notificationMinutesBefore != null) {
+      if (!updatedTask.isCompleted && !updatedTask.isDeleted && updatedTask.notificationMinutesBefore != null) {
         DateTime baseTime;
         if (updatedTask.isAllDay) {
           baseTime = DateTime(

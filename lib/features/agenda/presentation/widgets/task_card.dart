@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:task_orbit/features/agenda/domain/entities/task.dart';
 import 'package:task_orbit/features/agenda/domain/entities/category.dart';
@@ -25,8 +25,7 @@ class TaskCard extends StatelessWidget {
     final now = DateTime.now();
 
     if (task.isAllDay) {
-      final endOfDay =
-          DateTime(task.date.year, task.date.month, task.date.day, 23, 59, 59);
+      final endOfDay = DateTime(task.date.year, task.date.month, task.date.day, 23, 59, 59);
       if (now.isAfter(endOfDay)) return TaskStatus.overdue;
       return TaskStatus.inProgress;
     }
@@ -45,33 +44,30 @@ class TaskCard extends StatelessWidget {
     final theme = Theme.of(context);
     final status = _getStatus();
 
-    // Status-based colors from Material Design 3 color scheme
     final (Color cardColor, Color textColor) = switch (status) {
       TaskStatus.pending => (
-          theme.colorScheme.primaryContainer,
-          theme.colorScheme.onPrimaryContainer,
-        ),
+        theme.colorScheme.primaryContainer,
+        theme.colorScheme.onPrimaryContainer,
+      ),
       TaskStatus.inProgress => (
-          theme.colorScheme.tertiaryContainer,
-          theme.colorScheme.onTertiaryContainer,
-        ),
+        theme.colorScheme.tertiaryContainer,
+        theme.colorScheme.onTertiaryContainer,
+      ),
       TaskStatus.overdue => (
-          theme.colorScheme.errorContainer,
-          theme.colorScheme.onErrorContainer,
-        ),
+        theme.colorScheme.errorContainer,
+        theme.colorScheme.onErrorContainer,
+      ),
       TaskStatus.completed => (
-          theme.colorScheme.surfaceContainerHighest,
-          theme.colorScheme.onSurfaceVariant,
-        ),
+        theme.colorScheme.surfaceContainerHighest,
+        theme.colorScheme.onSurfaceVariant,
+      ),
     };
 
-    // Format time display
     String timeText;
     if (task.isAllDay) {
       timeText = 'All day';
     } else if (task.startTime != null && task.endTime != null) {
-      timeText =
-          '${DateFormat.Hm().format(task.startTime!)} – ${DateFormat.Hm().format(task.endTime!)}';
+      timeText = '${DateFormat.Hm().format(task.startTime!)} â€“ ${DateFormat.Hm().format(task.endTime!)}';
     } else {
       timeText = '';
     }
@@ -88,7 +84,6 @@ class TaskCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Row(
             children: [
-              // Checkbox
               Checkbox(
                 value: task.isCompleted,
                 onChanged: onToggleComplete,
@@ -98,12 +93,10 @@ class TaskCard extends StatelessWidget {
               ),
               const SizedBox(width: 8),
 
-              // Content
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Title row with category badge
                     Row(
                       children: [
                         if (category != null) ...[
@@ -123,9 +116,7 @@ class TaskCard extends StatelessWidget {
                             style: theme.textTheme.titleSmall?.copyWith(
                               color: textColor,
                               fontWeight: FontWeight.w600,
-                              decoration: task.isCompleted
-                                  ? TextDecoration.lineThrough
-                                  : null,
+                              decoration: task.isCompleted ? TextDecoration.lineThrough : null,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -133,8 +124,7 @@ class TaskCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    if (task.description != null &&
-                        task.description!.isNotEmpty) ...[
+                    if (task.description != null && task.description!.isNotEmpty) ...[
                       const SizedBox(height: 2),
                       Text(
                         task.description!,
@@ -145,15 +135,13 @@ class TaskCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
-                    // Time + Category name row
+
                     if (timeText.isNotEmpty || category != null) ...[
                       const SizedBox(height: 4),
                       Row(
                         children: [
                           if (timeText.isNotEmpty) ...[
-                            Icon(Icons.schedule,
-                                size: 14,
-                                color: textColor.withValues(alpha: 0.7)),
+                            Icon(Icons.schedule, size: 14, color: textColor.withValues(alpha: 0.7)),
                             const SizedBox(width: 4),
                             Text(
                               timeText,
@@ -162,8 +150,7 @@ class TaskCard extends StatelessWidget {
                               ),
                             ),
                           ],
-                          if (timeText.isNotEmpty && category != null)
-                            const SizedBox(width: 12),
+                          if (timeText.isNotEmpty && category != null) const SizedBox(width: 12),
                           if (category != null)
                             Text(
                               category!.name,

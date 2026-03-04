@@ -157,5 +157,41 @@
   "taskFormNotificationCustomSuffix": "hours",
   "taskFormNotificationCustomRequired": "Please enter a value",
   "taskFormNotificationCustomInvalid": "Invalid value",
-  "taskFormNotificationPastError": "Notification time cannot be in the past"
+  "taskFormNotificationPastError": "Notification time cannot be in the past",
+
+  "pomodoroClassicPresetName": "Classic Pomodoro",
+  "pomodoroClassicPresetDescription": "The original 25/5/15 technique",
+  "pomodoroPhaseLabel_focus": "Focus",
+  "pomodoroPhaseLabel_shortBreak": "Short Break",
+  "pomodoroPhaseLabel_longBreak": "Long Break",
+  "pomodoroStart": "Start",
+  "pomodoroPause": "Pause",
+  "pomodoroResetPhase": "Reset phase",
+  "pomodoroResetAll": "Reset all",
+  "pomodoroSelectPreset": "Select preset",
+  "pomodoroAddPreset": "Add preset",
+  "pomodoroEditPreset": "Edit preset",
+  "pomodoroPresetFormNew": "New Preset",
+  "pomodoroPresetFormEdit": "Edit Preset",
+  "pomodoroPresetNameLabel": "Name",
+  "pomodoroPresetNameRequired": "Name is required",
+  "pomodoroPresetDescLabel": "Description (optional)",
+  "pomodoroPresetFocusLabel": "Focus (min)",
+  "pomodoroPresetShortBreakLabel": "Short break (min)",
+  "pomodoroPresetLongBreakLabel": "Long break (min)",
+  "pomodoroPresetCyclesLabel": "Cycles before long break",
+  "pomodoroPresetOtherOption": "Other",
+  "pomodoroPresetSaveButton": "Save Preset",
+  "pomodoroPresetDeleteButton": "Delete Preset",
+  "pomodoroDeletePresetTitle": "Delete Preset",
+  "pomodoroDeletePresetContent": "Delete \"{name}\"?",
+  "@pomodoroDeletePresetContent": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "pomodoroPresetCustomValueHint": "Enter value",
+  "pomodoroPresetCustomValueRequired": "Please enter a value",
+  "pomodoroPresetCustomValueInvalid": "Must be a positive number",
+  "pomodoroRepeat": "Repeat session"
 }

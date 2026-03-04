@@ -3,10 +3,6 @@ import 'package:drift_flutter/drift_flutter.dart';
 
 part 'app_database.g.dart';
 
-// ─────────────────────────────────────────
-// Table Definitions
-// ─────────────────────────────────────────
-
 class Tasks extends Table {
   TextColumn get id => text()();
 
@@ -59,16 +55,37 @@ class Categories extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-// ─────────────────────────────────────────
-// Database
-// ─────────────────────────────────────────
+class PomodoroPresets extends Table {
+  TextColumn get id => text()();
 
-@DriftDatabase(tables: [Tasks, Categories])
+  TextColumn get userId => text()();
+
+  TextColumn get name => text().withLength(min: 1, max: 100)();
+
+  TextColumn get description => text().nullable()();
+
+  IntColumn get focusMinutes => integer()();
+
+  IntColumn get shortBreakMinutes => integer()();
+
+  IntColumn get longBreakMinutes => integer()();
+
+  IntColumn get cyclesBeforeLongBreak => integer()();
+
+  BoolColumn get isSynced => boolean().withDefault(const Constant(false))();
+
+  BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+@DriftDatabase(tables: [Tasks, Categories, PomodoroPresets])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration {
@@ -79,6 +96,9 @@ class AppDatabase extends _$AppDatabase {
       onUpgrade: (Migrator m, int from, int to) async {
         if (from < 2) {
           await m.addColumn(tasks, tasks.notificationMinutesBefore);
+        }
+        if (from < 3) {
+          await m.createTable(pomodoroPresets);
         }
       },
     );

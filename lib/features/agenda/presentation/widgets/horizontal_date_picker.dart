@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class HorizontalDatePicker extends StatefulWidget {
@@ -32,8 +32,7 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
   @override
   void didUpdateWidget(HorizontalDatePicker oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.currentMonth != widget.currentMonth ||
-        oldWidget.selectedDate != widget.selectedDate) {
+    if (oldWidget.currentMonth != widget.currentMonth || oldWidget.selectedDate != widget.selectedDate) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToSelected());
     }
   }
@@ -72,7 +71,7 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
 
     return Column(
       children: [
-        // ── Month header with nav buttons ─────────────────
+        // Month header with nav buttons
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           child: Row(
@@ -105,8 +104,7 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
                     );
                     if (picked != null) {
                       widget.onDateSelected(picked);
-                      if (picked.month != widget.currentMonth.month ||
-                          picked.year != widget.currentMonth.year) {
+                      if (picked.month != widget.currentMonth.month || picked.year != widget.currentMonth.year) {
                         widget.onMonthChanged(
                           DateTime(picked.year, picked.month),
                         );
@@ -129,7 +127,7 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
           ),
         ),
 
-        // ── Horizontal day list ───────────────────────────
+        // Horizontal day list
         SizedBox(
           height: 80,
           child: ListView.builder(
@@ -143,14 +141,8 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
                 widget.currentMonth.month,
                 index + 1,
               );
-              final isSelected =
-                  day.year == widget.selectedDate.year &&
-                  day.month == widget.selectedDate.month &&
-                  day.day == widget.selectedDate.day;
-              final isToday =
-                  day.year == DateTime.now().year &&
-                  day.month == DateTime.now().month &&
-                  day.day == DateTime.now().day;
+              final isSelected = day.year == widget.selectedDate.year && day.month == widget.selectedDate.month && day.day == widget.selectedDate.day;
+              final isToday = day.year == DateTime.now().year && day.month == DateTime.now().month && day.day == DateTime.now().day;
 
               return GestureDetector(
                 onTap: () => widget.onDateSelected(day),

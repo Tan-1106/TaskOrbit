@@ -11,6 +11,7 @@ import 'package:task_orbit/l10n/app_localizations.dart';
 
 class TaskDetailPage extends StatefulWidget {
   final Task task;
+
   const TaskDetailPage({super.key, required this.task});
 
   @override
@@ -91,7 +92,6 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Title
           Text(
             task.title,
             style: theme.textTheme.headlineSmall?.copyWith(
@@ -101,32 +101,23 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           ),
           const SizedBox(height: 12),
 
-          // Status chip
           Chip(
             label: Text(
-              task.isCompleted
-                  ? l10n.taskDetailStatusCompleted
-                  : l10n.taskDetailStatusPending,
+              task.isCompleted ? l10n.taskDetailStatusCompleted : l10n.taskDetailStatusPending,
               style: TextStyle(
-                color: task.isCompleted
-                    ? theme.colorScheme.onSurfaceVariant
-                    : theme.colorScheme.onPrimaryContainer,
+                color: task.isCompleted ? theme.colorScheme.onSurfaceVariant : theme.colorScheme.onPrimaryContainer,
               ),
             ),
-            backgroundColor: task.isCompleted
-                ? theme.colorScheme.surfaceContainerHighest
-                : theme.colorScheme.primaryContainer,
+            backgroundColor: task.isCompleted ? theme.colorScheme.surfaceContainerHighest : theme.colorScheme.primaryContainer,
           ),
           const SizedBox(height: 16),
 
-          // Date
           _InfoRow(
             icon: Icons.calendar_today,
             label: l10n.taskDetailLabelDate,
             value: DateFormat('EEEE, d MMMM yyyy', locale).format(task.date),
           ),
 
-          // Time
           if (task.isAllDay)
             _InfoRow(
               icon: Icons.schedule,
@@ -137,11 +128,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             _InfoRow(
               icon: Icons.schedule,
               label: l10n.taskDetailLabelTime,
-              value:
-                  '${DateFormat.Hm(locale).format(task.startTime!)} – ${DateFormat.Hm(locale).format(task.endTime!)}',
+              value: '${DateFormat.Hm(locale).format(task.startTime!)} – ${DateFormat.Hm(locale).format(task.endTime!)}',
             ),
 
-          // Description
           if (task.description != null && task.description!.isNotEmpty) ...[
             const SizedBox(height: 16),
             Text(
@@ -205,8 +194,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
               isAllDay: result['isAllDay'] as bool,
               categoryId: result['categoryId'] as String?,
               isCompleted: widget.task.isCompleted,
-              notificationMinutesBefore:
-                  result['notificationMinutesBefore'] as int?,
+              notificationMinutesBefore: result['notificationMinutesBefore'] as int?,
             ),
           );
           context.pop(); // Go back to AgendaPage

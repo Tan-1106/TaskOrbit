@@ -52,8 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                state.changePasswordError ??
-                    AppLocalizations.of(context)!.profileChangePasswordError,
+                state.changePasswordError ?? AppLocalizations.of(context)!.profileChangePasswordError,
               ),
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
@@ -64,25 +63,17 @@ class _ProfilePageState extends State<ProfilePage> {
         return ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            // ── 1. User Info ────────────────────────────
             _UserInfoCard(
               name: state.userName,
               email: state.userEmail,
             ),
             const SizedBox(height: 16),
-
-            // Settings
             _SettingsCard(
-              isLoading:
-                  state.changePasswordStatus == ChangePasswordStatus.loading,
+              isLoading: state.changePasswordStatus == ChangePasswordStatus.loading,
             ),
             const SizedBox(height: 16),
-
-            // ── 3. Task Statistics ───────────────────────
             _StatsCard(state: state),
             const SizedBox(height: 24),
-
-            // ── 4. Sign Out ──────────────────────────────
             _SignOutButton(),
             const SizedBox(height: 16),
           ],
@@ -91,10 +82,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// User Info Card
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _UserInfoCard extends StatelessWidget {
   final String name;
@@ -155,10 +142,6 @@ class _UserInfoCard extends StatelessWidget {
     );
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Settings Card (change password + language switcher)
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _SettingsCard extends StatelessWidget {
   final bool isLoading;
@@ -297,7 +280,6 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Handle bar
             Center(
               child: Container(
                 width: 40,
@@ -316,7 +298,6 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
               ),
             ),
             const SizedBox(height: 20),
-            // Old password
             TextFormField(
               controller: _oldPasswordController,
               obscureText: _obscureOld,
@@ -333,12 +314,9 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              validator: (v) => (v == null || v.isEmpty)
-                  ? l10n.profilePasswordRequired
-                  : null,
+              validator: (v) => (v == null || v.isEmpty) ? l10n.profilePasswordRequired : null,
             ),
             const SizedBox(height: 12),
-            // New password
             TextFormField(
               controller: _newPasswordController,
               obscureText: _obscureNew,
@@ -362,7 +340,6 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
               },
             ),
             const SizedBox(height: 12),
-            // Confirm new password
             TextFormField(
               controller: _confirmPasswordController,
               obscureText: _obscureConfirm,
@@ -373,8 +350,7 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
                   icon: Icon(
                     _obscureConfirm ? Icons.visibility_off : Icons.visibility,
                   ),
-                  onPressed: () =>
-                      setState(() => _obscureConfirm = !_obscureConfirm),
+                  onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -405,10 +381,6 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
     );
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Stats Card
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _StatsCard extends StatefulWidget {
   final ProfileState state;
@@ -442,7 +414,6 @@ class _StatsCardState extends State<_StatsCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -467,20 +438,13 @@ class _StatsCardState extends State<_StatsCard> {
               ],
             ),
             const SizedBox(height: 12),
-
-            // Period type toggle (Month / Year)
             _PeriodToggle(state: state),
             const SizedBox(height: 12),
-
-            // Period picker (year + month)
             _PeriodPicker(state: state),
             const Divider(height: 24),
-
-            // Stats
             if (state.statsLoading)
               const Center(child: CircularProgressIndicator())
             else ...[
-              // Completed (no dropdown)
               _StatRow(
                 icon: Icons.check_circle_outline,
                 color: Colors.green,
@@ -488,8 +452,6 @@ class _StatsCardState extends State<_StatsCard> {
                 count: state.completedCount,
               ),
               const SizedBox(height: 8),
-
-              // Incomplete (with dropdown)
               _ExpandableStatRow(
                 icon: Icons.hourglass_top,
                 color: Colors.orange,
@@ -497,12 +459,9 @@ class _StatsCardState extends State<_StatsCard> {
                 count: state.pendingCount,
                 expanded: _pendingExpanded,
                 dates: state.pendingDates,
-                onToggle: () =>
-                    setState(() => _pendingExpanded = !_pendingExpanded),
+                onToggle: () => setState(() => _pendingExpanded = !_pendingExpanded),
               ),
               const SizedBox(height: 8),
-
-              // Missed (with dropdown)
               _ExpandableStatRow(
                 icon: Icons.cancel_outlined,
                 color: Theme.of(context).colorScheme.error,
@@ -510,8 +469,7 @@ class _StatsCardState extends State<_StatsCard> {
                 count: state.missedCount,
                 expanded: _missedExpanded,
                 dates: state.missedDates,
-                onToggle: () =>
-                    setState(() => _missedExpanded = !_missedExpanded),
+                onToggle: () => setState(() => _missedExpanded = !_missedExpanded),
               ),
             ],
           ],
@@ -551,9 +509,7 @@ class _PeriodToggle extends StatelessWidget {
           ProfilePeriodChanged(
             periodType: type,
             year: state.selectedYear ?? DateTime.now().year,
-            month: type == PeriodType.month
-                ? (state.selectedMonth ?? DateTime.now().month)
-                : null,
+            month: type == PeriodType.month ? (state.selectedMonth ?? DateTime.now().month) : null,
           ),
         );
       },
@@ -573,13 +529,11 @@ class _PeriodPicker extends StatelessWidget {
     final now = DateTime.now();
 
     final locale = Localizations.localeOf(context).toString();
-    // Build year list: ±5 years from now
     final years = List.generate(11, (i) => now.year - 5 + i);
     final months = List.generate(12, (i) => i + 1);
 
     return Row(
       children: [
-        // Year picker
         Expanded(
           child: DropdownButtonFormField<int>(
             initialValue: state.selectedYear ?? now.year,
@@ -593,9 +547,7 @@ class _PeriodPicker extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            items: years
-                .map((y) => DropdownMenuItem(value: y, child: Text('$y')))
-                .toList(),
+            items: years.map((y) => DropdownMenuItem(value: y, child: Text('$y'))).toList(),
             onChanged: (y) {
               if (y == null) return;
               bloc.add(
@@ -608,8 +560,6 @@ class _PeriodPicker extends StatelessWidget {
             },
           ),
         ),
-
-        // Month picker — only visible in month mode
         if (state.periodType == PeriodType.month) ...[
           const SizedBox(width: 12),
           Expanded(
@@ -817,15 +767,10 @@ class _DateChip extends StatelessWidget {
   }
 
   void _navigateToDate(BuildContext context, DateTime date) {
-    // Navigate to Agenda and pass the target date as extra.
-    // AgendaPage.initState will read this extra and load tasks for that date.
+    // Navigate to Agenda with the target date.
     context.go('/agenda', extra: date);
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Sign Out Button
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _SignOutButton extends StatelessWidget {
   @override

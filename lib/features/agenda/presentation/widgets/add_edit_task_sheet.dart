@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:task_orbit/l10n/app_localizations.dart';
 import 'package:task_orbit/features/agenda/domain/entities/category.dart';
 
@@ -59,7 +59,6 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
     _isAllDay = widget.initialIsAllDay;
     _selectedCategoryId = widget.initialCategoryId;
 
-    // Map initial notification value to state
     final initNotif = widget.initialNotificationMinutesBefore;
     if (initNotif == null) {
       _notificationValue = null;
@@ -71,9 +70,7 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
     }
 
     _customHrController = TextEditingController(
-      text: _isCustomNotification
-          ? (initNotif! / 60).toStringAsFixed(1).replaceAll('.0', '')
-          : '',
+      text: _isCustomNotification ? (initNotif! / 60).toStringAsFixed(1).replaceAll('.0', '') : '',
     );
   }
 
@@ -98,12 +95,8 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
 
   Future<void> _pickTime({required bool isStart}) async {
     final initial = isStart
-        ? (_startTime != null
-              ? TimeOfDay.fromDateTime(_startTime!)
-              : TimeOfDay.now())
-        : (_endTime != null
-              ? TimeOfDay.fromDateTime(_endTime!)
-              : TimeOfDay.now());
+        ? (_startTime != null ? TimeOfDay.fromDateTime(_startTime!) : TimeOfDay.now())
+        : (_endTime != null ? TimeOfDay.fromDateTime(_endTime!) : TimeOfDay.now());
 
     final picked = await showTimePicker(
       context: context,
@@ -146,7 +139,6 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Handle bar
               Center(
                 child: Container(
                   width: 40,
@@ -169,7 +161,6 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
               ),
               const SizedBox(height: 16),
 
-              // Title
               TextFormField(
                 controller: _titleController,
                 decoration: InputDecoration(
@@ -186,7 +177,6 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
               ),
               const SizedBox(height: 12),
 
-              // Description
               TextFormField(
                 controller: _descriptionController,
                 decoration: InputDecoration(
@@ -199,7 +189,6 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
               ),
               const SizedBox(height: 12),
 
-              // Category Dropdown
               if (widget.categories.isNotEmpty) ...[
                 DropdownButtonFormField<String?>(
                   initialValue: _selectedCategoryId,
@@ -240,7 +229,6 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
                 const SizedBox(height: 12),
               ],
 
-              // Date picker
               ListTile(
                 leading: const Icon(Icons.calendar_today),
                 title: Text(
@@ -255,7 +243,6 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
               ),
               const SizedBox(height: 12),
 
-              // All Day Switch
               SwitchListTile(
                 title: Text(l10n.taskFormAllDayLabel),
                 value: _isAllDay,
@@ -267,7 +254,6 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
               ),
               const SizedBox(height: 12),
 
-              // Time pickers
               if (!_isAllDay) ...[
                 Row(
                   children: [
@@ -307,7 +293,6 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
                 const SizedBox(height: 12),
               ],
 
-              // Notification Dropdown
               DropdownButtonFormField<int?>(
                 initialValue: _notificationValue,
                 decoration: InputDecoration(
@@ -372,8 +357,7 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
                       if (value == null || value.isEmpty) {
                         return l10n.taskFormNotificationCustomRequired;
                       }
-                      if (double.tryParse(value) == null ||
-                          double.parse(value) <= 0) {
+                      if (double.tryParse(value) == null || double.parse(value) <= 0) {
                         return l10n.taskFormNotificationCustomInvalid;
                       }
                     }
@@ -383,16 +367,12 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
                 const SizedBox(height: 12),
               ],
 
-              // Submit button
               SizedBox(
                 height: 48,
                 child: FilledButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      if (!_isAllDay &&
-                          _startTime != null &&
-                          _endTime != null &&
-                          _endTime!.isBefore(_startTime!)) {
+                      if (!_isAllDay && _startTime != null && _endTime != null && _endTime!.isBefore(_startTime!)) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(l10n.taskFormEndBeforeStartError),
@@ -403,9 +383,7 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
 
                       int? finalNotificationMinutes;
                       if (_notificationValue == -1) {
-                        final hrs =
-                            double.tryParse(_customHrController.text.trim()) ??
-                            0;
+                        final hrs = double.tryParse(_customHrController.text.trim()) ?? 0;
                         finalNotificationMinutes = (hrs * 60).round();
                       } else {
                         finalNotificationMinutes = _notificationValue;
@@ -414,14 +392,12 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
                       if (finalNotificationMinutes != null) {
                         DateTime baseTime;
                         if (_isAllDay) {
-                          // For all day, base time is 00:00 of the selected date
                           baseTime = DateTime(
                             _selectedDate.year,
                             _selectedDate.month,
                             _selectedDate.day,
                           );
                         } else {
-                          // Both date and start time combine
                           if (_startTime == null) {
                             baseTime = DateTime(
                               _selectedDate.year,
@@ -465,9 +441,7 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
                     }
                   },
                   child: Text(
-                    widget.isEditing
-                        ? l10n.taskFormSaveButton
-                        : l10n.taskFormCreateButton,
+                    widget.isEditing ? l10n.taskFormSaveButton : l10n.taskFormCreateButton,
                   ),
                 ),
               ),

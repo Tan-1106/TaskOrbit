@@ -61,8 +61,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 SnackBar(content: Text(state.message)),
               );
             }
-            // AuthSuccess: router automatically redirects to /agenda
-            // via authStateChanges → no manual navigation needed
+            // AuthSuccess is handled by GoRouter redirect.
           },
           builder: (context, state) {
             if (state is AuthLoading) {
@@ -87,7 +86,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                       const SizedBox(height: 48),
-                      // Name Field
+
                       TextFormField(
                         controller: _nameController,
                         decoration: _inputDecoration(l10n.signUpNameLabel, Icons.person),
@@ -100,7 +99,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                       ),
                       const SizedBox(height: 16),
-                      // Email Field
+
                       TextFormField(
                         controller: _emailController,
                         decoration: _inputDecoration(l10n.signUpEmailLabel, Icons.email),
@@ -116,7 +115,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                       ),
                       const SizedBox(height: 16),
-                      // Password Field
+
                       TextFormField(
                         controller: _passwordController,
                         obscureText: true,
@@ -133,7 +132,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                       ),
                       const SizedBox(height: 32),
-                      // Sign Up Button
+
                       ElevatedButton(
                         onPressed: _onSignUp,
                         style: ElevatedButton.styleFrom(
@@ -153,7 +152,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      // Back to Login
+
                       TextButton(
                         onPressed: () => context.pop(),
                         child: Text(

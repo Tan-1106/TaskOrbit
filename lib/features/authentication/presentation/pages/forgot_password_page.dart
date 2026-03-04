@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_orbit/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -109,7 +109,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 48),
-                      // Email Field
+
                       TextFormField(
                         controller: _emailController,
                         decoration: _inputDecoration(l10n.forgotPasswordEmailLabel, Icons.email),
@@ -125,7 +125,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         },
                       ),
                       const SizedBox(height: 32),
-                      // Reset Password Button
+
                       ElevatedButton(
                         onPressed: _onResetPassword,
                         style: ElevatedButton.styleFrom(
