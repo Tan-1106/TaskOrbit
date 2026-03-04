@@ -54,6 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
             end: Alignment.bottomCenter,
           ),
         ),
+
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthFailure) {
@@ -61,12 +62,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 SnackBar(content: Text(state.message)),
               );
             }
-            // AuthSuccess is handled by GoRouter redirect.
           },
           builder: (context, state) {
             if (state is AuthLoading) {
-              return const Center(
-                child: CircularProgressIndicator(color: Colors.white),
+              return Center(
+                child: CircularProgressIndicator(color: Theme.of(context).colorScheme.onPrimary),
               );
             }
 
@@ -79,10 +79,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     children: [
                       Text(
                         l10n.signUpTitle,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
                       const SizedBox(height: 48),
@@ -90,7 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       TextFormField(
                         controller: _nameController,
                         decoration: _inputDecoration(l10n.signUpNameLabel, Icons.person),
-                        style: const TextStyle(color: Colors.white),
+                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return l10n.signUpNameRequired;
@@ -99,11 +99,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                       ),
                       const SizedBox(height: 16),
-
                       TextFormField(
                         controller: _emailController,
                         decoration: _inputDecoration(l10n.signUpEmailLabel, Icons.email),
-                        style: const TextStyle(color: Colors.white),
+                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return l10n.signUpEmailRequired;
@@ -115,12 +114,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                       ),
                       const SizedBox(height: 16),
-
                       TextFormField(
                         controller: _passwordController,
                         obscureText: true,
                         decoration: _inputDecoration(l10n.signUpPasswordLabel, Icons.lock),
-                        style: const TextStyle(color: Colors.white),
+                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return l10n.signUpPasswordRequired;
@@ -137,7 +135,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         onPressed: _onSignUp,
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(double.infinity, 50),
-                          backgroundColor: Colors.white,
+                          backgroundColor: Theme.of(context).colorScheme.onPrimary,
                           foregroundColor: Theme.of(context).colorScheme.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -153,12 +151,26 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       const SizedBox(height: 16),
 
-                      TextButton(
-                        onPressed: () => context.pop(),
-                        child: Text(
-                          l10n.signUpAlreadyHaveAccount,
-                          style: const TextStyle(color: Colors.white),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.signUpAlreadyHaveAccount,
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => context.pop(),
+                            child: Text(
+                              AppLocalizations.of(context)!.signUpSignIn,
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -174,22 +186,22 @@ class _SignUpPageState extends State<SignUpPage> {
   InputDecoration _inputDecoration(String label, IconData icon) {
     return InputDecoration(
       labelText: label,
-      labelStyle: const TextStyle(color: Colors.white70),
-      prefixIcon: Icon(icon, color: Colors.white70),
+      labelStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+      prefixIcon: Icon(icon, color: Theme.of(context).colorScheme.onPrimary),
       enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.white54),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.onPrimary),
         borderRadius: BorderRadius.circular(12),
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.white),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.onPrimary),
         borderRadius: BorderRadius.circular(12),
       ),
       errorBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.redAccent),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.onError),
         borderRadius: BorderRadius.circular(12),
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.redAccent),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
         borderRadius: BorderRadius.circular(12),
       ),
     );

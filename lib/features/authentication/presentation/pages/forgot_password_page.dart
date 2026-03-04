@@ -73,8 +73,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           },
           builder: (context, state) {
             if (state is AuthLoading) {
-              return const Center(
-                child: CircularProgressIndicator(color: Colors.white),
+              return Center(
+                child: CircularProgressIndicator(color: Theme.of(context).colorScheme.onPrimary),
               );
             }
 
@@ -85,26 +85,26 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.lock_reset,
                         size: 100,
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                       const SizedBox(height: 32),
                       Text(
                         l10n.forgotPasswordTitle,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
                       const SizedBox(height: 16),
                       Text(
                         l10n.forgotPasswordSubtitle,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
-                          color: Colors.white70,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -113,7 +113,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       TextFormField(
                         controller: _emailController,
                         decoration: _inputDecoration(l10n.forgotPasswordEmailLabel, Icons.email),
-                        style: const TextStyle(color: Colors.white),
+                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return l10n.forgotPasswordEmailRequired;
@@ -130,7 +130,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         onPressed: _onResetPassword,
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(double.infinity, 50),
-                          backgroundColor: Colors.white,
+                          backgroundColor: Theme.of(context).colorScheme.onPrimary,
                           foregroundColor: Theme.of(context).colorScheme.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -158,22 +158,22 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   InputDecoration _inputDecoration(String label, IconData icon) {
     return InputDecoration(
       labelText: label,
-      labelStyle: const TextStyle(color: Colors.white70),
-      prefixIcon: Icon(icon, color: Colors.white70),
+      labelStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+      prefixIcon: Icon(icon, color: Theme.of(context).colorScheme.onPrimary),
       enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.white54),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.onPrimary),
         borderRadius: BorderRadius.circular(12),
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.white),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.onPrimary),
         borderRadius: BorderRadius.circular(12),
       ),
       errorBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.redAccent),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.onError),
         borderRadius: BorderRadius.circular(12),
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.redAccent),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
         borderRadius: BorderRadius.circular(12),
       ),
     );

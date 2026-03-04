@@ -24,7 +24,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shellTitleDefault => 'Task Orbit';
 
   @override
-  String get signInQuote => 'Organize your tasks\nOrbit your productivity';
+  String get signInQuote => 'Organize your tasks - Orbit your productivity';
 
   @override
   String get signInEmailLabel => 'Your email';
@@ -90,7 +90,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signUpButton => 'Sign Up';
 
   @override
-  String get signUpAlreadyHaveAccount => 'Already have an account? Log In';
+  String get signUpAlreadyHaveAccount => 'Already have an account? ';
+
+  @override
+  String get signUpSignIn => 'Sign In';
 
   @override
   String get forgotPasswordAppBarTitle => 'Reset Password';

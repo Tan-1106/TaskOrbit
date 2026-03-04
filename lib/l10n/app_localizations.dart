@@ -128,7 +128,7 @@ abstract class AppLocalizations {
   /// No description provided for @signInQuote.
   ///
   /// In en, this message translates to:
-  /// **'Organize your tasks\nOrbit your productivity'**
+  /// **'Organize your tasks - Orbit your productivity'**
   String get signInQuote;
 
   /// No description provided for @signInEmailLabel.
@@ -260,8 +260,14 @@ abstract class AppLocalizations {
   /// No description provided for @signUpAlreadyHaveAccount.
   ///
   /// In en, this message translates to:
-  /// **'Already have an account? Log In'**
+  /// **'Already have an account? '**
   String get signUpAlreadyHaveAccount;
+
+  /// No description provided for @signUpSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signUpSignIn;
 
   /// No description provided for @forgotPasswordAppBarTitle.
   ///

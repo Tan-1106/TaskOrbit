@@ -46,9 +46,9 @@ class Background extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    _drawCircleWithShadow(canvas, Offset(size.width * 0.5, size.height * 0.7), MediaQuery.of(context).size.width, Colors.white.withValues(alpha: 0.8));
-    _drawCircleWithShadow(canvas, Offset(size.width * 0.5, size.height * 0.75), MediaQuery.of(context).size.width, Colors.white);
-    _drawCircleWithShadow(canvas, Offset(size.width * 0.5, size.height * 0.8), MediaQuery.of(context).size.width, Colors.white);
+    _drawCircleWithShadow(canvas, Offset(size.width * 0.5, size.height * 0.7), MediaQuery.of(context).size.width, Theme.of(context).colorScheme.onPrimary);
+    _drawCircleWithShadow(canvas, Offset(size.width * 0.5, size.height * 0.75), MediaQuery.of(context).size.width, Theme.of(context).colorScheme.onPrimary);
+    _drawCircleWithShadow(canvas, Offset(size.width * 0.5, size.height * 0.8), MediaQuery.of(context).size.width, Theme.of(context).colorScheme.onPrimary);
   }
 
   @override

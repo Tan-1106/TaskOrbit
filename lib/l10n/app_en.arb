@@ -6,7 +6,7 @@
   "navProfile": "Profile",
   "shellTitleDefault": "Task Orbit",
 
-  "signInQuote": "Organize your tasks\nOrbit your productivity",
+  "signInQuote": "Organize your tasks - Orbit your productivity",
   "signInEmailLabel": "Your email",
   "signInEmailRequired": "Email is required",
   "signInEmailInvalid": "Please enter a valid email address",
@@ -29,7 +29,8 @@
   "signUpPasswordRequired": "Please enter your password",
   "signUpPasswordMinLength": "Password must be at least 6 characters",
   "signUpButton": "Sign Up",
-  "signUpAlreadyHaveAccount": "Already have an account? Log In",
+  "signUpAlreadyHaveAccount": "Already have an account? ",
+  "signUpSignIn": "Sign In",
 
   "forgotPasswordAppBarTitle": "Reset Password",
   "forgotPasswordTitle": "Forgot Password?",

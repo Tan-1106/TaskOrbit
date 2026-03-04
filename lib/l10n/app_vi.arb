@@ -6,7 +6,7 @@
   "navProfile": "Hồ sơ",
   "shellTitleDefault": "Task Orbit",
 
-  "signInQuote": "Tổ chức công việc của bạn\nTăng năng suất cùng Task Orbit",
+  "signInQuote": "Kế hoạch hóa công việc của bạn - Tăng năng suất cùng Task Orbit",
   "signInEmailLabel": "Email của bạn",
   "signInEmailRequired": "Vui lòng nhập email",
   "signInEmailInvalid": "Vui lòng nhập địa chỉ email hợp lệ",
@@ -29,7 +29,8 @@
   "signUpPasswordRequired": "Vui lòng nhập mật khẩu",
   "signUpPasswordMinLength": "Mật khẩu phải có ít nhất 6 ký tự",
   "signUpButton": "Đăng ký",
-  "signUpAlreadyHaveAccount": "Đã có tài khoản? Đăng nhập",
+  "signUpAlreadyHaveAccount": "Đã có tài khoản? ",
+  "signUpSignIn": "Đăng nhập",
 
   "forgotPasswordAppBarTitle": "Đặt lại mật khẩu",
   "forgotPasswordTitle": "Quên mật khẩu?",

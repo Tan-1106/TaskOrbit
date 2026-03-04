@@ -92,7 +92,7 @@ class _AppShellLayoutState extends State<AppShellLayout> {
                 ? _shellActions.actions
                 : null,
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           body: ShellActionsScope(
             notifier: _shellActions,
             child: widget.child,

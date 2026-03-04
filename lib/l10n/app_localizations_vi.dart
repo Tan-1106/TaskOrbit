@@ -24,7 +24,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get shellTitleDefault => 'Task Orbit';
 
   @override
-  String get signInQuote => 'Tổ chức công việc của bạn\nTăng năng suất cùng Task Orbit';
+  String get signInQuote => 'Kế hoạch hóa công việc của bạn - Tăng năng suất cùng Task Orbit';
 
   @override
   String get signInEmailLabel => 'Email của bạn';
@@ -90,7 +90,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get signUpButton => 'Đăng ký';
 
   @override
-  String get signUpAlreadyHaveAccount => 'Đã có tài khoản? Đăng nhập';
+  String get signUpAlreadyHaveAccount => 'Đã có tài khoản? ';
+
+  @override
+  String get signUpSignIn => 'Đăng nhập';
 
   @override
   String get forgotPasswordAppBarTitle => 'Đặt lại mật khẩu';

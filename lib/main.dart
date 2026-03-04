@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> {
 
       theme: theme.light(),
       darkTheme: theme.dark(),
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.system,
 
       locale: _localeNotifier.value,
       supportedLocales: const [

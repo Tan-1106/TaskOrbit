@@ -28,14 +28,13 @@ class _SignInPageState extends State<SignInPage> {
           gradient: LinearGradient(
             colors: [
               Theme.of(context).colorScheme.primary,
-              Theme.of(
-                context,
-              ).colorScheme.primaryContainer.withValues(alpha: 0.5),
+              Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.5),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
+
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthFailure) {
@@ -58,53 +57,41 @@ class _SignInPageState extends State<SignInPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.1,
-                          ),
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                           Text(
                             AppLocalizations.of(context)!.appTitle,
                             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onPrimary,
+                              color: Theme.of(context).colorScheme.onPrimary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+                          const SizedBox(height: 16),
                           Text(
                             AppLocalizations.of(context)!.signInQuote,
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onPrimaryContainer,
-                              fontWeight: FontWeight.bold,
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              fontStyle: FontStyle.italic,
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.2,
-                          ),
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.25),
+
                           TextFormField(
                             controller: _emailController,
                             decoration: InputDecoration(
-                              labelText: AppLocalizations.of(
-                                context,
-                              )!.signInEmailLabel,
+                              labelText: AppLocalizations.of(context)!.signInEmailLabel,
                               border: const OutlineInputBorder(),
                               prefixIcon: const Icon(Icons.email),
                             ),
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return AppLocalizations.of(
-                                  context,
-                                )!.signInEmailRequired;
+                                return AppLocalizations.of(context)!.signInEmailRequired;
                               }
                               if (!RegExp(
                                 r'^[^@]+@[^@]+\.[^@]+',
                               ).hasMatch(value)) {
-                                return AppLocalizations.of(
-                                  context,
-                                )!.signInEmailInvalid;
+                                return AppLocalizations.of(context)!.signInEmailInvalid;
                               }
                               return null;
                             },
@@ -113,23 +100,17 @@ class _SignInPageState extends State<SignInPage> {
                           TextFormField(
                             controller: _passwordController,
                             decoration: InputDecoration(
-                              labelText: AppLocalizations.of(
-                                context,
-                              )!.signInPasswordLabel,
+                              labelText: AppLocalizations.of(context)!.signInPasswordLabel,
                               border: const OutlineInputBorder(),
                               prefixIcon: const Icon(Icons.lock),
                             ),
                             obscureText: true,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return AppLocalizations.of(
-                                  context,
-                                )!.signInPasswordRequired;
+                                return AppLocalizations.of(context)!.signInPasswordRequired;
                               }
                               if (value.length < 6) {
-                                return AppLocalizations.of(
-                                  context,
-                                )!.signInPasswordMinLength;
+                                return AppLocalizations.of(context)!.signInPasswordMinLength;
                               }
                               return null;
                             },
@@ -142,25 +123,17 @@ class _SignInPageState extends State<SignInPage> {
                                   context.push('/forgot-password');
                                 },
                                 child: Text(
-                                  AppLocalizations.of(
-                                    context,
-                                  )!.signInForgotPassword,
+                                  AppLocalizations.of(context)!.signInForgotPassword,
                                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onPrimaryContainer,
+                                    color: Theme.of(context).colorScheme.onPrimaryContainer,
                                   ),
                                 ),
                               ),
                               const Spacer(),
                               Text(
-                                AppLocalizations.of(
-                                  context,
-                                )!.signInRememberMe,
+                                AppLocalizations.of(context)!.signInRememberMe,
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimaryContainer,
+                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
                                 ),
                               ),
                               Transform.translate(
@@ -182,15 +155,14 @@ class _SignInPageState extends State<SignInPage> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Theme.of(context).colorScheme.primary,
+                              ),
                               onPressed: isLoading
                                   ? null
                                   : () {
                                       if (_formKey.currentState!.validate()) {
-                                        // Persist before GoRouter redirects away.
-                                        serviceLocator<SharedPreferences>().setBool(
-                                          'remember_me',
-                                          rememberMe,
-                                        );
+                                        serviceLocator<SharedPreferences>().setBool('remember_me', rememberMe);
                                         context.read<AuthBloc>().add(
                                           AuthLoginRequested(
                                             email: _emailController.text.trim(),
@@ -201,13 +173,10 @@ class _SignInPageState extends State<SignInPage> {
                                     },
                               child: !isLoading
                                   ? Text(
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.signInButton,
+                                      AppLocalizations.of(context)!.signInButton,
                                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.onPrimaryContainer,
+                                        color: Theme.of(context).colorScheme.onPrimary,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     )
                                   : const SizedBox(
@@ -215,9 +184,7 @@ class _SignInPageState extends State<SignInPage> {
                                       height: 16,
                                       child: Padding(
                                         padding: EdgeInsets.all(4.0),
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                        ),
+                                        child: CircularProgressIndicator(strokeWidth: 2),
                                       ),
                                     ),
                             ),
@@ -227,13 +194,9 @@ class _SignInPageState extends State<SignInPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                AppLocalizations.of(
-                                  context,
-                                )!.signInNoAccount,
+                                AppLocalizations.of(context)!.signInNoAccount,
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimaryContainer,
+                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
                                 ),
                               ),
                               GestureDetector(
@@ -241,13 +204,9 @@ class _SignInPageState extends State<SignInPage> {
                                   context.push('/sign-up');
                                 },
                                 child: Text(
-                                  AppLocalizations.of(
-                                    context,
-                                  )!.signInSignUp,
+                                  AppLocalizations.of(context)!.signInSignUp,
                                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
+                                    color: Theme.of(context).colorScheme.primary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
