@@ -293,6 +293,12 @@ abstract class AppLocalizations {
   /// **'An account with this email already exists. Please sign in instead.'**
   String get signUpEmailAlreadyExists;
 
+  /// No description provided for @emailVerificationAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Verification'**
+  String get emailVerificationAppBarTitle;
+
   /// No description provided for @emailVerificationTitle.
   ///
   /// In en, this message translates to:

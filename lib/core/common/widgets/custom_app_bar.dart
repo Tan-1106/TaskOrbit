@@ -18,7 +18,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      centerTitle: true,
       leading: onBack != null
           ? IconButton(
               icon: const Icon(Icons.arrow_back),
@@ -30,6 +29,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: Theme.of(context).textTheme.titleLarge,
       ),
       actions: actions,
+      centerTitle: true,
     );
   }
 }

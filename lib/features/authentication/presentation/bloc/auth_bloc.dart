@@ -66,8 +66,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       },
       // Sign-up succeeded: emit verification-sent state instead of AuthSuccess.
-      (_) =>
-          emit(AuthVerificationEmailSent(email: event.email, name: event.name)),
+      (_) => emit(AuthVerificationEmailSent(email: event.email, name: event.name)),
     );
   }
 
@@ -86,8 +85,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     res.fold(
       (failure) {
-        if (failure.message.contains('unverified_email')) {
-          emit(AuthVerificationEmailSent(email: event.email, name: ''));
+        if (failure.message.startsWith('unverified_email')) {
+          final name = failure.message.contains(':') ? failure.message.split(':').sublist(1).join(':') : '';
+          emit(AuthVerificationEmailSent(email: event.email, name: name));
         } else {
           emit(AuthFailure(failure.message));
         }

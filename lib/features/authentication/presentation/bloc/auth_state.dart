@@ -25,26 +25,19 @@ final class AuthForgotPasswordSuccess extends AuthState {
   AuthForgotPasswordSuccess(this.message);
 }
 
-/// Emitted after sign-up: verification email has been sent.
-/// The UI should navigate to the EmailVerificationPage.
 final class AuthVerificationEmailSent extends AuthState {
-  final String email;
   final String name;
+  final String email;
 
-  AuthVerificationEmailSent({required this.email, required this.name});
+  AuthVerificationEmailSent({ required this.name, required this.email});
 }
 
-/// Emitted when the user's email has been confirmed verified.
-/// The UI should navigate back to sign-in.
 final class AuthEmailVerified extends AuthState {}
 
-/// Emitted when the user checks verification but their email is still unverified.
 final class AuthEmailNotVerified extends AuthState {
   final String message;
 
   AuthEmailNotVerified(this.message);
 }
 
-/// Emitted when the sign-up email is already registered to an existing account.
-/// The UI should show a snackbar and stay on the sign-up page.
 final class AuthEmailAlreadyExists extends AuthState {}

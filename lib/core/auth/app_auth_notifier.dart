@@ -9,8 +9,9 @@ class AppAuthNotifier extends ChangeNotifier {
 
   User? get currentUser => _user;
 
-  bool get isAuthenticated => _user != null && _user!.emailVerified;
   bool get isGuest => _user == null || !_user!.emailVerified;
+
+  bool get isAuthenticated => _user != null && _user!.emailVerified;
 
   AppAuthNotifier(this._firebaseAuth) {
     _user = _firebaseAuth.currentUser;

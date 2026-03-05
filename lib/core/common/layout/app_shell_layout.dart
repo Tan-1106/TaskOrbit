@@ -8,7 +8,10 @@ import 'package:task_orbit/l10n/app_localizations.dart';
 class AppShellLayout extends StatefulWidget {
   final Widget child;
 
-  const AppShellLayout({super.key, required this.child});
+  const AppShellLayout({
+    super.key,
+    required this.child,
+  });
 
   @override
   State<AppShellLayout> createState() => _AppShellLayoutState();
@@ -18,10 +21,8 @@ class _AppShellLayoutState extends State<AppShellLayout> {
   final _shellActions = ShellActionsNotifier();
 
   int _calculateSelectedIndex(BuildContext context) {
-    final location = GoRouterState
-        .of(context)
-        .uri
-        .toString();
+    final location = GoRouterState.of(context).uri.toString();
+
     if (location.startsWith('/agenda')) return 0;
     if (location.startsWith('/pomodoro')) return 1;
     if (location.startsWith('/profile')) return 2;
@@ -41,6 +42,7 @@ class _AppShellLayoutState extends State<AppShellLayout> {
 
   String _getTitle(BuildContext context, int selectedIndex) {
     final l10n = AppLocalizations.of(context)!;
+
     switch (selectedIndex) {
       case 0:
         return l10n.navAgenda;
@@ -54,10 +56,7 @@ class _AppShellLayoutState extends State<AppShellLayout> {
   }
 
   bool _shouldShowBackButton(BuildContext context) {
-    final location = GoRouterState
-        .of(context)
-        .uri
-        .toString();
+    final location = GoRouterState.of(context).uri.toString();
     return ChildRoutes.isChildRoute(location);
   }
 
@@ -88,11 +87,8 @@ class _AppShellLayoutState extends State<AppShellLayout> {
           appBar: CustomAppBar(
             title: _getTitle(context, selectedIndex),
             onBack: showBackButton ? () => _onBackPressed(context) : null,
-            actions: _shellActions.actions.isNotEmpty
-                ? _shellActions.actions
-                : null,
+            actions: _shellActions.actions.isNotEmpty ? _shellActions.actions : null,
           ),
-          backgroundColor: Theme.of(context).colorScheme.surface,
           body: ShellActionsScope(
             notifier: _shellActions,
             child: widget.child,
@@ -116,6 +112,7 @@ class _AppShellLayoutState extends State<AppShellLayout> {
               ),
             ],
           ),
+          backgroundColor: Theme.of(context).colorScheme.surface,
         );
       },
     );
@@ -133,13 +130,11 @@ class ShellActionsScope extends InheritedWidget {
   });
 
   static ShellActionsNotifier of(BuildContext context) {
-    final scope = context
-        .dependOnInheritedWidgetOfExactType<ShellActionsScope>();
+    final scope = context.dependOnInheritedWidgetOfExactType<ShellActionsScope>();
     assert(scope != null, 'No ShellActionsScope found in widget tree');
     return scope!.notifier;
   }
 
   @override
-  bool updateShouldNotify(ShellActionsScope oldWidget) =>
-      notifier != oldWidget.notifier;
+  bool updateShouldNotify(ShellActionsScope oldWidget) => notifier != oldWidget.notifier;
 }

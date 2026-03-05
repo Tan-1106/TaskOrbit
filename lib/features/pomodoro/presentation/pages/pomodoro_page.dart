@@ -84,7 +84,7 @@ class _ControlRow extends StatelessWidget {
         _ControlButton(
           icon: Icons.replay,
           label: l10n.pomodoroResetAll,
-          color: color.withValues(alpha: 0.7),
+          color: color,
           size: 48,
           onTap: () => context.read<PomodoroBloc>().add(const PomodoroResetAll()),
         ),
@@ -123,7 +123,7 @@ class _ControlRow extends StatelessWidget {
         _ControlButton(
           icon: Icons.refresh,
           label: l10n.pomodoroResetPhase,
-          color: color.withValues(alpha: 0.7),
+          color: color,
           size: 48,
           onTap: () => context.read<PomodoroBloc>().add(const PomodoroResetCycle()),
         ),
@@ -173,7 +173,7 @@ class _ControlButton extends StatelessWidget {
             style: TextStyle(
               fontSize: 11,
               color: color,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],

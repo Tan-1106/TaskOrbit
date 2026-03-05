@@ -7,10 +7,13 @@ enum ChildRoutes {
   const ChildRoutes(this.path);
 
   static bool isChildRoute(String location) {
+    // Remove query parameters and fragments for matching
     final cleanLocation = location.split('?').first.split('#').first;
 
+    // Check for exact matches and parameterized routes
     for (final route in ChildRoutes.values) {
       if (cleanLocation == route.path) return true;
+
       final pattern = route.path.replaceAllMapped(
         RegExp(r':\w+'),
         (match) => r'[\w-]+',

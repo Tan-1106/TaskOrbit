@@ -7,8 +7,7 @@ import 'package:task_orbit/features/authentication/presentation/pages/sign_in_pa
 import 'package:task_orbit/features/authentication/presentation/pages/sign_up_page.dart';
 import 'package:task_orbit/features/agenda/presentation/pages/agenda_page.dart';
 import 'package:task_orbit/features/agenda/presentation/pages/task_detail_page.dart';
-import 'package:task_orbit/features/agenda/domain/entities/task.dart'
-    as task_domain;
+import 'package:task_orbit/features/agenda/domain/entities/task.dart' as task_domain;
 import 'package:task_orbit/features/profile/presentation/pages/profile_page.dart';
 import 'package:task_orbit/features/pomodoro/presentation/pages/pomodoro_page.dart';
 import 'package:task_orbit/init_dependencies.dart';
@@ -20,25 +19,22 @@ const _authRoutes = [
   '/sign-in',
   '/sign-up',
   '/forgot-password',
-  '/email-verification',
 ];
 
 final GoRouter appRouter = GoRouter(
-  // App starts at Agenda; guests can use the app without signing in.
   initialLocation: '/agenda',
-  navigatorKey: serviceLocator<GlobalKey<NavigatorState>>(),
   refreshListenable: serviceLocator<AppAuthNotifier>(),
+  navigatorKey: serviceLocator<GlobalKey<NavigatorState>>(),
 
   redirect: (context, state) {
-    final isAuthenticated = serviceLocator<AppAuthNotifier>().isAuthenticated;
     final location = state.uri.path;
-
     final isOnAuthRoute = _authRoutes.any((r) => location.startsWith(r));
+    final isAuthenticated = serviceLocator<AppAuthNotifier>().isAuthenticated;
 
-    // Redirect authenticated users away from auth pages (e.g. after login).
+    // Redirect authenticated users to the agenda.
     if (isAuthenticated && isOnAuthRoute) return '/agenda';
 
-    // Guests are allowed to access all app routes freely; no forced redirect.
+    // Guests are allowed to access all app routes freely.
     return null;
   },
 
@@ -52,22 +48,24 @@ final GoRouter appRouter = GoRouter(
       name: 'sign-up',
       path: '/sign-up',
       builder: (context, state) => const SignUpPage(),
+      routes: [
+        GoRoute(
+          name: 'email-verification',
+          path: 'email-verification',
+          builder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>? ?? {};
+            return EmailVerificationPage(
+              name: (extra['name'] as String?) ?? '',
+              email: (extra['email'] as String?) ?? '',
+            );
+          },
+        ),
+      ],
     ),
     GoRoute(
       name: 'forgot-password',
       path: '/forgot-password',
       builder: (context, state) => const ForgotPasswordPage(),
-    ),
-    GoRoute(
-      name: 'email-verification',
-      path: '/email-verification',
-      builder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>? ?? {};
-        return EmailVerificationPage(
-          email: (extra['email'] as String?) ?? '',
-          name: (extra['name'] as String?) ?? '',
-        );
-      },
     ),
 
     ShellRoute(

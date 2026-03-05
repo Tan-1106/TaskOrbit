@@ -45,7 +45,7 @@ class _SignInPageState extends State<SignInPage> {
               );
             } else if (state is AuthVerificationEmailSent) {
               context.push(
-                '/email-verification',
+                '/sign-up/email-verification',
                 extra: {'email': state.email, 'name': state.name},
               );
             } else if (state is AuthSuccess) {

@@ -92,8 +92,7 @@ class AuthRepositoryImpl implements IAuthRepository {
     required String name,
   }) async {
     return _getUser(
-      () async =>
-          await remoteDataSource.reloadAndCheckEmailVerified(name: name),
+      () async => await remoteDataSource.reloadAndCheckEmailVerified(name: name),
     );
   }
 

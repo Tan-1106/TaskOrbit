@@ -36,6 +36,7 @@
   "signUpSignIn": "Sign In",
   "signUpEmailAlreadyExists": "An account with this email already exists. Please sign in instead.",
 
+  "emailVerificationAppBarTitle": "Email Verification",
   "emailVerificationTitle": "Verify your email",
   "emailVerificationMessage": "A verification email has been sent to {email}. Please check your inbox and click the link to verify your account.",
   "@emailVerificationMessage": {

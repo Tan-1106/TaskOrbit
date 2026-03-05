@@ -70,7 +70,7 @@ class _SignUpPageState extends State<SignUpPage> {
               );
             } else if (state is AuthVerificationEmailSent) {
               context.push(
-                '/email-verification',
+                '/sign-up/email-verification',
                 extra: {'email': state.email, 'name': state.name},
               );
             }
