@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users collection: only the authenticated user can read/write their own data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // pending_verifications: only writable by the authenticated user themselves (on sign-up),
+    // but NOT readable by any client. Cloud Function (Admin SDK) handles deletion.
+    match /pending_verifications/{userId} {
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow read, update, delete: if false;
+    }
+  }
+}
+

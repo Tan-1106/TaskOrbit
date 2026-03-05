@@ -34,7 +34,7 @@
   "signUpButton": "Đăng ký",
   "signUpAlreadyHaveAccount": "Đã có tài khoản? ",
   "signUpSignIn": "Đăng nhập",
-  "signUpEmailAlreadyExists": "Email này đã được đăng ký. Vui lòng đăng nhập thay thế.",
+  "signUpEmailAlreadyExists": "Email đã tồn tại. Vui lòng đăng nhập hoặc xác thực email nếu bạn chưa làm điều đó.",
 
   "emailVerificationAppBarTitle": "Xác thực email",
   "emailVerificationTitle": "Xác thực email",

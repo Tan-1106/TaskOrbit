@@ -85,7 +85,7 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
         });
 
     _authSubscription = _firebaseAuth.authStateChanges().listen((user) {
-      if (user != null) {
+      if (user != null && user.emailVerified) {
         add(AgendaSyncTasks());
       }
     });

@@ -105,7 +105,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signUpSignIn => 'Sign In';
 
   @override
-  String get signUpEmailAlreadyExists => 'An account with this email already exists. Please sign in instead.';
+  String get signUpEmailAlreadyExists => 'Email already exists. Please sign in or verify your email if you haven\'t done so.';
 
   @override
   String get emailVerificationAppBarTitle => 'Email Verification';

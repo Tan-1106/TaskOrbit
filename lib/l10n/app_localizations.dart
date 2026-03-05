@@ -290,7 +290,7 @@ abstract class AppLocalizations {
   /// No description provided for @signUpEmailAlreadyExists.
   ///
   /// In en, this message translates to:
-  /// **'An account with this email already exists. Please sign in instead.'**
+  /// **'Email already exists. Please sign in or verify your email if you haven\'t done so.'**
   String get signUpEmailAlreadyExists;
 
   /// No description provided for @emailVerificationAppBarTitle.

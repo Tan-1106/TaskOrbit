@@ -105,7 +105,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get signUpSignIn => 'Đăng nhập';
 
   @override
-  String get signUpEmailAlreadyExists => 'Email này đã được đăng ký. Vui lòng đăng nhập thay thế.';
+  String get signUpEmailAlreadyExists => 'Email đã tồn tại. Vui lòng đăng nhập hoặc xác thực email nếu bạn chưa làm điều đó.';
 
   @override
   String get emailVerificationAppBarTitle => 'Xác thực email';

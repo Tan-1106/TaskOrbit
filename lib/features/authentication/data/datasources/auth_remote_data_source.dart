@@ -73,23 +73,44 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       // Enforce email verification before allowing access to user data.
       if (!response.user!.emailVerified) {
+        // If unverified account is older than 15 minutes, delete it so the user can re-register.
+        final createdAt = response.user!.metadata.creationTime;
+        final isExpired = createdAt != null && DateTime.now().difference(createdAt).inMinutes >= 15;
+
+        if (isExpired) {
+          try {
+            await response.user!.delete();
+            await firestore.collection('pending_verifications').doc(response.user!.uid).delete();
+          } catch (_) {}
+          throw const ServerException(
+            'Verification link expired. Please register again.',
+          );
+        }
+
         await firebaseAuth.signOut();
         throw const ServerException(
           'Email not verified. Please check your inbox and verify your email before logging in.',
         );
       }
 
-      // Check if user data exists in Firestore. If not, create a new document using FirebaseAuth info.
+      // Check if user data exists in Firestore.
+      // Handles the case where user verified email then closed app before data was saved.
       final userDoc = await firestore.collection('users').doc(response.user!.uid).get();
       if (!userDoc.exists || userDoc.data() == null) {
-        final userModel = UserModel.fromFirebaseUser(
-          uid: response.user!.uid,
+        final resolvedName = response.user!.displayName ?? '';
+        final userModel = UserModel(
+          id: response.user!.uid,
           email: response.user!.email ?? '',
-          name: response.user!.displayName ?? '',
+          name: resolvedName,
         );
         await firestore.collection('users').doc(response.user!.uid).set(userModel.toMap());
+        // Clean up pending_verifications if still exists
+        await firestore.collection('pending_verifications').doc(response.user!.uid).delete();
         return userModel;
       }
+
+      // Clean up pending_verifications if still exists (safety net)
+      await firestore.collection('pending_verifications').doc(response.user!.uid).delete();
 
       return UserModel.fromJson(userDoc.data()!);
     } on firebase.FirebaseAuthException catch (e) {
@@ -123,8 +144,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
       await response.user!.updateDisplayName(name);
 
-      // Send verification email. Firestore data is saved only after verification.
+      // Mark user as pending verification in Firestore.
       await response.user!.sendEmailVerification();
+      await firestore.collection('pending_verifications').doc(response.user!.uid).set({
+        'email': email,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
 
       return UserModel(
         id: response.user!.uid,
@@ -164,7 +189,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       await user.reload();
       final refreshed = firebaseAuth.currentUser;
-
       if (refreshed == null || !refreshed.emailVerified) {
         throw const ServerException('Email not yet verified');
       }
@@ -176,9 +200,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         name: resolvedName,
       );
 
-      // Save user data to Firestore after successful verification.
-      // This ensures we only store verified users. Then sign out to provide "Remember Me" functionality on next login.
+      // Save user data to Firestore after successful verification and clean up pending_verifications.
       await firestore.collection('users').doc(refreshed.uid).set(userModel.toMap());
+      await firestore.collection('pending_verifications').doc(refreshed.uid).delete();
       await firebaseAuth.signOut();
       return userModel;
     } on firebase.FirebaseAuthException catch (e) {

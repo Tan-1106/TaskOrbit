@@ -43,7 +43,7 @@ class PomodoroBloc extends Bloc<PomodoroEvent, PomodoroState> {
     on<PomodoroToggleRepeat>(_onToggleRepeat);
 
     _authSubscription = firebaseAuth.authStateChanges().listen((user) {
-      if (user != null) {
+      if (user != null && user.emailVerified) {
         add(PomodoroLoad(user.uid));
       }
     });

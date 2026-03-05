@@ -34,7 +34,7 @@
   "signUpButton": "Sign Up",
   "signUpAlreadyHaveAccount": "Already have an account? ",
   "signUpSignIn": "Sign In",
-  "signUpEmailAlreadyExists": "An account with this email already exists. Please sign in instead.",
+  "signUpEmailAlreadyExists": "Email already exists. Please sign in or verify your email if you haven't done so.",
 
   "emailVerificationAppBarTitle": "Email Verification",
   "emailVerificationTitle": "Verify your email",

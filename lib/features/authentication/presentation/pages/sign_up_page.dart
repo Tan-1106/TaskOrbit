@@ -199,7 +199,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                           ),
                           GestureDetector(
-                            onTap: () => context.go('/sign-in'),
+                            onTap: () {
+                              context.go('/agenda');
+                              context.push('/sign-in');
+                            },
                             child: Text(
                               AppLocalizations.of(context)!.signUpSignIn,
                               style: Theme.of(context).textTheme.bodyMedium
