@@ -71,16 +71,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const ServerException('User is null!');
       }
 
+      // TODO: BUG HERE
       // Enforce email verification before allowing access to user data.
       if (!response.user!.emailVerified) {
-        // If unverified account is older than 15 minutes, delete it so the user can re-register.
         final createdAt = response.user!.metadata.creationTime;
         final isExpired = createdAt != null && DateTime.now().difference(createdAt).inMinutes >= 15;
-
         if (isExpired) {
           try {
-            await response.user!.delete();
             await firestore.collection('pending_verifications').doc(response.user!.uid).delete();
+            await response.user!.delete();
           } catch (_) {}
           throw const ServerException(
             'Verification link expired. Please register again.',
@@ -104,18 +103,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           name: resolvedName,
         );
         await firestore.collection('users').doc(response.user!.uid).set(userModel.toMap());
-        // Clean up pending_verifications if still exists
         await firestore.collection('pending_verifications').doc(response.user!.uid).delete();
         return userModel;
       }
-
-      // Clean up pending_verifications if still exists (safety net)
-      await firestore.collection('pending_verifications').doc(response.user!.uid).delete();
+        await firestore.collection('pending_verifications').doc(response.user!.uid).delete();
 
       return UserModel.fromJson(userDoc.data()!);
     } on firebase.FirebaseAuthException catch (e) {
       throw ServerException(e.message ?? 'Authentication failed');
     } catch (e) {
+      if (e is ServerException) rethrow;
       throw ServerException(e.toString());
     }
   }

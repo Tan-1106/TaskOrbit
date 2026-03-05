@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (!_actionsInitialized) {
       _actionsInitialized = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) ShellActionsScope.of(context).setActions([]);
+        if (mounted) ShellActionsScope.of(context).clear();
       });
     }
   }
