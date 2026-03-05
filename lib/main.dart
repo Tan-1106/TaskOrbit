@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = createTextTheme(context, "Delius", "Fugaz One");
+    TextTheme textTheme = createTextTheme(context, "Delius", "Gabriela");
     MaterialTheme theme = MaterialTheme(textTheme);
 
     return MaterialApp.router(
