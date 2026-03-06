@@ -2,6 +2,7 @@
 import 'package:task_orbit/core/error/exceptions.dart';
 import 'package:task_orbit/features/authentication/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 abstract interface class AuthRemoteDataSource {
   Future<UserModel> signUpWithEmailPassword({
@@ -38,8 +39,9 @@ abstract interface class AuthRemoteDataSource {
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final firebase.FirebaseAuth firebaseAuth;
   final FirebaseFirestore firestore;
+  final FirebaseFunctions functions;
 
-  AuthRemoteDataSourceImpl(this.firebaseAuth, this.firestore);
+  AuthRemoteDataSourceImpl(this.firebaseAuth, this.firestore, this.functions);
 
   @override
   Future<UserModel?> getCurrentUserData() async {
@@ -105,7 +107,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         await firestore.collection('pending_verifications').doc(response.user!.uid).delete();
         return userModel;
       }
-        await firestore.collection('pending_verifications').doc(response.user!.uid).delete();
+      await firestore.collection('pending_verifications').doc(response.user!.uid).delete();
 
       return UserModel.fromJson(userDoc.data()!);
     } on firebase.FirebaseAuthException catch (e) {
@@ -139,9 +141,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const ServerException('User is null!');
       }
       await response.user!.updateDisplayName(name);
+      await response.user!.getIdToken(true);
 
-      // Mark user as pending verification in Firestore.
-      await response.user!.sendEmailVerification();
+      try {
+        final callable = FirebaseFunctions.instance.httpsCallable(
+          'sendVerificationEmail',
+          options: HttpsCallableOptions(timeout: const Duration(seconds: 30)),
+        );
+        await callable.call({'userName': name});
+      } on FirebaseFunctionsException catch (e) {
+        await response.user!.sendEmailVerification();
+      } catch (e) {
+        await response.user!.sendEmailVerification();
+      }
       await firestore.collection('pending_verifications').doc(response.user!.uid).set({
         'email': email,
         'createdAt': FieldValue.serverTimestamp(),
@@ -169,7 +181,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (user == null) {
         throw const ServerException('No user to send verification to');
       }
-      await user.sendEmailVerification();
+      try {
+        final callable = FirebaseFunctions.instance.httpsCallable(
+          'sendVerificationEmail',
+          options: HttpsCallableOptions(timeout: const Duration(seconds: 30)),
+        );
+        await callable.call({'userName': user.displayName ?? ''});
+      } on FirebaseFunctionsException catch (e) {
+        await user.sendEmailVerification();
+      } catch (e) {
+        await user.sendEmailVerification();
+      }
     } on firebase.FirebaseAuthException catch (e) {
       throw ServerException(e.message ?? 'Failed to send verification email');
     } catch (e) {
@@ -226,7 +248,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> sendPasswordResetEmail({required String email}) async {
     try {
-      await firebaseAuth.sendPasswordResetEmail(email: email);
+      try {
+        final callable = FirebaseFunctions.instance.httpsCallable(
+          'sendPasswordResetEmailCustom',
+          options: HttpsCallableOptions(timeout: const Duration(seconds: 30)),
+        );
+        await callable.call({'email': email});
+      } on FirebaseFunctionsException catch (e) {
+        await firebaseAuth.sendPasswordResetEmail(email: email);
+      } catch (e) {
+        await firebaseAuth.sendPasswordResetEmail(email: email);
+      }
     } on firebase.FirebaseAuthException catch (e) {
       throw ServerException(e.message ?? 'Failed to send reset email');
     } catch (e) {

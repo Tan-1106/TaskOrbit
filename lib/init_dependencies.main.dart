@@ -19,6 +19,7 @@ Future<void> _initCore() async {
   );
   serviceLocator.registerLazySingleton(() => FirebaseAuth.instance);
   serviceLocator.registerLazySingleton(() => FirebaseFirestore.instance);
+  serviceLocator.registerLazySingleton(() => FirebaseFunctions.instance);
 
   final sharedPreferences = await SharedPreferences.getInstance();
   serviceLocator.registerLazySingleton(() => sharedPreferences);
@@ -48,6 +49,7 @@ void _initAuth() {
   serviceLocator
     ..registerFactory<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(
+        serviceLocator(),
         serviceLocator(),
         serviceLocator(),
       ),
