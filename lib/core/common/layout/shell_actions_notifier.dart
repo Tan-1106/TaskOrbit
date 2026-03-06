@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Holds per-page shell customizations (actions, FAB) that child pages
-/// can inject into the parent [AppShellLayout].
 class ShellActionsNotifier extends ChangeNotifier {
   List<Widget> _actions = [];
   Widget? _fab;

@@ -1,9 +1,10 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _kLocaleKey = 'app_locale';
+const _supportedCodes = {'en', 'vi'};
 
-/// Persists and notifies locale changes across the app.
 class LocaleNotifier extends ValueNotifier<Locale> {
   LocaleNotifier(this._prefs) : super(_loadInitial(_prefs));
 
@@ -11,7 +12,21 @@ class LocaleNotifier extends ValueNotifier<Locale> {
 
   static Locale _loadInitial(SharedPreferences prefs) {
     final saved = prefs.getString(_kLocaleKey);
-    if (saved == 'vi') return const Locale('vi');
+
+    // User already chose a language manually -> use it.
+    if (saved != null && _supportedCodes.contains(saved)) {
+      return Locale(saved);
+    }
+
+    // First launch — detect the device / system locale.
+    final deviceLocale = ui.PlatformDispatcher.instance.locale;
+    final code = deviceLocale.languageCode;
+
+    if (_supportedCodes.contains(code)) {
+      return Locale(code);
+    }
+
+    // Fallback to English if device locale is not supported.
     return const Locale('en');
   }
 

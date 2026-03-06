@@ -559,4 +559,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pomodoroRepeat => 'Repeat session';
+
+  @override
+  String notifTaskReminderTitle(String taskTitle) {
+    return 'Reminder: $taskTitle';
+  }
+
+  @override
+  String get notifTaskReminderBody => 'You have an upcoming task.';
+
+  @override
+  String notifPomodoroOngoingTitle(String phaseName) {
+    return '🍅 $phaseName in progress';
+  }
+
+  @override
+  String notifPomodoroOngoingBody(String endTime) {
+    return 'Ends at $endTime';
+  }
+
+  @override
+  String notifPomodoroPhaseEndTitle(String phaseName) {
+    return '🍅 $phaseName completed!';
+  }
+
+  @override
+  String get notifPomodoroPhaseEndBody => 'Tap to continue your Pomodoro session.';
 }

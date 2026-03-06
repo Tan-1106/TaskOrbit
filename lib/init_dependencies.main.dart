@@ -119,8 +119,8 @@ void _initAgenda() {
       ),
     )
     ..registerFactory(() => GetTasksByDate(serviceLocator()))
-    ..registerFactory(() => CreateTask(serviceLocator(), serviceLocator()))
-    ..registerFactory(() => UpdateTask(serviceLocator(), serviceLocator()))
+    ..registerFactory(() => CreateTask(serviceLocator(), serviceLocator(), serviceLocator()))
+    ..registerFactory(() => UpdateTask(serviceLocator(), serviceLocator(), serviceLocator()))
     ..registerFactory(() => DeleteTask(serviceLocator(), serviceLocator()))
     ..registerFactory(() => ToggleTaskComplete(serviceLocator()))
     ..registerFactory(() => SearchTasks(serviceLocator()))
@@ -197,6 +197,9 @@ void _initPomodoro() {
         deletePreset: serviceLocator(),
         syncPresets: serviceLocator(),
         firebaseAuth: serviceLocator(),
+        notificationService: serviceLocator(),
+        sharedPreferences: serviceLocator(),
+        localeNotifier: serviceLocator(),
       ),
     );
 }

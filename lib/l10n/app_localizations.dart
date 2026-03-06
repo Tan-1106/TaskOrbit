@@ -1174,6 +1174,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Repeat session'**
   String get pomodoroRepeat;
+
+  /// No description provided for @notifTaskReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder: {taskTitle}'**
+  String notifTaskReminderTitle(String taskTitle);
+
+  /// No description provided for @notifTaskReminderBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You have an upcoming task.'**
+  String get notifTaskReminderBody;
+
+  /// No description provided for @notifPomodoroOngoingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'🍅 {phaseName} in progress'**
+  String notifPomodoroOngoingTitle(String phaseName);
+
+  /// No description provided for @notifPomodoroOngoingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Ends at {endTime}'**
+  String notifPomodoroOngoingBody(String endTime);
+
+  /// No description provided for @notifPomodoroPhaseEndTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'🍅 {phaseName} completed!'**
+  String notifPomodoroPhaseEndTitle(String phaseName);
+
+  /// No description provided for @notifPomodoroPhaseEndBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to continue your Pomodoro session.'**
+  String get notifPomodoroPhaseEndBody;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

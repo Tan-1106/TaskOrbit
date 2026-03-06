@@ -559,4 +559,30 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get pomodoroRepeat => 'Lặp lại';
+
+  @override
+  String notifTaskReminderTitle(String taskTitle) {
+    return 'Nhắc nhở: $taskTitle';
+  }
+
+  @override
+  String get notifTaskReminderBody => 'Bạn có một công việc sắp tới.';
+
+  @override
+  String notifPomodoroOngoingTitle(String phaseName) {
+    return '🍅 $phaseName đang diễn ra';
+  }
+
+  @override
+  String notifPomodoroOngoingBody(String endTime) {
+    return 'Kết thúc lúc $endTime';
+  }
+
+  @override
+  String notifPomodoroPhaseEndTitle(String phaseName) {
+    return '🍅 $phaseName đã hoàn thành!';
+  }
+
+  @override
+  String get notifPomodoroPhaseEndBody => 'Nhấn để tiếp tục phiên Pomodoro.';
 }

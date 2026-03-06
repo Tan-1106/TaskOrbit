@@ -13,6 +13,7 @@ import 'package:task_orbit/features/authentication/presentation/bloc/auth_bloc.d
 import 'package:task_orbit/features/agenda/presentation/bloc/agenda_bloc.dart';
 import 'package:task_orbit/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:task_orbit/features/pomodoro/presentation/bloc/pomodoro_bloc.dart';
+import 'package:task_orbit/features/pomodoro/presentation/bloc/pomodoro_event.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,12 +51,13 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   late final LocaleNotifier _localeNotifier;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _localeNotifier = serviceLocator<LocaleNotifier>();
     _localeNotifier.addListener(_onLocaleChanged);
   }
@@ -63,7 +65,25 @@ class _MyAppState extends State<MyApp> {
   void _onLocaleChanged() => setState(() {});
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    final pomodoroBloc = serviceLocator<PomodoroBloc>();
+    switch (state) {
+      case AppLifecycleState.paused:
+      case AppLifecycleState.inactive:
+        pomodoroBloc.add(const PomodoroAppPaused());
+        break;
+      case AppLifecycleState.resumed:
+        pomodoroBloc.add(const PomodoroAppResumed());
+        break;
+      default:
+        break;
+    }
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _localeNotifier.removeListener(_onLocaleChanged);
     super.dispose();
   }

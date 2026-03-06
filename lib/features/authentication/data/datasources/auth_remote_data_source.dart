@@ -71,7 +71,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const ServerException('User is null!');
       }
 
-      // TODO: BUG HERE
       // Enforce email verification before allowing access to user data.
       if (!response.user!.emailVerified) {
         final createdAt = response.user!.metadata.creationTime;

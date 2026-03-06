@@ -119,7 +119,6 @@ class _AgendaPageState extends State<AgendaPage> {
 
   @override
   void dispose() {
-    // Do NOT call notifier.clear() here — the tree is locked during dispose.
     super.dispose();
   }
 

@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
-/// Bridges [FirebaseAuth.authStateChanges] to [GoRouter.refreshListenable]
-/// so that route redirects are re-evaluated on every auth state change.
 class AppAuthNotifier extends ChangeNotifier {
   final FirebaseAuth _firebaseAuth;
   User? _user;

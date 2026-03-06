@@ -43,3 +43,11 @@ class PomodoroDeletePreset extends PomodoroEvent {
 class PomodoroToggleRepeat extends PomodoroEvent {
   const PomodoroToggleRepeat();
 }
+
+class PomodoroAppPaused extends PomodoroEvent {
+  const PomodoroAppPaused();
+}
+
+class PomodoroAppResumed extends PomodoroEvent {
+  const PomodoroAppResumed();
+}

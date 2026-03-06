@@ -224,6 +224,33 @@
   "pomodoroPresetCustomValueHint": "Nhập giá trị",
   "pomodoroPresetCustomValueRequired": "Vui lòng nhập giá trị",
   "pomodoroPresetCustomValueInvalid": "Phải là số dương",
-  "pomodoroRepeat": "Lặp lại"
-}
+  "pomodoroRepeat": "Lặp lại",
 
+  "notifTaskReminderTitle": "Nhắc nhở: {taskTitle}",
+  "@notifTaskReminderTitle": {
+    "placeholders": {
+      "taskTitle": { "type": "String" }
+    }
+  },
+  "notifTaskReminderBody": "Bạn có một công việc sắp tới.",
+
+  "notifPomodoroOngoingTitle": "🍅 {phaseName} đang diễn ra",
+  "@notifPomodoroOngoingTitle": {
+    "placeholders": {
+      "phaseName": { "type": "String" }
+    }
+  },
+  "notifPomodoroOngoingBody": "Kết thúc lúc {endTime}",
+  "@notifPomodoroOngoingBody": {
+    "placeholders": {
+      "endTime": { "type": "String" }
+    }
+  },
+  "notifPomodoroPhaseEndTitle": "🍅 {phaseName} đã hoàn thành!",
+  "@notifPomodoroPhaseEndTitle": {
+    "placeholders": {
+      "phaseName": { "type": "String" }
+    }
+  },
+  "notifPomodoroPhaseEndBody": "Nhấn để tiếp tục phiên Pomodoro."
+}

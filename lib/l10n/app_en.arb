@@ -224,5 +224,33 @@
   "pomodoroPresetCustomValueHint": "Enter value",
   "pomodoroPresetCustomValueRequired": "Please enter a value",
   "pomodoroPresetCustomValueInvalid": "Must be a positive number",
-  "pomodoroRepeat": "Repeat session"
+  "pomodoroRepeat": "Repeat session",
+
+  "notifTaskReminderTitle": "Reminder: {taskTitle}",
+  "@notifTaskReminderTitle": {
+    "placeholders": {
+      "taskTitle": { "type": "String" }
+    }
+  },
+  "notifTaskReminderBody": "You have an upcoming task.",
+
+  "notifPomodoroOngoingTitle": "🍅 {phaseName} in progress",
+  "@notifPomodoroOngoingTitle": {
+    "placeholders": {
+      "phaseName": { "type": "String" }
+    }
+  },
+  "notifPomodoroOngoingBody": "Ends at {endTime}",
+  "@notifPomodoroOngoingBody": {
+    "placeholders": {
+      "endTime": { "type": "String" }
+    }
+  },
+  "notifPomodoroPhaseEndTitle": "🍅 {phaseName} completed!",
+  "@notifPomodoroPhaseEndTitle": {
+    "placeholders": {
+      "phaseName": { "type": "String" }
+    }
+  },
+  "notifPomodoroPhaseEndBody": "Tap to continue your Pomodoro session."
 }

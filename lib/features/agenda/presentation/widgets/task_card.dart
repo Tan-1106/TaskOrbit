@@ -67,7 +67,7 @@ class TaskCard extends StatelessWidget {
     if (task.isAllDay) {
       timeText = 'All day';
     } else if (task.startTime != null && task.endTime != null) {
-      timeText = '${DateFormat.Hm().format(task.startTime!)} â€“ ${DateFormat.Hm().format(task.endTime!)}';
+      timeText = '${DateFormat.Hm().format(task.startTime!)} - ${DateFormat.Hm().format(task.endTime!)}';
     } else {
       timeText = '';
     }
