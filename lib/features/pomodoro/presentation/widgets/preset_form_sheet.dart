@@ -113,39 +113,34 @@ class _PresetFormSheetState extends State<PresetFormSheet> {
       cyclesBeforeLongBreak: cycles,
     );
 
-    context.read<PomodoroBloc>().add(PomodoroSavePreset(preset));
-    Navigator.of(context).pop();
-  }
-
-  void _delete(AppLocalizations l10n) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(l10n.pomodoroDeletePresetTitle),
-        content: Text(
-          l10n.pomodoroDeletePresetContent(widget.existingPreset!.name),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: Text(l10n.dialogCancelButton),
-          ),
-          FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.error,
+    if (_isEdit) {
+      // Show confirm dialog before saving edits
+      final l10n = AppLocalizations.of(context)!;
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(l10n.pomodoroEditPresetConfirmTitle),
+          content: Text(l10n.pomodoroEditPresetConfirmContent(preset.name)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: Text(l10n.dialogCancelButton),
             ),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-              context.read<PomodoroBloc>().add(
-                PomodoroDeletePreset(widget.existingPreset!.id),
-              );
-              Navigator.of(context).pop();
-            },
-            child: Text(l10n.dialogDeleteButton),
-          ),
-        ],
-      ),
-    );
+            FilledButton(
+              onPressed: () {
+                Navigator.of(ctx).pop(); // close dialog
+                context.read<PomodoroBloc>().add(PomodoroSavePreset(preset));
+                Navigator.of(context).pop(); // close form sheet
+              },
+              child: Text(l10n.dialogConfirmButton),
+            ),
+          ],
+        ),
+      );
+    } else {
+      context.read<PomodoroBloc>().add(PomodoroSavePreset(preset));
+      Navigator.of(context).pop();
+    }
   }
 
   @override
@@ -177,15 +172,6 @@ class _PresetFormSheetState extends State<PresetFormSheet> {
                     ),
                   ),
                   const Spacer(),
-                  if (_isEdit)
-                    IconButton(
-                      icon: Icon(
-                        Icons.delete_outline,
-                        color: theme.colorScheme.error,
-                      ),
-                      tooltip: l10n.pomodoroPresetDeleteButton,
-                      onPressed: () => _delete(l10n),
-                    ),
                 ],
               ),
               const SizedBox(height: 20),

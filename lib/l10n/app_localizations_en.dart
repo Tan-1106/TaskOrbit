@@ -561,6 +561,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pomodoroRepeat => 'Repeat session';
 
   @override
+  String get pomodoroViewPreset => 'View preset';
+
+  @override
+  String get pomodoroPresetDetail => 'Preset Details';
+
+  @override
+  String get pomodoroPresetDetailFocus => 'Focus';
+
+  @override
+  String get pomodoroPresetDetailShortBreak => 'Short Break';
+
+  @override
+  String get pomodoroPresetDetailLongBreak => 'Long Break';
+
+  @override
+  String get pomodoroPresetDetailCycles => 'Cycles';
+
+  @override
+  String pomodoroPresetDetailMinutes(int value) {
+    return '$value min';
+  }
+
+  @override
+  String pomodoroPresetDetailCycleValue(int value) {
+    return '$value cycles';
+  }
+
+  @override
+  String get pomodoroEditPresetConfirmTitle => 'Edit Preset';
+
+  @override
+  String pomodoroEditPresetConfirmContent(String name) {
+    return 'Do you want to edit \"$name\"?';
+  }
+
+  @override
   String notifTaskReminderTitle(String taskTitle) {
     return 'Reminder: $taskTitle';
   }

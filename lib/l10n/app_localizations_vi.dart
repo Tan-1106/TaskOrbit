@@ -561,6 +561,42 @@ class AppLocalizationsVi extends AppLocalizations {
   String get pomodoroRepeat => 'Lặp lại';
 
   @override
+  String get pomodoroViewPreset => 'Xem chu kỳ';
+
+  @override
+  String get pomodoroPresetDetail => 'Chi tiết chu kỳ';
+
+  @override
+  String get pomodoroPresetDetailFocus => 'Tập trung';
+
+  @override
+  String get pomodoroPresetDetailShortBreak => 'Nghỉ ngắn';
+
+  @override
+  String get pomodoroPresetDetailLongBreak => 'Nghỉ dài';
+
+  @override
+  String get pomodoroPresetDetailCycles => 'Số chu kỳ';
+
+  @override
+  String pomodoroPresetDetailMinutes(int value) {
+    return '$value phút';
+  }
+
+  @override
+  String pomodoroPresetDetailCycleValue(int value) {
+    return '$value chu kỳ';
+  }
+
+  @override
+  String get pomodoroEditPresetConfirmTitle => 'Chỉnh sửa chu kỳ';
+
+  @override
+  String pomodoroEditPresetConfirmContent(String name) {
+    return 'Bạn muốn chỉnh sửa \"$name\"?';
+  }
+
+  @override
   String notifTaskReminderTitle(String taskTitle) {
     return 'Nhắc nhở: $taskTitle';
   }

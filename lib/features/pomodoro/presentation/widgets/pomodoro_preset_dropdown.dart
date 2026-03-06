@@ -4,6 +4,7 @@ import 'package:task_orbit/features/pomodoro/domain/entities/pomodoro_preset.dar
 import 'package:task_orbit/features/pomodoro/presentation/bloc/pomodoro_bloc.dart';
 import 'package:task_orbit/features/pomodoro/presentation/bloc/pomodoro_event.dart';
 import 'package:task_orbit/features/pomodoro/presentation/bloc/pomodoro_state.dart';
+import 'package:task_orbit/features/pomodoro/presentation/widgets/preset_detail_sheet.dart';
 import 'package:task_orbit/features/pomodoro/presentation/widgets/preset_form_sheet.dart';
 import 'package:task_orbit/l10n/app_localizations.dart';
 
@@ -34,16 +35,15 @@ class PomodoroPresetDropdown extends StatelessWidget {
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () {
-                      // Close dropdown overlay first; opaque hit-test prevents double-pop.
                       Navigator.of(context).pop();
                       WidgetsBinding.instance.addPostFrameCallback((_) {
-                        _openEditSheet(context, l10n, preset);
+                        _openDetailSheet(context, preset);
                       });
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(4),
                       child: Icon(
-                        Icons.edit_outlined,
+                        Icons.info_outline,
                         size: 18,
                         color: theme.colorScheme.primary,
                       ),
@@ -134,9 +134,8 @@ class PomodoroPresetDropdown extends StatelessWidget {
     );
   }
 
-  void _openEditSheet(
+  void _openDetailSheet(
     BuildContext context,
-    AppLocalizations l10n,
     PomodoroPreset preset,
   ) {
     showModalBottomSheet(
@@ -147,7 +146,7 @@ class PomodoroPresetDropdown extends StatelessWidget {
       ),
       builder: (_) => BlocProvider.value(
         value: context.read<PomodoroBloc>(),
-        child: PresetFormSheet(existingPreset: preset),
+        child: PresetDetailSheet(preset: preset),
       ),
     );
   }

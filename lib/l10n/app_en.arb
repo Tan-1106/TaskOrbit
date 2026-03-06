@@ -226,6 +226,32 @@
   "pomodoroPresetCustomValueInvalid": "Must be a positive number",
   "pomodoroRepeat": "Repeat session",
 
+  "pomodoroViewPreset": "View preset",
+  "pomodoroPresetDetail": "Preset Details",
+  "pomodoroPresetDetailFocus": "Focus",
+  "pomodoroPresetDetailShortBreak": "Short Break",
+  "pomodoroPresetDetailLongBreak": "Long Break",
+  "pomodoroPresetDetailCycles": "Cycles",
+  "pomodoroPresetDetailMinutes": "{value} min",
+  "@pomodoroPresetDetailMinutes": {
+    "placeholders": {
+      "value": { "type": "int" }
+    }
+  },
+  "pomodoroPresetDetailCycleValue": "{value} cycles",
+  "@pomodoroPresetDetailCycleValue": {
+    "placeholders": {
+      "value": { "type": "int" }
+    }
+  },
+  "pomodoroEditPresetConfirmTitle": "Edit Preset",
+  "pomodoroEditPresetConfirmContent": "Do you want to edit \"{name}\"?",
+  "@pomodoroEditPresetConfirmContent": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+
   "notifTaskReminderTitle": "Reminder: {taskTitle}",
   "@notifTaskReminderTitle": {
     "placeholders": {

@@ -1175,6 +1175,66 @@ abstract class AppLocalizations {
   /// **'Repeat session'**
   String get pomodoroRepeat;
 
+  /// No description provided for @pomodoroViewPreset.
+  ///
+  /// In en, this message translates to:
+  /// **'View preset'**
+  String get pomodoroViewPreset;
+
+  /// No description provided for @pomodoroPresetDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Preset Details'**
+  String get pomodoroPresetDetail;
+
+  /// No description provided for @pomodoroPresetDetailFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus'**
+  String get pomodoroPresetDetailFocus;
+
+  /// No description provided for @pomodoroPresetDetailShortBreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Short Break'**
+  String get pomodoroPresetDetailShortBreak;
+
+  /// No description provided for @pomodoroPresetDetailLongBreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Long Break'**
+  String get pomodoroPresetDetailLongBreak;
+
+  /// No description provided for @pomodoroPresetDetailCycles.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycles'**
+  String get pomodoroPresetDetailCycles;
+
+  /// No description provided for @pomodoroPresetDetailMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} min'**
+  String pomodoroPresetDetailMinutes(int value);
+
+  /// No description provided for @pomodoroPresetDetailCycleValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} cycles'**
+  String pomodoroPresetDetailCycleValue(int value);
+
+  /// No description provided for @pomodoroEditPresetConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Preset'**
+  String get pomodoroEditPresetConfirmTitle;
+
+  /// No description provided for @pomodoroEditPresetConfirmContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to edit \"{name}\"?'**
+  String pomodoroEditPresetConfirmContent(String name);
+
   /// No description provided for @notifTaskReminderTitle.
   ///
   /// In en, this message translates to:

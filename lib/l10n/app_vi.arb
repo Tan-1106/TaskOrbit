@@ -226,6 +226,32 @@
   "pomodoroPresetCustomValueInvalid": "Phải là số dương",
   "pomodoroRepeat": "Lặp lại",
 
+  "pomodoroViewPreset": "Xem chu kỳ",
+  "pomodoroPresetDetail": "Chi tiết chu kỳ",
+  "pomodoroPresetDetailFocus": "Tập trung",
+  "pomodoroPresetDetailShortBreak": "Nghỉ ngắn",
+  "pomodoroPresetDetailLongBreak": "Nghỉ dài",
+  "pomodoroPresetDetailCycles": "Số chu kỳ",
+  "pomodoroPresetDetailMinutes": "{value} phút",
+  "@pomodoroPresetDetailMinutes": {
+    "placeholders": {
+      "value": { "type": "int" }
+    }
+  },
+  "pomodoroPresetDetailCycleValue": "{value} chu kỳ",
+  "@pomodoroPresetDetailCycleValue": {
+    "placeholders": {
+      "value": { "type": "int" }
+    }
+  },
+  "pomodoroEditPresetConfirmTitle": "Chỉnh sửa chu kỳ",
+  "pomodoroEditPresetConfirmContent": "Bạn muốn chỉnh sửa \"{name}\"?",
+  "@pomodoroEditPresetConfirmContent": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+
   "notifTaskReminderTitle": "Nhắc nhở: {taskTitle}",
   "@notifTaskReminderTitle": {
     "placeholders": {
