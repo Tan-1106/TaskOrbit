@@ -5,17 +5,33 @@ class SignInBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size.infinite,
-      painter: Background(context),
+    // Use MediaQueryData.fromView to get the real screen size unaffected by keyboard
+    final mediaQuery = MediaQueryData.fromView(View.of(context));
+    final screenSize = mediaQuery.size;
+    final circleColor = Theme.of(context).colorScheme.onPrimary;
+
+    return OverflowBox(
+      alignment: Alignment.topLeft,
+      minWidth: screenSize.width,
+      maxWidth: screenSize.width,
+      minHeight: screenSize.height,
+      maxHeight: screenSize.height,
+      child: CustomPaint(
+        size: screenSize,
+        painter: Background(
+          screenWidth: screenSize.width,
+          circleColor: circleColor,
+        ),
+      ),
     );
   }
 }
 
 class Background extends CustomPainter {
-  final BuildContext context;
+  final double screenWidth;
+  final Color circleColor;
 
-  Background(this.context);
+  Background({required this.screenWidth, required this.circleColor});
 
   void _drawCircleWithShadow(
     Canvas canvas,
@@ -46,11 +62,12 @@ class Background extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    _drawCircleWithShadow(canvas, Offset(size.width * 0.5, size.height * 0.7), MediaQuery.of(context).size.width, Theme.of(context).colorScheme.onPrimary);
-    _drawCircleWithShadow(canvas, Offset(size.width * 0.5, size.height * 0.75), MediaQuery.of(context).size.width, Theme.of(context).colorScheme.onPrimary);
-    _drawCircleWithShadow(canvas, Offset(size.width * 0.5, size.height * 0.8), MediaQuery.of(context).size.width, Theme.of(context).colorScheme.onPrimary);
+    _drawCircleWithShadow(canvas, Offset(size.width * 0.5, size.height * 0.7), screenWidth, circleColor);
+    _drawCircleWithShadow(canvas, Offset(size.width * 0.5, size.height * 0.75), screenWidth, circleColor);
+    _drawCircleWithShadow(canvas, Offset(size.width * 0.5, size.height * 0.8), screenWidth, circleColor);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant Background oldDelegate) =>
+      oldDelegate.screenWidth != screenWidth || oldDelegate.circleColor != circleColor;
 }

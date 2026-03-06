@@ -90,7 +90,7 @@ class PomodoroBloc extends Bloc<PomodoroEvent, PomodoroState> {
     PomodoroLoad event,
     Emitter<PomodoroState> emit,
   ) async {
-    syncPresets(event.userId);
+    await syncPresets(event.userId);
 
     final result = await getPresets(event.userId);
     result.fold(

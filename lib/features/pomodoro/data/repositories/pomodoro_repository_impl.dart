@@ -28,9 +28,21 @@ class PomodoroRepositoryImpl implements IPomodoroPresetRepository {
         try {
           final remotePresets = await remoteDataSource.getAllPresets(userId);
           if (remotePresets.isNotEmpty) {
-            await localDataSource.insertAll(
-              remotePresets.map((p) => p.copyWith(isSynced: true)).toList(),
-            );
+            // Get pending-delete IDs so we don't overwrite them with remote data
+            final unsyncedLocal = await localDataSource.getUnsyncedPresets(userId);
+            final pendingDeleteIds = unsyncedLocal
+                .where((p) => p.isDeleted)
+                .map((p) => p.id)
+                .toSet();
+
+            final presetsToInsert = remotePresets
+                .where((p) => !pendingDeleteIds.contains(p.id))
+                .map((p) => p.copyWith(isSynced: true))
+                .toList();
+
+            if (presetsToInsert.isNotEmpty) {
+              await localDataSource.insertAll(presetsToInsert);
+            }
           }
         } catch (_) {}
       }

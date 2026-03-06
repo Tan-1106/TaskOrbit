@@ -90,7 +90,7 @@ class _SignInPageState extends State<SignInPage> {
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25,
+                            height: MediaQuery.of(context).size.height * 0.2,
                           ),
 
                           TextFormField(
