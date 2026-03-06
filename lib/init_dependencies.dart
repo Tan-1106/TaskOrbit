@@ -44,6 +44,7 @@ import 'package:task_orbit/features/agenda/domain/repository/category_repository
 import 'package:task_orbit/features/agenda/domain/usecases/get_categories.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/create_category.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/delete_category.dart';
+import 'package:task_orbit/features/agenda/domain/usecases/sync_categories.dart';
 import 'package:task_orbit/features/agenda/presentation/bloc/agenda_bloc.dart';
 
 import 'package:task_orbit/features/profile/presentation/bloc/profile_bloc.dart';

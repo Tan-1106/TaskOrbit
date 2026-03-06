@@ -13,6 +13,7 @@ import 'package:task_orbit/features/agenda/domain/usecases/delete_task.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/toggle_task_complete.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/search_tasks.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/sync_tasks.dart';
+import 'package:task_orbit/features/agenda/domain/usecases/sync_categories.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/get_categories.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/create_category.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/delete_category.dart';
@@ -27,6 +28,7 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
   final ToggleTaskComplete _toggleTaskComplete;
   final SearchTasks _searchTasks;
   final SyncTasks _syncTasks;
+  final SyncCategories _syncCategories;
   final GetCategories _getCategories;
   final CreateCategory _createCategory;
   final DeleteCategory _deleteCategory;
@@ -46,6 +48,7 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     required ToggleTaskComplete toggleTaskComplete,
     required SearchTasks searchTasks,
     required SyncTasks syncTasks,
+    required SyncCategories syncCategories,
     required GetCategories getCategories,
     required CreateCategory createCategory,
     required DeleteCategory deleteCategory,
@@ -58,6 +61,7 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
        _toggleTaskComplete = toggleTaskComplete,
        _searchTasks = searchTasks,
        _syncTasks = syncTasks,
+       _syncCategories = syncCategories,
        _getCategories = getCategories,
        _createCategory = createCategory,
        _deleteCategory = deleteCategory,
@@ -73,6 +77,7 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     on<AgendaToggleTaskComplete>(_onToggleTaskComplete);
     on<AgendaSearchTasks>(_onSearchTasks);
     on<AgendaSyncTasks>(_onSyncTasks);
+    on<AgendaSyncCategories>(_onSyncCategories);
     on<AgendaLoadCategories>(_onLoadCategories);
     on<AgendaCreateCategory>(_onCreateCategory);
     on<AgendaDeleteCategory>(_onDeleteCategory);
@@ -81,12 +86,14 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
         .listen((isConnected) {
           if (isConnected) {
             add(AgendaSyncTasks());
+            add(AgendaSyncCategories());
           }
         });
 
     _authSubscription = _firebaseAuth.authStateChanges().listen((user) {
       if (user != null && user.emailVerified) {
         add(AgendaSyncTasks());
+        add(AgendaSyncCategories());
       }
     });
   }
@@ -345,6 +352,20 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     result.fold(
       (failure) => {/* Silently fail sync */},
       (_) => add(AgendaLoadTasks(date: state.selectedDate)),
+    );
+  }
+
+  Future<void> _onSyncCategories(
+    AgendaSyncCategories event,
+    Emitter<AgendaState> emit,
+  ) async {
+    final result = await _syncCategories(
+      SyncCategoriesParams(userId: _userId),
+    );
+
+    result.fold(
+      (failure) => {/* Silently fail sync */},
+      (_) => add(AgendaLoadCategories()),
     );
   }
 

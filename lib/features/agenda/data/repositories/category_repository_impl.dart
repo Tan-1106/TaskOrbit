@@ -105,6 +105,16 @@ class CategoryRepositoryImpl implements ICategoryRepository {
         await localDataSource.markAsSynced(cat.id);
       }
 
+      // Pull down remote categories to merge any data from other devices
+      final remoteCategories = await remoteDataSource.getCategories(userId);
+      if (remoteCategories.isNotEmpty) {
+        await localDataSource.insertAll(
+          remoteCategories
+              .map((c) => c.copyWith(isSynced: true))
+              .toList(),
+        );
+      }
+
       return right(null);
     } catch (e) {
       return left(Failure(e.toString()));

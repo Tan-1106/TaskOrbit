@@ -6,6 +6,7 @@ import 'package:task_orbit/features/pomodoro/presentation/bloc/pomodoro_event.da
 import 'package:task_orbit/features/pomodoro/presentation/bloc/pomodoro_state.dart';
 import 'package:task_orbit/features/pomodoro/presentation/widgets/pomodoro_preset_dropdown.dart';
 import 'package:task_orbit/features/pomodoro/presentation/widgets/pomodoro_timer_widget.dart';
+import 'package:task_orbit/features/pomodoro/presentation/widgets/pomodoro_info_dialog.dart';
 import 'package:task_orbit/core/common/layout/app_shell_layout.dart';
 import 'package:task_orbit/l10n/app_localizations.dart';
 
@@ -27,7 +28,15 @@ class _PomodoroPageState extends State<PomodoroPage> {
       final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
       context.read<PomodoroBloc>().add(PomodoroLoad(userId));
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) ShellActionsScope.of(context).clear();
+        if (!mounted) return;
+        final l10n = AppLocalizations.of(context)!;
+        ShellActionsScope.of(context).setActions([
+          IconButton(
+            icon: const Icon(Icons.info_outline_rounded),
+            tooltip: l10n.pomodoroInfoAction,
+            onPressed: () => showPomodoroInfoDialog(context),
+          ),
+        ]);
       });
     }
   }

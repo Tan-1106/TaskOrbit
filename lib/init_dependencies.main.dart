@@ -142,6 +142,7 @@ void _initAgenda() {
     ..registerFactory(() => GetCategories(serviceLocator()))
     ..registerFactory(() => CreateCategory(serviceLocator()))
     ..registerFactory(() => DeleteCategory(serviceLocator()))
+    ..registerFactory(() => SyncCategories(serviceLocator()))
     ..registerLazySingleton(
       () => AgendaBloc(
         getTasksByDate: serviceLocator(),
@@ -151,6 +152,7 @@ void _initAgenda() {
         toggleTaskComplete: serviceLocator(),
         searchTasks: serviceLocator(),
         syncTasks: serviceLocator(),
+        syncCategories: serviceLocator(),
         getCategories: serviceLocator(),
         createCategory: serviceLocator(),
         deleteCategory: serviceLocator(),
@@ -198,6 +200,7 @@ void _initPomodoro() {
         syncPresets: serviceLocator(),
         firebaseAuth: serviceLocator(),
         notificationService: serviceLocator(),
+        connectivityService: serviceLocator(),
         sharedPreferences: serviceLocator(),
         localeNotifier: serviceLocator(),
       ),

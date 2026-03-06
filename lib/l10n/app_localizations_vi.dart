@@ -597,6 +597,72 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
+  String get pomodoroInfoAction => 'Giới thiệu Pomodoro';
+
+  @override
+  String get pomodoroInfoTitle => 'Kỹ thuật Pomodoro';
+
+  @override
+  String get pomodoroInfoOriginHeading => 'Nguồn gốc';
+
+  @override
+  String get pomodoroInfoOriginText => 'Được phát minh bởi Francesco Cirillo vào cuối những năm 1980 khi ông còn là sinh viên đại học. Ông dùng một chiếc đồng hồ hẹn giờ hình quả cà chua (\"pomodoro\" trong tiếng Ý) để theo dõi công việc — và cái tên độc đáo đó đã ra đời từ đó.';
+
+  @override
+  String get pomodoroInfoWhatHeading => 'Kỹ thuật này là gì?';
+
+  @override
+  String get pomodoroInfoWhatText => 'Một phương pháp quản lý thời gian chia công việc thành các khoảng thời gian tập trung xen kẽ với các lần nghỉ ngắn. Mục tiêu là duy trì sự tập trung sâu trong khi ngăn ngừa mệt mỏi tinh thần.';
+
+  @override
+  String get pomodoroInfoHowHeading => 'Cách sử dụng';
+
+  @override
+  String get pomodoroInfoStep1 => 'Chọn một công việc bạn muốn thực hiện.';
+
+  @override
+  String get pomodoroInfoStep2 => 'Bắt đầu hẹn giờ cho phiên Tập trung (mặc định: 25 phút).';
+
+  @override
+  String get pomodoroInfoStep3 => 'Làm việc hoàn toàn tập trung cho đến khi đồng hồ reo — không xao nhãng.';
+
+  @override
+  String get pomodoroInfoStep4 => 'Nghỉ ngắn (mặc định: 5 phút). Đứng dậy, giãn cơ, thư giãn mắt.';
+
+  @override
+  String get pomodoroInfoStep5 => 'Sau mỗi 4 chu kỳ, nghỉ dài (mặc định: 15 phút).';
+
+  @override
+  String get pomodoroInfoStep6 => 'Lặp lại và theo dõi tiến trình của bạn.';
+
+  @override
+  String get pomodoroInfoTipsHeading => 'Mẹo';
+
+  @override
+  String get pomodoroInfoTip1 => 'Tắt thông báo và loại bỏ phiền nhiễu trước khi bắt đầu.';
+
+  @override
+  String get pomodoroInfoTip2 => 'Nếu bị gián đoạn, ghi lại rồi tiếp tục tập trung.';
+
+  @override
+  String get pomodoroInfoTip3 => 'Tùy chỉnh thời gian trong cài đặt chu kỳ để phù hợp với nhịp độ của bạn.';
+
+  @override
+  String get pomodoroInfoGotIt => 'Đã hiểu';
+
+  @override
+  String get exitConfirmTitle => 'Thoát ứng dụng';
+
+  @override
+  String get exitConfirmMessage => 'Bạn có chắc muốn thoát ứng dụng không?';
+
+  @override
+  String get exitConfirmCancel => 'Hủy';
+
+  @override
+  String get exitConfirmExit => 'Thoát';
+
+  @override
   String notifTaskReminderTitle(String taskTitle) {
     return 'Nhắc nhở: $taskTitle';
   }

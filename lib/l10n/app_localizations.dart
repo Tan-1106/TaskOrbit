@@ -1235,6 +1235,138 @@ abstract class AppLocalizations {
   /// **'Do you want to edit \"{name}\"?'**
   String pomodoroEditPresetConfirmContent(String name);
 
+  /// No description provided for @pomodoroInfoAction.
+  ///
+  /// In en, this message translates to:
+  /// **'About Pomodoro'**
+  String get pomodoroInfoAction;
+
+  /// No description provided for @pomodoroInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The Pomodoro Technique'**
+  String get pomodoroInfoTitle;
+
+  /// No description provided for @pomodoroInfoOriginHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Origin'**
+  String get pomodoroInfoOriginHeading;
+
+  /// No description provided for @pomodoroInfoOriginText.
+  ///
+  /// In en, this message translates to:
+  /// **'Invented by Francesco Cirillo in the late 1980s while he was a university student. He used a tomato-shaped kitchen timer (\"pomodoro\" in Italian) to track his work — giving the technique its iconic name.'**
+  String get pomodoroInfoOriginText;
+
+  /// No description provided for @pomodoroInfoWhatHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'What is it?'**
+  String get pomodoroInfoWhatHeading;
+
+  /// No description provided for @pomodoroInfoWhatText.
+  ///
+  /// In en, this message translates to:
+  /// **'A time-management method that breaks work into focused intervals separated by short breaks. The goal is to maintain deep focus while preventing mental fatigue.'**
+  String get pomodoroInfoWhatText;
+
+  /// No description provided for @pomodoroInfoHowHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'How to use it'**
+  String get pomodoroInfoHowHeading;
+
+  /// No description provided for @pomodoroInfoStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a task you want to work on.'**
+  String get pomodoroInfoStep1;
+
+  /// No description provided for @pomodoroInfoStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the timer for a Focus session (default: 25 min).'**
+  String get pomodoroInfoStep2;
+
+  /// No description provided for @pomodoroInfoStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Work with full focus until the timer rings — no distractions.'**
+  String get pomodoroInfoStep3;
+
+  /// No description provided for @pomodoroInfoStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a Short Break (default: 5 min). Stand up, stretch, rest your eyes.'**
+  String get pomodoroInfoStep4;
+
+  /// No description provided for @pomodoroInfoStep5.
+  ///
+  /// In en, this message translates to:
+  /// **'After every 4 cycles, take a Long Break (default: 15 min).'**
+  String get pomodoroInfoStep5;
+
+  /// No description provided for @pomodoroInfoStep6.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat and track your progress.'**
+  String get pomodoroInfoStep6;
+
+  /// No description provided for @pomodoroInfoTipsHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Tips'**
+  String get pomodoroInfoTipsHeading;
+
+  /// No description provided for @pomodoroInfoTip1.
+  ///
+  /// In en, this message translates to:
+  /// **'Silence notifications and remove distractions before starting.'**
+  String get pomodoroInfoTip1;
+
+  /// No description provided for @pomodoroInfoTip2.
+  ///
+  /// In en, this message translates to:
+  /// **'If interrupted, write down the distraction and continue focusing.'**
+  String get pomodoroInfoTip2;
+
+  /// No description provided for @pomodoroInfoTip3.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize intervals in the preset settings to fit your rhythm.'**
+  String get pomodoroInfoTip3;
+
+  /// No description provided for @pomodoroInfoGotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get pomodoroInfoGotIt;
+
+  /// No description provided for @exitConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit App'**
+  String get exitConfirmTitle;
+
+  /// No description provided for @exitConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to exit the app?'**
+  String get exitConfirmMessage;
+
+  /// No description provided for @exitConfirmCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get exitConfirmCancel;
+
+  /// No description provided for @exitConfirmExit.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit'**
+  String get exitConfirmExit;
+
   /// No description provided for @notifTaskReminderTitle.
   ///
   /// In en, this message translates to:

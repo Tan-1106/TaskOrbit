@@ -252,6 +252,30 @@
     }
   },
 
+  "pomodoroInfoAction": "About Pomodoro",
+  "pomodoroInfoTitle": "The Pomodoro Technique",
+  "pomodoroInfoOriginHeading": "Origin",
+  "pomodoroInfoOriginText": "Invented by Francesco Cirillo in the late 1980s while he was a university student. He used a tomato-shaped kitchen timer (\"pomodoro\" in Italian) to track his work — giving the technique its iconic name.",
+  "pomodoroInfoWhatHeading": "What is it?",
+  "pomodoroInfoWhatText": "A time-management method that breaks work into focused intervals separated by short breaks. The goal is to maintain deep focus while preventing mental fatigue.",
+  "pomodoroInfoHowHeading": "How to use it",
+  "pomodoroInfoStep1": "Choose a task you want to work on.",
+  "pomodoroInfoStep2": "Start the timer for a Focus session (default: 25 min).",
+  "pomodoroInfoStep3": "Work with full focus until the timer rings — no distractions.",
+  "pomodoroInfoStep4": "Take a Short Break (default: 5 min). Stand up, stretch, rest your eyes.",
+  "pomodoroInfoStep5": "After every 4 cycles, take a Long Break (default: 15 min).",
+  "pomodoroInfoStep6": "Repeat and track your progress.",
+  "pomodoroInfoTipsHeading": "Tips",
+  "pomodoroInfoTip1": "Silence notifications and remove distractions before starting.",
+  "pomodoroInfoTip2": "If interrupted, write down the distraction and continue focusing.",
+  "pomodoroInfoTip3": "Customize intervals in the preset settings to fit your rhythm.",
+  "pomodoroInfoGotIt": "Got it",
+
+  "exitConfirmTitle": "Exit App",
+  "exitConfirmMessage": "Are you sure you want to exit the app?",
+  "exitConfirmCancel": "Cancel",
+  "exitConfirmExit": "Exit",
+
   "notifTaskReminderTitle": "Reminder: {taskTitle}",
   "@notifTaskReminderTitle": {
     "placeholders": {

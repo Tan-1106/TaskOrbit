@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_orbit/core/common/locale/locale_notifier.dart';
+import 'package:task_orbit/core/network/connectivity_service.dart';
 import 'package:task_orbit/core/services/notification_service.dart';
 import 'package:task_orbit/features/pomodoro/domain/entities/pomodoro_phase.dart';
 import 'package:task_orbit/features/pomodoro/domain/entities/pomodoro_preset.dart';
@@ -26,11 +27,13 @@ class PomodoroBloc extends Bloc<PomodoroEvent, PomodoroState> {
   final SyncPresets syncPresets;
   final FirebaseAuth firebaseAuth;
   final NotificationService notificationService;
+  final ConnectivityService connectivityService;
   final SharedPreferences sharedPreferences;
   final LocaleNotifier localeNotifier;
 
   Timer? _timer;
   StreamSubscription? _authSubscription;
+  StreamSubscription? _connectivitySubscription;
   DateTime? _phaseEndTime;
 
   // ── SharedPreferences keys for crash/kill recovery ──
@@ -48,6 +51,7 @@ class PomodoroBloc extends Bloc<PomodoroEvent, PomodoroState> {
     required this.syncPresets,
     required this.firebaseAuth,
     required this.notificationService,
+    required this.connectivityService,
     required this.sharedPreferences,
     required this.localeNotifier,
   }) : super(PomodoroState.initial()) {
@@ -68,6 +72,16 @@ class PomodoroBloc extends Bloc<PomodoroEvent, PomodoroState> {
         add(PomodoroLoad(user.uid));
       }
     });
+
+    _connectivitySubscription = connectivityService.onConnectivityChanged
+        .listen((isConnected) {
+          if (isConnected) {
+            final uid = firebaseAuth.currentUser?.uid;
+            if (uid != null) {
+              add(PomodoroLoad(uid));
+            }
+          }
+        });
   }
 
   String? get _userId => firebaseAuth.currentUser?.uid;
@@ -348,8 +362,7 @@ class PomodoroBloc extends Bloc<PomodoroEvent, PomodoroState> {
     final result = await savePreset(event.preset);
     if (result.isLeft()) return;
 
-    final uid = _userId;
-    if (uid == null) return;
+    final uid = _userId ?? '';
 
     final presetsResult = await getPresets(uid);
     if (presetsResult.isLeft()) return;
@@ -362,8 +375,7 @@ class PomodoroBloc extends Bloc<PomodoroEvent, PomodoroState> {
     PomodoroDeletePreset event,
     Emitter<PomodoroState> emit,
   ) async {
-    final uid = _userId;
-    if (uid == null) return;
+    final uid = _userId ?? '';
 
     final result = await deletePreset(uid, event.presetId);
     if (result.isLeft()) return;
@@ -580,6 +592,7 @@ class PomodoroBloc extends Bloc<PomodoroEvent, PomodoroState> {
   Future<void> close() {
     _cancelTimer();
     _authSubscription?.cancel();
+    _connectivitySubscription?.cancel();
     return super.close();
   }
 }

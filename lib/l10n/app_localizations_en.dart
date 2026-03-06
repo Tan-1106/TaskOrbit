@@ -597,6 +597,72 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get pomodoroInfoAction => 'About Pomodoro';
+
+  @override
+  String get pomodoroInfoTitle => 'The Pomodoro Technique';
+
+  @override
+  String get pomodoroInfoOriginHeading => 'Origin';
+
+  @override
+  String get pomodoroInfoOriginText => 'Invented by Francesco Cirillo in the late 1980s while he was a university student. He used a tomato-shaped kitchen timer (\"pomodoro\" in Italian) to track his work — giving the technique its iconic name.';
+
+  @override
+  String get pomodoroInfoWhatHeading => 'What is it?';
+
+  @override
+  String get pomodoroInfoWhatText => 'A time-management method that breaks work into focused intervals separated by short breaks. The goal is to maintain deep focus while preventing mental fatigue.';
+
+  @override
+  String get pomodoroInfoHowHeading => 'How to use it';
+
+  @override
+  String get pomodoroInfoStep1 => 'Choose a task you want to work on.';
+
+  @override
+  String get pomodoroInfoStep2 => 'Start the timer for a Focus session (default: 25 min).';
+
+  @override
+  String get pomodoroInfoStep3 => 'Work with full focus until the timer rings — no distractions.';
+
+  @override
+  String get pomodoroInfoStep4 => 'Take a Short Break (default: 5 min). Stand up, stretch, rest your eyes.';
+
+  @override
+  String get pomodoroInfoStep5 => 'After every 4 cycles, take a Long Break (default: 15 min).';
+
+  @override
+  String get pomodoroInfoStep6 => 'Repeat and track your progress.';
+
+  @override
+  String get pomodoroInfoTipsHeading => 'Tips';
+
+  @override
+  String get pomodoroInfoTip1 => 'Silence notifications and remove distractions before starting.';
+
+  @override
+  String get pomodoroInfoTip2 => 'If interrupted, write down the distraction and continue focusing.';
+
+  @override
+  String get pomodoroInfoTip3 => 'Customize intervals in the preset settings to fit your rhythm.';
+
+  @override
+  String get pomodoroInfoGotIt => 'Got it';
+
+  @override
+  String get exitConfirmTitle => 'Exit App';
+
+  @override
+  String get exitConfirmMessage => 'Are you sure you want to exit the app?';
+
+  @override
+  String get exitConfirmCancel => 'Cancel';
+
+  @override
+  String get exitConfirmExit => 'Exit';
+
+  @override
   String notifTaskReminderTitle(String taskTitle) {
     return 'Reminder: $taskTitle';
   }

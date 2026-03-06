@@ -252,6 +252,30 @@
     }
   },
 
+  "pomodoroInfoAction": "Giới thiệu Pomodoro",
+  "pomodoroInfoTitle": "Kỹ thuật Pomodoro",
+  "pomodoroInfoOriginHeading": "Nguồn gốc",
+  "pomodoroInfoOriginText": "Được phát minh bởi Francesco Cirillo vào cuối những năm 1980 khi ông còn là sinh viên đại học. Ông dùng một chiếc đồng hồ hẹn giờ hình quả cà chua (\"pomodoro\" trong tiếng Ý) để theo dõi công việc — và cái tên độc đáo đó đã ra đời từ đó.",
+  "pomodoroInfoWhatHeading": "Kỹ thuật này là gì?",
+  "pomodoroInfoWhatText": "Một phương pháp quản lý thời gian chia công việc thành các khoảng thời gian tập trung xen kẽ với các lần nghỉ ngắn. Mục tiêu là duy trì sự tập trung sâu trong khi ngăn ngừa mệt mỏi tinh thần.",
+  "pomodoroInfoHowHeading": "Cách sử dụng",
+  "pomodoroInfoStep1": "Chọn một công việc bạn muốn thực hiện.",
+  "pomodoroInfoStep2": "Bắt đầu hẹn giờ cho phiên Tập trung (mặc định: 25 phút).",
+  "pomodoroInfoStep3": "Làm việc hoàn toàn tập trung cho đến khi đồng hồ reo — không xao nhãng.",
+  "pomodoroInfoStep4": "Nghỉ ngắn (mặc định: 5 phút). Đứng dậy, giãn cơ, thư giãn mắt.",
+  "pomodoroInfoStep5": "Sau mỗi 4 chu kỳ, nghỉ dài (mặc định: 15 phút).",
+  "pomodoroInfoStep6": "Lặp lại và theo dõi tiến trình của bạn.",
+  "pomodoroInfoTipsHeading": "Mẹo",
+  "pomodoroInfoTip1": "Tắt thông báo và loại bỏ phiền nhiễu trước khi bắt đầu.",
+  "pomodoroInfoTip2": "Nếu bị gián đoạn, ghi lại rồi tiếp tục tập trung.",
+  "pomodoroInfoTip3": "Tùy chỉnh thời gian trong cài đặt chu kỳ để phù hợp với nhịp độ của bạn.",
+  "pomodoroInfoGotIt": "Đã hiểu",
+
+  "exitConfirmTitle": "Thoát ứng dụng",
+  "exitConfirmMessage": "Bạn có chắc muốn thoát ứng dụng không?",
+  "exitConfirmCancel": "Hủy",
+  "exitConfirmExit": "Thoát",
+
   "notifTaskReminderTitle": "Nhắc nhở: {taskTitle}",
   "@notifTaskReminderTitle": {
     "placeholders": {
