@@ -30,13 +30,16 @@ class _PomodoroPageState extends State<PomodoroPage> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         final l10n = AppLocalizations.of(context)!;
-        ShellActionsScope.of(context).setActions([
-          IconButton(
-            icon: const Icon(Icons.info_outline_rounded),
-            tooltip: l10n.pomodoroInfoAction,
-            onPressed: () => showPomodoroInfoDialog(context),
-          ),
-        ]);
+
+        ShellActionsScope.of(context)
+          ..clear()
+          ..setActions([
+            IconButton(
+              icon: const Icon(Icons.info_outline_rounded),
+              tooltip: l10n.pomodoroInfoAction,
+              onPressed: () => showPomodoroInfoDialog(context),
+            ),
+          ]);
       });
     }
   }
@@ -217,9 +220,10 @@ class _RepeatCheckbox extends StatelessWidget {
               ),
               Checkbox(
                 value: state.isRepeat,
-                onChanged: (_) => context.read<PomodoroBloc>().add(
-                  const PomodoroToggleRepeat(),
-                ),
+                onChanged: (_) =>
+                    context.read<PomodoroBloc>().add(
+                      const PomodoroToggleRepeat(),
+                    ),
                 visualDensity: VisualDensity.compact,
               ),
             ],
