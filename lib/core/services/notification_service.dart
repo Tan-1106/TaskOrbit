@@ -12,24 +12,31 @@ class NotificationService {
 
   final FlutterLocalNotificationsPlugin _notificationsPlugin = FlutterLocalNotificationsPlugin();
 
+  /// Initializes the notification service by setting up timezone data and platform-specific settings.
   Future<void> init() async {
+    // Initialize timezone data for scheduling notifications at the correct local time.
     tz.initializeTimeZones();
 
+    // Define platform-specific initialization settings for Android and iOS.
     const AndroidInitializationSettings androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+
     const DarwinInitializationSettings iosSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
     );
 
+    // Combine the platform-specific settings into a single initialization settings object.
     const InitializationSettings initSettings = InitializationSettings(
       android: androidSettings,
       iOS: iosSettings,
     );
 
+    // Initialize the notifications plugin with the defined settings.
     await _notificationsPlugin.initialize(settings: initSettings);
   }
 
+  /// Requests the necessary permissions for displaying notifications on both Android and iOS platforms.
   Future<void> requestPermission() async {
     try {
       if (defaultTargetPlatform == TargetPlatform.android) {
@@ -48,6 +55,7 @@ class NotificationService {
     }
   }
 
+  /// Schedules a notification to be shown at a specific time with the given title and body.
   Future<void> scheduleNotification({
     required int id,
     required String title,
@@ -77,6 +85,7 @@ class NotificationService {
     }
   }
 
+  /// Cancels a scheduled notification with the specified ID.
   Future<void> cancelNotification(int id) async {
     try {
       await _notificationsPlugin.cancel(id: id);
@@ -85,7 +94,7 @@ class NotificationService {
     }
   }
 
-  // ── Pomodoro background notifications ──────────────────────────────
+  /// POMODORO-SPECIFIC NOTIFICATIONS
   static const int _pomodoroPhaseEndId = 9000;
   static const int _pomodoroOngoingId = 9001;
 

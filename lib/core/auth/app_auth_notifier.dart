@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
+/// A ChangeNotifier that listens to FirebaseAuth user changes and notifies listeners about authentication state updates.
 class AppAuthNotifier extends ChangeNotifier {
   final FirebaseAuth _firebaseAuth;
   User? _user;

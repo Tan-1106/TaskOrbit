@@ -20,6 +20,7 @@ class AppShellLayout extends StatefulWidget {
 class _AppShellLayoutState extends State<AppShellLayout> {
   final _shellActions = ShellActionsNotifier();
 
+  // Determines the selected index of the BottomNavigationBar based on the current route.
   int _calculateSelectedIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
 
@@ -29,6 +30,7 @@ class _AppShellLayoutState extends State<AppShellLayout> {
     return 0;
   }
 
+  // Handles taps on the BottomNavigationBar items and navigates to the corresponding route.
   void _onItemTapped(int index, BuildContext context) {
     switch (index) {
       case 0:
@@ -40,6 +42,7 @@ class _AppShellLayoutState extends State<AppShellLayout> {
     }
   }
 
+  // Determines the title to display in the AppBar based on the selected index of the BottomNavigationBar.
   String _getTitle(BuildContext context, int selectedIndex) {
     final l10n = AppLocalizations.of(context)!;
 
@@ -55,11 +58,13 @@ class _AppShellLayoutState extends State<AppShellLayout> {
     }
   }
 
+  // Determines whether to show the back button in the AppBar based on whether the current route is a child route.
   bool _shouldShowBackButton(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
     return ChildRoutes.isChildRoute(location);
   }
 
+  // Handles the back button press by popping the current route if possible, or navigating to the default route if not.
   void _onBackPressed(BuildContext context) {
     if (GoRouter.of(context).canPop()) {
       context.pop();
