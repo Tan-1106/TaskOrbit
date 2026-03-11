@@ -51,92 +51,10 @@ class _ProfilePageState extends State<ProfilePage> {
       stream: connectivityService.onConnectivityChanged,
       initialData: true,
       builder: (context, snapshot) {
-        final isOnline = snapshot.data ?? true;
-
-        if (!isOnline) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.wifi_off,
-                  size: 64,
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  l10n.profileNoInternetTitle,
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  l10n.profileNoInternetMessage,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-                const SizedBox(height: 32),
-                const LanguageSwitcherCard(),
-              ],
-            ),
-          );
-        }
 
         return ListenableBuilder(
           listenable: authNotifier,
           builder: (context, _) {
-            if (authNotifier.isGuest) {
-              return Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.account_circle_outlined,
-                        size: 80,
-                        color: theme.colorScheme.primary,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        l10n.profileGuestTitle,
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        l10n.profileGuestMessage,
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                      const SizedBox(height: 32),
-                      FilledButton(
-                        onPressed: () => context.push('/sign-in'),
-                        style: FilledButton.styleFrom(
-                          minimumSize: const Size(double.infinity, 50),
-                        ),
-                        child: Text(l10n.profileSignInButton),
-                      ),
-                      const SizedBox(height: 12),
-                      OutlinedButton(
-                        onPressed: () => context.push('/sign-up'),
-                        style: OutlinedButton.styleFrom(
-                          minimumSize: const Size(double.infinity, 50),
-                        ),
-                        child: Text(l10n.profileCreateAccountButton),
-                      ),
-                      const SizedBox(height: 32),
-                      const LanguageSwitcherCard(),
-                    ],
-                  ),
-                ),
-              );
-            }
 
             return BlocConsumer<ProfileBloc, ProfileState>(
               listener: (context, state) {
@@ -161,6 +79,95 @@ class _ProfilePageState extends State<ProfilePage> {
                 }
               },
               builder: (context, state) {
+                final isOnline = snapshot.data ?? true;
+                final isGuest = authNotifier.isGuest;
+
+                if (!isOnline) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.wifi_off,
+                          size: 64,
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          l10n.profileNoInternetTitle,
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          l10n.profileNoInternetMessage,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                        StatsCard(state: state),
+                        const LanguageSwitcherCard(),
+                      ],
+                    ),
+                  );
+                }
+
+                if (isGuest) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.account_circle_outlined,
+                              size: 80,
+                              color: theme.colorScheme.primary,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              l10n.profileGuestTitle,
+                              style: theme.textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              l10n.profileGuestMessage,
+                              textAlign: TextAlign.center,
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                            const SizedBox(height: 32),
+                            FilledButton(
+                              onPressed: () => context.push('/sign-in'),
+                              style: FilledButton.styleFrom(
+                                minimumSize: const Size(double.infinity, 50),
+                              ),
+                              child: Text(l10n.profileSignInButton),
+                            ),
+                            const SizedBox(height: 12),
+                            OutlinedButton(
+                              onPressed: () => context.push('/sign-up'),
+                              style: OutlinedButton.styleFrom(
+                                minimumSize: const Size(double.infinity, 50),
+                              ),
+                              child: Text(l10n.profileCreateAccountButton),
+                            ),
+                            const SizedBox(height: 32),
+                            StatsCard(state: state),
+                            const LanguageSwitcherCard(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }
+
                 return ListView(
                   padding: const EdgeInsets.all(16),
                   children: [

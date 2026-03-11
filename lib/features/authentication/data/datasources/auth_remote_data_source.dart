@@ -73,7 +73,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const ServerException('User is null!');
       }
 
-      // Enforce email verification before allowing access to user data.
       if (!response.user!.emailVerified) {
         final createdAt = response.user!.metadata.creationTime;
         final isExpired = createdAt != null && DateTime.now().difference(createdAt).inMinutes >= 15;
@@ -93,8 +92,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         );
       }
 
-      // Check if user data exists in Firestore.
-      // Handles the case where user verified email then closed app before data was saved.
       final userDoc = await firestore.collection('users').doc(response.user!.uid).get();
       if (!userDoc.exists || userDoc.data() == null) {
         final resolvedName = response.user!.displayName ?? '';
@@ -125,7 +122,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
   }) async {
     try {
-      // Clean up any leftover unverified session before creating a new account.
       final currentUser = firebaseAuth.currentUser;
       if (currentUser != null && !currentUser.emailVerified) {
         try {
@@ -149,7 +145,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           options: HttpsCallableOptions(timeout: const Duration(seconds: 30)),
         );
         await callable.call({'userName': name});
-      } on FirebaseFunctionsException catch (e) {
+      } on FirebaseFunctionsException {
         await response.user!.sendEmailVerification();
       } catch (e) {
         await response.user!.sendEmailVerification();
@@ -187,7 +183,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           options: HttpsCallableOptions(timeout: const Duration(seconds: 30)),
         );
         await callable.call({'userName': user.displayName ?? ''});
-      } on FirebaseFunctionsException catch (e) {
+      } on FirebaseFunctionsException {
         await user.sendEmailVerification();
       } catch (e) {
         await user.sendEmailVerification();
@@ -218,7 +214,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         name: resolvedName,
       );
 
-      // Save user data to Firestore after successful verification and clean up pending_verifications.
       await firestore.collection('users').doc(refreshed.uid).set(userModel.toMap());
       await firestore.collection('pending_verifications').doc(refreshed.uid).delete();
       await firebaseAuth.signOut();
@@ -254,7 +249,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           options: HttpsCallableOptions(timeout: const Duration(seconds: 30)),
         );
         await callable.call({'email': email});
-      } on FirebaseFunctionsException catch (e) {
+      } on FirebaseFunctionsException {
         await firebaseAuth.sendPasswordResetEmail(email: email);
       } catch (e) {
         await firebaseAuth.sendPasswordResetEmail(email: email);

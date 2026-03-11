@@ -15,7 +15,11 @@ class UserModel extends User {
     );
   }
 
-  factory UserModel.fromFirebaseUser({required String uid, required String name, required String email}) {
+  factory UserModel.fromFirebaseUser({
+    required String uid,
+    required String name,
+    required String email,
+  }) {
     return UserModel(
       id: uid,
       name: name,

@@ -1,8 +1,8 @@
 ﻿import 'dart:ui';
 import 'package:drift/drift.dart';
+
 import 'package:task_orbit/core/database/app_database.dart' as db_schema;
-import 'package:task_orbit/features/agenda/domain/entities/category.dart'
-    as domain;
+import 'package:task_orbit/features/agenda/domain/entities/category.dart' as domain;
 
 abstract interface class CategoryLocalDataSource {
   Future<List<domain.Category>> getCategories(String userId);
@@ -35,9 +35,7 @@ class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
 
   @override
   Future<void> insertCategory(domain.Category category) async {
-    await db
-        .into(db.categories)
-        .insertOnConflictUpdate(_categoryToCompanion(category));
+    await db.into(db.categories).insertOnConflictUpdate(_categoryToCompanion(category));
   }
 
   @override
@@ -54,8 +52,7 @@ class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
 
   @override
   Future<void> markAsSynced(String categoryId) async {
-    await (db.update(db.categories)..where((c) => c.id.equals(categoryId)))
-        .write(const db_schema.CategoriesCompanion(isSynced: Value(true)));
+    await (db.update(db.categories)..where((c) => c.id.equals(categoryId))).write(const db_schema.CategoriesCompanion(isSynced: Value(true)));
   }
 
   @override

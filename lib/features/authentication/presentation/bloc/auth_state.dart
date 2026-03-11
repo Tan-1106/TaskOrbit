@@ -29,7 +29,7 @@ final class AuthVerificationEmailSent extends AuthState {
   final String name;
   final String email;
 
-  AuthVerificationEmailSent({ required this.name, required this.email});
+  AuthVerificationEmailSent({required this.name, required this.email});
 }
 
 final class AuthEmailVerified extends AuthState {}

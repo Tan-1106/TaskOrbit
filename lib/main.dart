@@ -62,6 +62,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     _localeNotifier.addListener(_onLocaleChanged);
   }
 
+  // Trigger a rebuild when the locale changes to update the app's language
   void _onLocaleChanged() => setState(() {});
 
   @override
@@ -90,7 +91,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = createTextTheme(context, "Grandstander", "Gabriela");
+    TextTheme textTheme = createTextTheme(context, "Grandstander", "Patrick Hand SC");
     MaterialTheme theme = MaterialTheme(textTheme);
 
     return MaterialApp.router(

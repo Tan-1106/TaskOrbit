@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_orbit/core/usecases/usecase.dart';
 import 'package:task_orbit/features/authentication/domain/entities/user.dart';
 import 'package:task_orbit/features/authentication/domain/usecases/check_email_verified.dart';
 import 'package:task_orbit/features/authentication/domain/usecases/delete_current_user.dart';
@@ -7,7 +8,6 @@ import 'package:task_orbit/features/authentication/domain/usecases/forgot_passwo
 import 'package:task_orbit/features/authentication/domain/usecases/send_email_verification.dart';
 import 'package:task_orbit/features/authentication/domain/usecases/user_login.dart';
 import 'package:task_orbit/features/authentication/domain/usecases/user_sign_up.dart';
-import 'package:task_orbit/core/usecases/usecase.dart';
 
 part 'auth_event.dart';
 

@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+
 import 'package:task_orbit/core/database/app_database.dart' as db_schema;
 import 'package:task_orbit/features/agenda/domain/entities/task.dart' as domain;
 
@@ -45,11 +46,7 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
         await (db.select(
               db.tasks,
             )..where(
-              (t) =>
-                  t.userId.equals(userId) &
-                  t.date.isBiggerOrEqualValue(startOfDay) &
-                  t.date.isSmallerThanValue(endOfDay) &
-                  t.isDeleted.equals(false),
+              (t) => t.userId.equals(userId) & t.date.isBiggerOrEqualValue(startOfDay) & t.date.isSmallerThanValue(endOfDay) & t.isDeleted.equals(false),
             ))
             .get();
 
@@ -131,8 +128,7 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
     DateTime? fromDate,
     DateTime? toDate,
   }) async {
-    final query = db.select(db.tasks)
-      ..where((t) => t.userId.equals(userId) & t.isDeleted.equals(false));
+    final query = db.select(db.tasks)..where((t) => t.userId.equals(userId) & t.isDeleted.equals(false));
 
     if (keyword != null && keyword.isNotEmpty) {
       query.where(

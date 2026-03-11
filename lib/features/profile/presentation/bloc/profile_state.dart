@@ -11,10 +11,10 @@ class ProfileState {
   final bool statsLoading;
   final int completedCount;
 
-  // Map of date → task count for incomplete tasks in the future (date ≥ today)
+  // Map of date -> task count for incomplete tasks in the future (date ≥ today)
   final Map<DateTime, int> pendingDates;
 
-  // Map of date → task count for incomplete tasks in the past (date < today)
+  // Map of date -> task count for incomplete tasks in the past (date < today)
   final Map<DateTime, int> missedDates;
   final ChangePasswordStatus changePasswordStatus;
   final String? changePasswordError;

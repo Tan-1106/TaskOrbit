@@ -10,6 +10,15 @@ class AuthRepositoryImpl implements IAuthRepository {
 
   AuthRepositoryImpl(this.remoteDataSource);
 
+  Future<Either<Failure, User>> _getUser(Future<User> Function() fn) async {
+    try {
+      final user = await fn();
+      return right(user);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
   @override
   Future<Either<Failure, User>> login({
     required String email,
@@ -101,15 +110,6 @@ class AuthRepositoryImpl implements IAuthRepository {
     try {
       await remoteDataSource.deleteCurrentUser();
       return right(null);
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
-    }
-  }
-
-  Future<Either<Failure, User>> _getUser(Future<User> Function() fn) async {
-    try {
-      final user = await fn();
-      return right(user);
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }
