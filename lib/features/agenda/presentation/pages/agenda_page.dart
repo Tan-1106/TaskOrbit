@@ -27,6 +27,7 @@ class _AgendaPageState extends State<AgendaPage> {
   bool _initialLoadDone = false;
 
   _AgendaAction? _activeAction;
+  TaskFilter _activeFilter = const TaskFilter();
 
   @override
   void initState() {
@@ -95,6 +96,7 @@ class _AgendaPageState extends State<AgendaPage> {
             });
           }
         },
+        color: _activeFilter != const TaskFilter() ? Colors.green : null,
       ),
     ]);
     shellActions.setFab(
@@ -275,7 +277,9 @@ class _AgendaPageState extends State<AgendaPage> {
     );
 
     if (result != null && context.mounted) {
+      setState(() => _activeFilter = result);
       context.read<AgendaBloc>().add(AgendaSearchTasks(filter: result));
+      _setShellActions();
     }
   }
 
