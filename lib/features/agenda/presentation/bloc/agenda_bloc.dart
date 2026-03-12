@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:task_orbit/core/database/app_database.dart';
+import 'package:task_orbit/features/agenda/domain/repository/task_repository.dart';
 import 'package:uuid/uuid.dart';
 import 'package:task_orbit/core/network/connectivity_service.dart';
 import 'package:task_orbit/features/agenda/domain/entities/task.dart' as domain;
-import 'package:task_orbit/features/agenda/domain/entities/category.dart'
-    as domain_cat;
+import 'package:task_orbit/features/agenda/domain/entities/category.dart' as domain_cat;
 import 'package:task_orbit/features/agenda/domain/usecases/get_tasks_by_date.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/create_task.dart';
 import 'package:task_orbit/features/agenda/domain/usecases/update_task.dart';
@@ -37,6 +38,9 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
 
   StreamSubscription? _connectivitySubscription;
   StreamSubscription? _authSubscription;
+
+  DateTime _selectedDate = DateTime.now();
+  TaskFilter _currentFilter = const TaskFilter();
 
   static const _uuid = Uuid();
 
@@ -82,13 +86,12 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     on<AgendaCreateCategory>(_onCreateCategory);
     on<AgendaDeleteCategory>(_onDeleteCategory);
 
-    _connectivitySubscription = _connectivityService.onConnectivityChanged
-        .listen((isConnected) {
-          if (isConnected) {
-            add(AgendaSyncTasks());
-            add(AgendaSyncCategories());
-          }
-        });
+    _connectivitySubscription = _connectivityService.onConnectivityChanged.listen((isConnected) {
+      if (isConnected) {
+        add(AgendaSyncTasks());
+        add(AgendaSyncCategories());
+      }
+    });
 
     _authSubscription = _firebaseAuth.authStateChanges().listen((user) {
       if (user != null && user.emailVerified) {
@@ -99,6 +102,8 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
   }
 
   String get _userId => _firebaseAuth.currentUser?.uid ?? '';
+
+  TaskFilter get currentFilter => _currentFilter;
 
   Future<void> _onLoadTasks(
     AgendaLoadTasks event,
@@ -113,9 +118,22 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
       ),
     );
 
-    final result = await _getTasksByDate(
-      GetTasksByDateParams(userId: _userId, date: event.date),
-    );
+    final result = _currentFilter != const TaskFilter()
+        ? await _searchTasks(
+            SearchTasksParams(
+              userId: _userId,
+              filter: TaskFilter(
+                keyword: _currentFilter.keyword,
+                categoryId: _currentFilter.categoryId,
+                isCompleted: _currentFilter.isCompleted,
+                fromDate: event.date,
+                toDate: event.date,
+              ),
+            ),
+          )
+        : await _getTasksByDate(
+            GetTasksByDateParams(userId: _userId, date: event.date),
+          );
 
     result.fold(
       (failure) => emit(
@@ -142,6 +160,7 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
     AgendaDateChanged event,
     Emitter<AgendaState> emit,
   ) async {
+    _selectedDate = event.date;
     add(AgendaLoadTasks(date: event.date));
   }
 
@@ -318,8 +337,20 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
       ),
     );
 
+    var userFilter = event.filter;
+    _currentFilter = TaskFilter(
+      keyword: userFilter.keyword,
+      categoryId: userFilter.categoryId,
+      isCompleted: userFilter.isCompleted,
+      fromDate: _selectedDate,
+      toDate: _selectedDate,
+    );
+
     final result = await _searchTasks(
-      SearchTasksParams(userId: _userId, filter: event.filter),
+      SearchTasksParams(
+        userId: _userId,
+        filter: _currentFilter,
+      ),
     );
 
     result.fold(
@@ -459,6 +490,11 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
         add(AgendaLoadCategories());
       },
     );
+  }
+
+  void clearFilters() {
+    _currentFilter = const TaskFilter();
+    add(AgendaLoadTasks(date: state.selectedDate));
   }
 
   @override

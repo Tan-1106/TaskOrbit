@@ -39,7 +39,7 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
 
   void _scrollToSelected() {
     final dayIndex = widget.selectedDate.day - 1;
-    final offset = dayIndex * 64.0; // Each item is ~64px wide
+    final offset = dayIndex * 64.0;
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
         offset,

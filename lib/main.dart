@@ -91,7 +91,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = createTextTheme(context, "Grandstander", "Patrick Hand SC");
+    TextTheme textTheme = createTextTheme(context, "Grandstander", "Mali");
     MaterialTheme theme = MaterialTheme(textTheme);
 
     return MaterialApp.router(

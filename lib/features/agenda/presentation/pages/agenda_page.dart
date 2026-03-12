@@ -38,7 +38,6 @@ class _AgendaPageState extends State<AgendaPage> {
     super.didChangeDependencies();
     if (!_initialLoadDone) {
       _initialLoadDone = true;
-      // Read optional target date passed via GoRouterState.extra.
       final routerState = GoRouterState.of(context);
       final initialDate = (routerState.extra is DateTime) ? routerState.extra as DateTime : DateTime.now();
       context.read<AgendaBloc>().add(AgendaLoadTasks(date: initialDate));
@@ -54,7 +53,7 @@ class _AgendaPageState extends State<AgendaPage> {
 
   Future<void> _dismissCurrentAction() async {
     if (_activeAction != null && mounted) {
-      Navigator.of(context).pop();
+      context.pop();
       await Future.delayed(const Duration(milliseconds: 50));
     }
   }
