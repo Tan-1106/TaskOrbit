@@ -266,6 +266,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get taskFormSaveButton => 'Save Changes';
 
   @override
+  String get taskPrivacyTooltip => 'Data is private and encrypted. Only you can view this task.';
+
+  @override
   String get filterTitle => 'Filter Tasks';
 
   @override

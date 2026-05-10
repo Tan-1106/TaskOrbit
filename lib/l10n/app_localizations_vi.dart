@@ -266,6 +266,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get taskFormSaveButton => 'Lưu thay đổi';
 
   @override
+  String get taskPrivacyTooltip => 'Dữ liệu riêng tư và đã được mã hóa. Chỉ bạn mới có thể xem task này.';
+
+  @override
   String get filterTitle => 'Lọc công việc';
 
   @override

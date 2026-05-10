@@ -4,7 +4,9 @@ const { defineSecret } = require('firebase-functions/params');
 const { initializeApp } = require('firebase-admin/app');
 const { getAuth } = require('firebase-admin/auth');
 const { getFirestore } = require('firebase-admin/firestore');
+const admin = require('firebase-admin');
 const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
 // ─── Firebase Secrets ──────────────────────────────────────────────────────────
 // Run these commands once to set your secrets:
@@ -13,6 +15,7 @@ const nodemailer = require('nodemailer');
 // Or use any SMTP provider (SendGrid, Mailgun, etc.)
 const GMAIL_USER = defineSecret('GMAIL_USER');
 const GMAIL_PASS = defineSecret('GMAIL_PASS');
+const TASK_ENCRYPTION_KEY = defineSecret('TASK_ENCRYPTION_KEY');
 
 initializeApp();
 
@@ -365,4 +368,164 @@ exports.deleteUnverifiedUsers = onSchedule('every 15 minutes', async (_event) =>
   await Promise.all(deletePromises);
   console.log(`Processed ${deletePromises.length} pending verification(s).`);
 });
+
+// ─── Secure Task Encryption Helpers ──────────────────────────────────────────
+
+/**
+ * Generates a 32-byte key from any secret string using SHA-256
+ */
+function getEncryptionKey(secret) {
+  return crypto.createHash('sha256').update(String(secret)).digest();
+}
+
+/**
+ * Encrypts text using AES-256-CBC
+ */
+function encrypt(text, secret) {
+  if (!text) return text;
+  try {
+    const key = getEncryptionKey(secret);
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    return `${iv.toString('hex')}:${encrypted}`;
+  } catch (e) {
+    console.error('Encryption error:', e);
+    return null;
+  }
+}
+
+/**
+ * Decrypts text using AES-256-CBC
+ */
+function decrypt(encryptedText, secret) {
+  if (!encryptedText || !encryptedText.includes(':')) return encryptedText;
+  try {
+    const key = getEncryptionKey(secret);
+    const [ivHex, data] = encryptedText.split(':');
+    const iv = Buffer.from(ivHex, 'hex');
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+    let decrypted = decipher.update(data, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+  } catch (e) {
+    console.error('Decryption error:', e);
+    return encryptedText;
+  }
+}
+
+// ─── Cloud Function: Save Secure Task ────────────────────────────────────────
+
+/**
+ * Callable Cloud Function: saveSecureTask
+ * Encrypts title and description before saving to Firestore.
+ */
+exports.saveSecureTask = onCall(
+  { secrets: [TASK_ENCRYPTION_KEY] },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError('unauthenticated', 'User must be authenticated.');
+    }
+
+    const uid = request.auth.uid;
+    const { id, ...taskData } = request.data;
+    const key = TASK_ENCRYPTION_KEY.value();
+
+    if (!id) {
+      throw new HttpsError('invalid-argument', 'Task ID is required.');
+    }
+
+    let encryptionSuccessful = false;
+
+    // Encrypt sensitive fields
+    if (taskData.title) {
+      const encryptedTitle = encrypt(taskData.title, key);
+      if (encryptedTitle) {
+        taskData.title = encryptedTitle;
+        encryptionSuccessful = true;
+      }
+    }
+
+    if (taskData.description) {
+      const encryptedDesc = encrypt(taskData.description, key);
+      if (encryptedDesc) {
+        taskData.description = encryptedDesc;
+        encryptionSuccessful = true;
+      }
+    }
+    
+    taskData.isEncrypted = encryptionSuccessful;
+    taskData.updatedAt = admin.firestore.FieldValue.serverTimestamp();
+
+    try {
+      const db = getFirestore();
+      await db.collection('users').doc(uid).collection('tasks').doc(id).set(taskData, { merge: true });
+      return { success: true };
+    } catch (error) {
+      console.error('Error saving secure task:', error);
+      throw new HttpsError('internal', 'Failed to save secure task.');
+    }
+  }
+);
+
+// ─── Cloud Function: Get Secure Tasks ────────────────────────────────────────
+
+/**
+ * Callable Cloud Function: getSecureTasks
+ * Fetches tasks and decrypts sensitive fields.
+ */
+exports.getSecureTasks = onCall(
+  { secrets: [TASK_ENCRYPTION_KEY] },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError('unauthenticated', 'User must be authenticated.');
+    }
+
+    const uid = request.auth.uid;
+    const key = TASK_ENCRYPTION_KEY.value();
+    const { date, from, to } = request.data || {};
+
+    try {
+      const db = getFirestore();
+      let query = db.collection('users').doc(uid).collection('tasks');
+
+      // Basic filtering support if provided
+      if (date) {
+        const start = new Date(date);
+        start.setHours(0, 0, 0, 0);
+        const end = new Date(date);
+        end.setHours(23, 59, 59, 999);
+        query = query.where('date', '>=', admin.firestore.Timestamp.fromDate(start))
+                     .where('date', '<=', admin.firestore.Timestamp.fromDate(end));
+      } else if (from && to) {
+        query = query.where('date', '>=', admin.firestore.Timestamp.fromDate(new Date(from)))
+                     .where('date', '<=', admin.firestore.Timestamp.fromDate(new Date(to)));
+      }
+
+      const snapshot = await query.get();
+      const tasks = snapshot.docs.map(doc => {
+        const data = doc.data();
+        if (data.isEncrypted) {
+          data.title = decrypt(data.title, key);
+          data.description = decrypt(data.description, key);
+        }
+        
+        // Convert Firestore Timestamps to ISO strings for Flutter
+        for (const [field, value] of Object.entries(data)) {
+          if (value instanceof admin.firestore.Timestamp) {
+            data[field] = value.toDate().toISOString();
+          }
+        }
+        
+        return { id: doc.id, ...data };
+      });
+
+      return { tasks };
+    } catch (error) {
+      console.error('Error fetching secure tasks:', error);
+      throw new HttpsError('internal', 'Failed to fetch secure tasks.');
+    }
+  }
+);
 

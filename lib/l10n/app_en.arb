@@ -111,6 +111,7 @@
   "taskFormEndBeforeStartError": "End time must be after start time",
   "taskFormCreateButton": "Create Task",
   "taskFormSaveButton": "Save Changes",
+  "taskPrivacyTooltip": "Data is private and encrypted. Only you can view this task.",
 
   "filterTitle": "Filter Tasks",
   "filterKeywordLabel": "Search keyword",

@@ -111,7 +111,10 @@ void _initAgenda() {
       () => TaskLocalDataSourceImpl(serviceLocator()),
     )
     ..registerFactory<TaskRemoteDataSource>(
-      () => TaskRemoteDataSourceImpl(serviceLocator()),
+      () => TaskRemoteDataSourceImpl(
+        serviceLocator(),
+        serviceLocator(),
+      ),
     )
     ..registerFactory<ITaskRepository>(
       () => TaskRepositoryImpl(

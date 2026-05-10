@@ -111,6 +111,7 @@
   "taskFormEndBeforeStartError": "Thời gian kết thúc phải sau thời gian bắt đầu",
   "taskFormCreateButton": "Tạo công việc",
   "taskFormSaveButton": "Lưu thay đổi",
+  "taskPrivacyTooltip": "Dữ liệu riêng tư và đã được mã hóa. Chỉ bạn mới có thể xem task này.",
 
   "filterTitle": "Lọc công việc",
   "filterKeywordLabel": "Từ khóa tìm kiếm",

@@ -593,6 +593,12 @@ abstract class AppLocalizations {
   /// **'Save Changes'**
   String get taskFormSaveButton;
 
+  /// No description provided for @taskPrivacyTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Data is private and encrypted. Only you can view this task.'**
+  String get taskPrivacyTooltip;
+
   /// No description provided for @filterTitle.
   ///
   /// In en, this message translates to:

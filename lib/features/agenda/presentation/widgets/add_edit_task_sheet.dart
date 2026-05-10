@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:task_orbit/l10n/app_localizations.dart';
 import 'package:task_orbit/features/agenda/domain/entities/category.dart';
 
@@ -153,11 +153,29 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
               ),
               const SizedBox(height: 16),
 
-              Text(
-                widget.isEditing ? l10n.taskFormEditTask : l10n.taskFormNewTask,
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.isEditing ? l10n.taskFormEditTask : l10n.taskFormNewTask,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Tooltip(
+                    message: l10n.taskPrivacyTooltip,
+                    triggerMode: TooltipTriggerMode.longPress,
+                    padding: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.symmetric(horizontal: 24),
+                    showDuration: const Duration(seconds: 3),
+                    child: Icon(
+                      Icons.info_outline,
+                      size: 20,
+                      color: theme.colorScheme.primary.withValues(alpha: 0.7),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
 
