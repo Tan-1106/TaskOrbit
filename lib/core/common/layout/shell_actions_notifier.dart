@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 class ShellActionsNotifier extends ChangeNotifier {
   List<Widget> _actions = [];
-  Widget? _fab;
-
   List<Widget> get actions => _actions;
 
+  Widget? _fab;
   Widget? get fab => _fab;
 
   // Updates the list of action widgets and notifies listeners to rebuild the UI.
